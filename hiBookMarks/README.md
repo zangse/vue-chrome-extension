@@ -1,18 +1,6 @@
-# bookmarks
+### hiBookMark
+#### VUE project
+- 由vue-cli生成,webpack.config.js自行配置,双入口
 
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+- npm run watch 自动编译成静态文件，chrome可以正常运行，浏览器中需要手动刷新
+- npm run build 发布时编译，去除了console信息
