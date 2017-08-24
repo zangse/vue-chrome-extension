@@ -1,11 +1,13 @@
 {
     "manifest_version": 2,
-    "name": "hiBookMark",
-    "version": "0.0.3",
+    "name": "书签管理",
+    "version": "0.0.4",
     "description": "书签管理",
+    "icons":{"128":"static/images/icon128.png"},
     "browser_action":
     {
         "default_icon": "static/images/icon128.png",
+        "default_title":"书签管理",
         "default_popup": "popup.html"
     },
     "options_page": "index.html",

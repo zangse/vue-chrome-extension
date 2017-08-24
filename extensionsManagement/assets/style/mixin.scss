@@ -1,0 +1,205 @@
+/*
+  px 转换 rem
+*/
+
+@function px2rem($px, $base-font-size: 16px) {
+  @if (unitless($px)) {
+    @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
+    @return px2rem($px + 0px); // That may fail.
+  }
+  @else if (unit($px)==rem) {
+    @return $px;
+  }
+  @return ($px / $base-font-size) * 1rem;
+}
+
+
+
+
+
+
+/*
+  根据屏幕dpr改变字体大小
+*/
+
+@mixin font-dpr($font-size) {
+  font-size: $font-size;
+
+  [data-dpr="2"] & {
+    font-size: $font-size * 2;
+  }
+
+  [data-dpr="3"] & {
+    font-size: $font-size * 3;
+  }
+}
+
+
+
+
+
+
+/*
+  根据不同dpr切换不同清晰度图片 常规 2x 和 3x
+*/
+
+@mixin bg-image($image) {
+  background-image: url("../../assets/img/" + $image + ".png") !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+
+  [data-dpr="2"] & {
+    background-image: url("../../assets/img/" + $image + "@2x.png") !important;
+  }
+
+  [data-dpr="3"] & {
+    background-image: url("../../assets/img/" + $image + "@3x.png") !important;
+  }
+}
+
+
+
+/*截取字符串*/
+
+@mixin ellipsis($value) {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: $value;
+}
+
+
+
+/*flex 数值*/
+
+@mixin flex-num($num) {
+  -webkit-box-flex: $num;
+  -webkit-flex: $num;
+  flex: $num;
+}
+
+@mixin border-top($color) {
+  position: relative;
+  &::before {
+    content: "";
+    pointer-events: none;
+    /* 防止点击触发 */
+    box-sizing: border-box;
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    left: 0;
+    top: 0;
+    border-top: 1px solid $color;
+  }
+}
+
+@mixin border-bottom($color) {
+  position: relative;
+  &:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid $color;
+    content: ' ';
+  }
+}
+
+@mixin transition($args) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+@mixin transform($args) {
+  -webkit-transform: $args;
+  -moz-transform: $args;
+  -ms-transform: $args;
+  -o-transform: $args;
+  transform: $args;
+}
+
+@mixin box-shadow($args) {
+  -webkit-box-shadow: $args;
+  -moz-box-shadow: $args;
+  -ms-box-shadow: $args;
+  -o-box-shadow: $args;
+  box-shadow: $args;
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin placeholder($color) {
+  input::-webkit-input-placeholder {
+    color: $color;
+  }
+  input:-moz-placeholder {
+    color: $color;
+  }
+  input::-moz-placeholder {
+    color: $color;
+  }
+  input:-ms-input-placeholder {
+    color: $color;
+  }
+}
+
+.clearfix {
+  display: inline-block;
+  &:after {
+    display: block;
+    content: ".";
+    height: 0;
+    line-height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+// 动画
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes $animation-name {
+    @content;
+  }
+  @-moz-keyframes $animation-name {
+    @content;
+  }
+  @-ms-keyframes $animation-name {
+    @content;
+  }
+  @-o-keyframes $animation-name {
+    @content;
+  }
+  @keyframes $animation-name {
+    @content;
+  }
+}
+
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};
+}
+
+// 使用方法
+// @include keyframes(slide-down) {
+//   0% { opacity: 1; }
+//   90% { opacity: 0; }
+// }
+// .element {
+//   width: 100px;
+//   height: 100px;
+//   background: black;
+//   @include animation('slide-down 5s 3');
+// }

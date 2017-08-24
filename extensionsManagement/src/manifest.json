@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "扩展管理",
+    "version": "0.0.1",
+    "description": "扩展管理",
+    "icons":{"128":"static/images/icon_128.png"},
+    "browser_action":
+    {
+        "default_icon": "static/images/icon_128.png",
+        "default_title":"扩展管理",
+        "default_popup": "index.html"
+    },
+    "commands":
+    {
+        "_execute_browser_action":
+        {
+            "suggested_key":
+            {
+                "windows": "Ctrl+M",
+                "mac": "Command+M",
+                "chromeos": "Ctrl+M",
+                "linux": "Ctrl+M"
+            }
+        }
+    },
+    "permissions": [
+        "activeTab",
+        "bookmarks",
+        "tabs",
+        "history",
+        "management",
+        "<all_urls>"
+    ]
+}

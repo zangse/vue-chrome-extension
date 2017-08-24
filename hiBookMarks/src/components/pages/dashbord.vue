@@ -54,8 +54,8 @@ export default {
         bookheader
     },
     created() {
-        // this.loadBookmarks();
-        this.loadHistory();
+        this.loadBookmarks();
+        // this.loadHistory();
     },
     methods: {
         loadBookmarks() {
