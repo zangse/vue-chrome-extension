@@ -1,19 +1,24 @@
 <template>
     <div class="wrapper">
         <div class="header">
-            <span class="search-input">
-                    <i class="iconfont serach-icon">&#xe60d;</i>
-                    <input  class="search" v-model="searchItem" type="text" placeholder="搜索" @change="searchBookmarks" @keyup.enter="searchBookmarks">
-                    <i class="iconfont clear-icon" v-if="searchItem.length>0" @click="cleanSearch">&#xe609;</i></span>
+            <div class="header-content">
+                <span class="tabs">
+                <span class="iconfont"></span>
+                <span class="iconfont">&#xe612;</span>
+                <span class="iconfont">&#xe63b;</span>
+                </span>
+                <span class="switch">
+                    <i class="icon-i"></i>
+                    <i class="icon-o"></i>
+                    <span class="icon-round"></span>
+                </span>
+            </div>
         </div>
         <div class="main-content ">
             <ul class="search-list" v-if="isSearch">
-                <li v-for="item in searchList" class="list-item" @click.stop="openOnNewTab(item)">
-                    <i class="icon"><img :src="'chrome://favicon/' + item.url" ></i><span class="title">{{item.title}}</span>
-                </li>
             </ul>
             <ul class="tree-list" v-if="!isSearch">
-                <treeitem v-for="item in allNodes" class="folder-item" :folders="item" :key="item.id"></treeitem>
+                <treeitem v-for="item in allNodes" class="folder-item" :extendItem="item" :key="item.id" @setEnabled="setEnabledHandler"></treeitem>
             </ul>
         </div>
     </div>
@@ -25,10 +30,7 @@ export default {
     data() {
         return {
             searchItem: '',
-            allNodes: [],
-            isSearching: false,
-            isSearch: false,
-            searchList: []
+            allNodes: []
         }
     },
     components: {
@@ -39,36 +41,11 @@ export default {
     },
     methods: {
         loadAllNodes() {
-            this.allNodes = [];
+            this.allNodes.length = 0;
             chrome.management.getAll((treeNodes) => {
-                console.log(JSON.stringify(treeNodes));
                 this.allNodes = treeNodes;
                 console.log(this.allNodes);
             });
-        },
-        goHome() {
-            chrome.tabs.create({
-                'url': 'index.html',
-                'selected': true
-            });
-        },
-        searchBookmarks() {
-            console.log('search')
-            if (this.searchItem == '') {
-                this.isSearch = false;
-                return;
-            }
-            this.isSearching = true;
-            this.isSearch = true;
-            chrome.bookmarks.search(this.searchItem, (data) => {
-                this.searchList = data;
-                console.log('searchList' + JSON.stringify(this.searchList))
-                this.isSearching = false;
-            })
-        },
-        cleanSearch() {
-            this.searchItem = '';
-            this.isSearch = false;
         },
         openOnNewTab(item) {
             if (!item.url) {
@@ -81,6 +58,9 @@ export default {
             chrome.tabs.create(newTab, () => {
                 console.log('1111')
             })
+        },
+        setEnabledHandler() {
+            this.loadAllNodes();
         }
     }
 }
@@ -95,43 +75,69 @@ export default {
         top: 0;
         padding: 5px;
         background: #f5f5f5;
-        .search-input {
-            position: relative;
-            .search {
-                height: 24px;
-                line-height: 24px;
-                width: 340px;
-                border: none;
-                padding: 3px 20px;
+        .header-content {
+            .switch {
+                width: 50px;
+                display: block;
+                height: 18px;
+                position: relative;
+                border-radius: 18px;
+                border: 1px solid #333;
+                background-color: #fff;
+                z-index: 10;
+                .icon-i {
+                    width: 1px;
+                    height: 8px;
+                    display: inline-block;
+                    background: #ccc;
+                    position: absolute;
+                    left: 9px;
+                    top: 4px;
+                    z-index: 50;
+                }
+                .icon-o {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    display: inline-block;
+                    background: #fff;
+                    border: 1px solid #ccc;
+                    position: absolute;
+                    right: 9px;
+                    top: 4px;
+                    z-index: 50;
+                }
+                .icon-round {
+                    width: 17px;
+                    position: absolute;
+                    display: block;
+                    top: 0;
+                    left: 0;
+                    height: 17px;
+                    background: #fff;
+                    border: 1px solid #333;
+                    position: relative;
+                    border-radius: 50%;
+                    transition: all 1s;
+                    z-index: 100;
+                    &.disabled {
+                        left: 41px;
+                    }
+                }
+                &.disabled {
+                    background: #fff;
+                }
             }
-            .serach-icon {
-                position: absolute;
-                left: 0;
-                top: 0;
-                color: #333;
-                padding-left: 3px;
-            }
-            .clear-icon {
-                position: absolute;
-                right: 0;
-                top: 0;
-                color: #333;
-                padding-right: 3px;
-                cursor: pointer;
-            }
-        }
-        .home {
-            width: 30px;
-            height: 30px;
-            font-size: 20px;
-            cursor: pointer;
         }
     }
     .main-content {
         width: 100%;
         height: auto;
-        padding: 5px 10px;
+        padding: 5px 0;
         padding-top: 30px;
+        .tree-list {
+            margin-bottom: 0;
+        }
         .search-list {
             .list-item {
                 height: 24px;

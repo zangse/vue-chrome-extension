@@ -3,11 +3,14 @@
     "name": "书签管理",
     "version": "0.0.4",
     "description": "书签管理",
-    "icons":{"128":"static/images/icon128.png"},
+    "icons":
+    {
+        "128": "static/images/icon128.png"
+    },
     "browser_action":
     {
         "default_icon": "static/images/icon128.png",
-        "default_title":"书签管理",
+        "default_title": "书签管理",
         "default_popup": "popup.html"
     },
     "options_page": "index.html",
@@ -30,5 +33,6 @@
         "tabs",
         "history",
         "<all_urls>"
-    ]
+    ],
+    "homepageUrl": "https://chrome.google.com/webstore/detail/%E4%B9%A6%E7%AD%BE%E7%AE%A1%E7%90%86/kimcgbcdngdnggfmkjdmmjceijnkcjmd"
 }

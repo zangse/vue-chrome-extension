@@ -3,11 +3,14 @@
     "name": "扩展管理",
     "version": "0.0.1",
     "description": "扩展管理",
-    "icons":{"128":"static/images/icon_128.png"},
+    "icons":
+    {
+        "128": "static/images/icon_128.png"
+    },
     "browser_action":
     {
         "default_icon": "static/images/icon_128.png",
-        "default_title":"扩展管理",
+        "default_title": "扩展管理",
         "default_popup": "index.html"
     },
     "commands":
@@ -24,11 +27,9 @@
         }
     },
     "permissions": [
-        "activeTab",
-        "bookmarks",
         "tabs",
-        "history",
         "management",
         "<all_urls>"
-    ]
+    ],
+    "homepageUrl":""
 }

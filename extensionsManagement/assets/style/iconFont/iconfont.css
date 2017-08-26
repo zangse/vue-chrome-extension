@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1503477225352'); /* IE9*/
-  src: url('iconfont.eot?t=1503477225352#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1503477225352') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1503477225352') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1503477225352#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1503650705066'); /* IE9*/
+  src: url('iconfont.eot?t=1503650705066#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1503650705066') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1503650705066') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1503650705066#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -15,47 +15,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-xiaosuolvetu:before { content: "\e600"; }
+.icon-iconfonticonfontset:before { content: "\e638"; }
 
-.icon-xinjianwenjianjia:before { content: "\e62d"; }
+.icon-components:before { content: "\e641"; }
 
-.icon-xuanzhong:before { content: "\e637"; }
+.icon-kuaijiefangshi:before { content: "\e612"; }
 
-.icon-weibiaoti101:before { content: "\e622"; }
+.icon-shanchu:before { content: "\e642"; }
 
-.icon-queren:before { content: "\e6a7"; }
+.icon-peizhi-copy:before { content: "\e602"; }
 
-.icon-xuanzhong1:before { content: "\e614"; }
+.icon-ic_share_px:before { content: "\e6c0"; }
 
-.icon-jia:before { content: "\e60c"; }
-
-.icon-zoom:before { content: "\e60d"; }
-
-.icon-bianji:before { content: "\e606"; }
-
-.icon-apply:before { content: "\e63c"; }
-
-.icon-icon_delete:before { content: "\e618"; }
-
-.icon-v1:before { content: "\e601"; }
-
-.icon-dakaizhuanhuan:before { content: "\e62f"; }
-
-.icon-quxiao:before { content: "\e609"; }
-
-.icon-bianji1:before { content: "\e709"; }
-
-.icon-yidong:before { content: "\e670"; }
-
-.icon-jian:before { content: "\e6b1"; }
+.icon-chakan1:before { content: "\e619"; }
 
 .icon-shezhi:before { content: "\e63b"; }
 
-.icon-wenjianjia:before { content: "\e632"; }
+.icon-quanxian1:before { content: "\e6b4"; }
 
-.icon-caise:before { content: "\e638"; }
+.icon-banbenhao:before { content: "\e601"; }
 
-.icon-ic_invert_colors_p:before { content: "\e65e"; }
-
-.icon-lianjie:before { content: "\e619"; }
+.icon-system-extension:before { content: "\e64e"; }
 
