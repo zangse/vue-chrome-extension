@@ -97,6 +97,7 @@ export default {
         top: 0;
         padding: 5px;
         background: #f5f5f5;
+        z-index: 500;
         .search-input {
             position: relative;
             .search {

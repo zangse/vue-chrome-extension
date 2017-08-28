@@ -3,11 +3,11 @@
         <div class="header">
             <div class="header-content">
                 <span class="tabs">
-                <span class="iconfont"></span>
-                <span class="iconfont">&#xe612;</span>
-                <span class="iconfont">&#xe63b;</span>
+                <span class="iconfont icon extension" :class="{'active':currentActive===1}" @click.stop="setTab(1)">&#xe62b;</span>
+                <span class="iconfont icon link" :class="{'active':currentActive===2}" @click.stop="setTab(2)">&#xe612;</span>
+                <!--        <span class="iconfont icon setting" :class="{'active':currentActive===3}" @click.stop="setTab(3)">&#xe63b;</span> -->
                 </span>
-                <span class="switch" :class="{'enabled':!disabledAll,'disabled':disabledAll}" @click.stop="toggleDisable">
+                <span class="switch" :class="{'enabled':!disabledAll,'disabled':disabledAll}" @click.stop="toggleDisable" v-if="currentActive===1">
                     <i class="icon-i"></i>
                     <i class="icon-o"></i>
                     <span class="icon-round" :class="{'enabled':!disabledAll,'disabled':disabledAll}"></span>
@@ -15,10 +15,28 @@
             </div>
         </div>
         <div class="main-content ">
-            <ul class="search-list" v-if="isSearch">
-            </ul>
-            <ul class="tree-list" v-if="!isSearch">
+            <ul class="tree-list" v-show="currentActive===1">
                 <treeitem v-for="item in allNodes" class="folder-item" :extendItem="item" :key="item.id" @setEnabled="setEnabledHandler"></treeitem>
+            </ul>
+            <ul class="shortcut-list" v-show="currentActive===2">
+                <li class="list-item">
+                    <div class="item" @click.stop="newTab('chrome://downloads/')"><i class="iconfont icon">&#xe60f;</i><span class="title">下载管理</span></div>
+                </li>
+                <li class="list-item">
+                    <div class="item" @click.stop="newTab('chrome://history/')"><i class="iconfont icon">&#xe7d8;</i><span class="title">历史记录</span></div>
+                </li>
+                <li class="list-item">
+                    <div class="item" @click.stop="newTab('chrome://extensions/')"><i class="iconfont icon">&#xe641;</i><span class="title">扩展程序</span></div>
+                </li>
+                <li class="list-item">
+                    <div class="item" @click.stop="newTab('chrome://settings/')"><i class="iconfont icon">&#xe63b;</i><span class="title">设置</span></div>
+                </li>
+                <li class="list-item">
+                    <div class="item remove" @click.stop="newTab('chrome://settings/clearBrowserData')"><i class="iconfont icon">&#xe642;</i><span class="title">清除浏览数据</span></div>
+                </li>
+                 <li class="list-item">
+                    <div class="item " @click.stop="newTab('https://chrome.google.com/webstore/category/extensions')"><i class="iconfont icon">&#xe62f;</i><span class="title">应用商店</span></div>
+                </li>
             </ul>
         </div>
     </div>
@@ -29,42 +47,63 @@ export default {
     name: 'dashbord',
     data() {
         return {
-            searchItem: '',
             allNodes: [],
-            disabledAll: false
+            disabledAll: true,
+            selfId: null,
+            currentActive: 1
         }
     },
     components: {
         treeitem: treeitem
     },
     created() {
-        this.loadAllNodes();
+        this.getSelfInfo();
     },
     methods: {
+        getSelfInfo() {
+            chrome.management.getSelf((data) => {
+                this.selfId = data.id;
+                this.loadAllNodes();
+            })
+        },
         loadAllNodes() {
             this.allNodes.length = 0;
-            chrome.management.getAll((treeNodes) => {
-                this.allNodes = treeNodes;
-                console.log(this.allNodes);
+            chrome.management.getAll((data) => {
+                let nodes = data.filter((item) => {
+                    return item.id !== this.selfId;
+                })
+                let enabledCount = 0;
+                nodes.forEach((item) => {
+                    if (item.enabled) {
+                        enabledCount += 1;
+                    }
+                })
+                this.disabledAll = enabledCount > 0 ? false : true;
+                this.allNodes = nodes;
+                console.log(JSON.stringify(this.allNodes));
             });
-        },
-        openOnNewTab(item) {
-            if (!item.url) {
-                return;
-            }
-            let newTab = {
-                url: item.url,
-                active: true
-            }
-            chrome.tabs.create(newTab, () => {
-                console.log('1111')
-            })
         },
         setEnabledHandler() {
             this.loadAllNodes();
         },
         toggleDisable() {
-            this.disabledAll = !this.disabledAll;
+            this.allNodes.forEach((item) => {
+                chrome.management.setEnabled(item.id, this.disabledAll, (data) => {})
+            })
+            this.loadAllNodes();
+        },
+        setTab(tab) {
+            this.currentActive = tab;
+        },
+        newTab(url) {
+            if (!url) {
+                return;
+            }
+            let newTab = {
+                url: url,
+                active: true
+            }
+            chrome.tabs.create(newTab, () => {})
         }
     }
 }
@@ -73,23 +112,55 @@ export default {
 .wrapper {
     .header {
         display: flex;
-        height: 30px;
-        line-height: 30px;
-        position: fixed;
-        top: 0;
-        padding: 5px 10px;
+        height: 45px;
+        line-height: 45px;
+        padding: 0 10px;
         background: #f5f5f5;
         width: 100%;
         box-sizing: border-box;
+        border-bottom: 1px solid #ddd;
         .header-content {
             display: flex;
             width: 100%;
             text-align: left;
-            height: 28px;
-            line-height: 28px;
             .tabs {
                 display: inline-block;
                 flex: 1;
+                position: relative;
+                .icon {
+                    position: absolute;
+                    top: 0;
+                    font-size: 22px;
+                    cursor: pointer;
+                    width: 45px;
+                    height: 45px;
+                    text-align: center;
+                    box-sizing: border-box;
+                    border: 1px solid #f5f5f5;
+                    border-top-left-radius: 3px;
+                    border-top-right-radius: 3px;
+                    border-bottom-color: #ddd;
+                    &.extension {
+                        left: 0;
+                    }
+                    &.link {
+                        left: 45px;
+                    }
+                    &.setting {
+                        left: 90px;
+                    }
+                    &.active {
+                        border-color: #ddd;
+                        border-bottom-color: #fff;
+                        background: #fff;
+                        color: #f58500;
+                    }
+                    &:hover {
+                        border-color: #f58500;
+                        border-bottom-color: #fff;
+                        background: #e5f0fb;
+                    }
+                }
             }
             .switch {
                 width: 50px;
@@ -102,6 +173,7 @@ export default {
                 z-index: 10;
                 transition: all 0.5s;
                 cursor: pointer;
+                margin-top: 10px;
                 .icon-i {
                     width: 1px;
                     height: 10px;
@@ -157,31 +229,58 @@ export default {
         width: 100%;
         height: auto;
         padding: 5px 0;
-        padding-top: 30px;
+        background: #fff;
         .tree-list {
             margin-bottom: 0;
+            margin-top: 0;
+            overflow: hidden;
         }
-        .search-list {
+        .shortcut-list {
+            margin-bottom: 0;
+            margin-top: 0;
+            overflow: hidden;
             .list-item {
-                height: 24px;
                 display: block;
-                line-height: 24px;
-                text-align: left;
+                text-align: center;
                 cursor: pointer;
                 overflow: hidden;
-                .icon {
-                    height: 24px;
-                    line-height: 24px;
-                    vertical-align: middle;
-                }
-                .title {
-                    padding-left: 5px;
-                    height: 24px;
-                    line-height: 24px;
-                    color: #42b983;
-                }
-                &:hover {
-                    background: #e4f1f9;
+                float: left;
+                width: 25%;
+                background: #fff;
+                .item {
+                    margin: 8px;
+                    padding: 8px;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                    text-align: center;
+                    background: #f5f5f5;
+                    .icon {
+                        display: block;
+                        height: 40px;
+                        font-size: 40px;
+                        vertical-align: middle;
+                    }
+                    .title {
+                        display: block;
+                        margin-top: 8px;
+                        height: 24px;
+                        line-height: 24px;
+                        color: #42b983;
+                    }
+                    &.remove {
+                        .icon {
+                            font-size: 54px;
+                        }
+                        .title {
+                            width: 72px;
+                        }
+                    }
+                    &:hover {
+                        background: #e4f1f9;
+                        .icon {
+                            color: #f58500;
+                        }
+                    }
                 }
             }
         }

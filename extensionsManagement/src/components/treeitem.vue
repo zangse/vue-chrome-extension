@@ -112,7 +112,6 @@ ul {
                 border-color: #f58500;
                 background: #e5f0fb;
             }
-
             .extension-content {
                 flex: 1;
                 .extension-icon {
