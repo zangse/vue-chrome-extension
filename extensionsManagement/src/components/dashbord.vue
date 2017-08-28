@@ -7,10 +7,10 @@
                 <span class="iconfont">&#xe612;</span>
                 <span class="iconfont">&#xe63b;</span>
                 </span>
-                <span class="switch">
+                <span class="switch" :class="{'enabled':!disabledAll,'disabled':disabledAll}" @click.stop="toggleDisable">
                     <i class="icon-i"></i>
                     <i class="icon-o"></i>
-                    <span class="icon-round"></span>
+                    <span class="icon-round" :class="{'enabled':!disabledAll,'disabled':disabledAll}"></span>
                 </span>
             </div>
         </div>
@@ -30,7 +30,8 @@ export default {
     data() {
         return {
             searchItem: '',
-            allNodes: []
+            allNodes: [],
+            disabledAll: false
         }
     },
     components: {
@@ -61,6 +62,9 @@ export default {
         },
         setEnabledHandler() {
             this.loadAllNodes();
+        },
+        toggleDisable() {
+            this.disabledAll = !this.disabledAll;
         }
     }
 }
@@ -73,23 +77,36 @@ export default {
         line-height: 30px;
         position: fixed;
         top: 0;
-        padding: 5px;
+        padding: 5px 10px;
         background: #f5f5f5;
+        width: 100%;
+        box-sizing: border-box;
         .header-content {
+            display: flex;
+            width: 100%;
+            text-align: left;
+            height: 28px;
+            line-height: 28px;
+            .tabs {
+                display: inline-block;
+                flex: 1;
+            }
             .switch {
                 width: 50px;
-                display: block;
+                display: inline-block;
                 height: 18px;
                 position: relative;
                 border-radius: 18px;
-                border: 1px solid #333;
+                border: 1px solid #ccc;
                 background-color: #fff;
                 z-index: 10;
+                transition: all 0.5s;
+                cursor: pointer;
                 .icon-i {
                     width: 1px;
-                    height: 8px;
+                    height: 10px;
                     display: inline-block;
-                    background: #ccc;
+                    background: #f5f5f5;
                     position: absolute;
                     left: 9px;
                     top: 4px;
@@ -108,24 +125,30 @@ export default {
                     z-index: 50;
                 }
                 .icon-round {
-                    width: 17px;
+                    width: 16px;
                     position: absolute;
                     display: block;
                     top: 0;
-                    left: 0;
-                    height: 17px;
+                    left: 32px;
+                    height: 16px;
                     background: #fff;
-                    border: 1px solid #333;
+                    border: 1px solid #ccc;
                     position: relative;
                     border-radius: 50%;
-                    transition: all 1s;
+                    transition: all 0.5s;
                     z-index: 100;
                     &.disabled {
-                        left: 41px;
+                        left: 0px;
+                    }
+                    &.enabled {
+                        left: 32x;
                     }
                 }
                 &.disabled {
                     background: #fff;
+                }
+                &.enabled {
+                    background: #64cc0c;
                 }
             }
         }
