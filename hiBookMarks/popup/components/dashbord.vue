@@ -2,16 +2,17 @@
     <div class="wrapper">
         <div class="header">
             <span class="search-input">
-                    <i class="iconfont serach-icon">&#xe60d;</i>
-                    <input  class="search" v-model="searchItem" type="text" placeholder="搜索" @change="searchBookmarks" @keyup.enter="searchBookmarks">
-                    <i class="iconfont clear-icon" v-if="searchItem.length>0" @click="cleanSearch">&#xe609;</i></span>
+                    <input  class="search" type="text" v-model="searchItem" placeholder="搜索(输入内容，回车搜索)" v-on:change="searchBookmarks" @keyup.enter="searchBookmarks">
+                    <i class="iconfont clear-icon" v-if="searchItem.length>0&&isSearch" @click.stop="cleanSearch">&#xe609;</i>
+                     <i class="iconfont serach-icon" >&#xe60d;</i></span>
             <span @click="goHome" class="home"><i class="iconfont">&#xe601;</i></span>
         </div>
         <div class="main-content ">
             <ul class="search-list" v-if="isSearch">
-                <li v-for="item in searchList" class="list-item" @click.stop="openOnNewTab(item)">
+                <li v-for="item in searchList" class="list-item" v-if="searchList.length>0" @click.stop="openOnNewTab(item)">
                     <i class="icon"><img :src="'chrome://favicon/' + item.url" ></i><span class="title">{{item.title}}</span>
                 </li>
+                <li v-if="searchList.length==0">暂无匹配结果,换个关键词试试吧</li>
             </ul>
             <ul class="tree-list" v-if="!isSearch">
                 <treeitem v-for="item in allNodes" class="folder-item" :folders="item" :key="item.id"></treeitem>
@@ -113,6 +114,7 @@ export default {
                 top: 0;
                 color: #333;
                 padding-left: 3px;
+                cursor: pointer;
             }
             .clear-icon {
                 position: absolute;
@@ -136,23 +138,30 @@ export default {
         padding: 5px 10px;
         padding-top: 30px;
         .search-list {
+            padding-top: 5px;
             .list-item {
-                height: 24px;
+                height: 28px;
                 display: block;
-                line-height: 24px;
+                line-height: 28px;
                 text-align: left;
                 cursor: pointer;
                 overflow: hidden;
                 .icon {
-                    height: 24px;
-                    line-height: 24px;
+                    width: 20px;
+                    height: 28px;
+                    line-height: 28px;
                     vertical-align: middle;
+                    display: inline-block;
+                    img {
+                        padding-top: 5px;
+                    }
                 }
                 .title {
                     padding-left: 5px;
-                    height: 24px;
-                    line-height: 24px;
+                    height: 28px;
+                    line-height: 28px;
                     color: #42b983;
+                    display: inline-block;
                 }
                 &:hover {
                     background: #e4f1f9;

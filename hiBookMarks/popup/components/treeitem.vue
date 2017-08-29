@@ -1,6 +1,6 @@
 <template>
     <div>
-        <li v-if="!folders.url" @click.stop="toggle(folders)">
+        <li v-if="!folders.url" @click.stop="toggle($event,folders)" v-on:mouseenter="toggle($event,folders)">
             <div class="folder-body" :class="{'checked':isChecked}">
                 <i class="iconfont expend-icon" v-if="!isOpen&&isFolder">&#xe60c;</i>
                 <i class="iconfont expend-icon" v-if="isOpen&&isFolder">&#xe6b1;</i>
@@ -8,11 +8,11 @@
                 <span class="iconfont folder-icon">&#xe632;</span>
                 <span>{{ folders.title }}</span>
             </div>
-            <ul v-if="folders.children&&isOpen">
+            <ul v-show="folders.children&&isOpen" :class="{'expend':isOpen}">
                 <treeitem v-for="child in folders.children" :folders="child" :key="child.id"></treeitem>
             </ul>
         </li>
-        <li v-if="folders.url" @click.stop="openOnNewTab(folders)">
+        <li v-if="folders.url" @click.stop="openOnNewTab($event,folders)" @mouseup.middle="openOnNewTab($event,folders,true)">
             <div class="folder-body">
                 <i class=" expend-icon"></i>
                 <span class=" folder-icon"><img :src="'chrome://favicon/' + folders.url" alt=""></span>
@@ -33,18 +33,26 @@ export default {
         }
     },
     methods: {
-        toggle(item) {
-            this.isOpen = !this.isOpen;
-            this.selectedItem = item;
-            console.log('toggle item' + JSON.stringify(this.selectedItem))
+        toggle(e, item) {
+            if (e.type == 'mouseenter' && this.isOpen) {
+                return
+            } else {
+                this.isOpen = !this.isOpen;
+                this.selectedItem = item;
+                // console.log('toggle item' + JSON.stringify(this.selectedItem))
+            }
         },
-        openOnNewTab(item) {
+        openOnNewTab(e, item, type) {
+            console.log(e)
             if (!item.url) {
                 return;
             }
             let newTab = {
                 url: item.url,
                 active: true
+            }
+            if (type) {
+                newTab.active = false;
             }
             chrome.tabs.create(newTab, () => {
                 console.log('1111')
@@ -65,6 +73,11 @@ export default {
 <style lang="scss" scoped>
 ul {
     margin: 0;
+    height: 0;
+    transition: all 2s;
+    &.expend {
+        height: 100%;
+    }
     li {
         display: block;
         text-align: left;
@@ -73,7 +86,9 @@ ul {
         overflow: hidden;
         cursor: pointer;
         margin: 1px 0;
-        overflow: hidden;
+        overflow: hidden; // max-height: 28px;
+        transition: all 2s;
+
         .folder-body {
             &:hover {
                 background: #e5f0fb;
