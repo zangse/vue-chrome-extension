@@ -10,7 +10,9 @@
         <div class="main-content ">
             <ul class="search-list" v-if="isSearch">
                 <li v-for="item in searchList" class="list-item" v-if="searchList.length>0" @click.stop="openOnNewTab(item)">
-                    <i class="icon"><img :src="'chrome://favicon/' + item.url" ></i><span class="title">{{item.title}}</span>
+                    <i class="icon"><img :src="'chrome://favicon/' + item.url" ></i>
+                    <span class="title" v-if="item.title">{{item.title}}</span>
+                    <span class="title" v-if="!item.title">{{item.url}}</span>
                 </li>
                 <li v-if="searchList.length==0">暂无匹配结果,换个关键词试试吧</li>
             </ul>
@@ -71,7 +73,6 @@ export default {
         cleanSearch() {
             this.searchItem = '';
             this.isSearch = false;
-            // this.getChildren(this.bookmarksNode);
         },
         openOnNewTab(item) {
             if (!item.url) {
@@ -161,7 +162,6 @@ export default {
                     height: 28px;
                     line-height: 28px;
                     color: #42b983;
-                    display: inline-block;
                 }
                 &:hover {
                     background: #e4f1f9;
