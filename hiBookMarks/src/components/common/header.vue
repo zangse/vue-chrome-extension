@@ -8,17 +8,17 @@
                 <div class="row-center">
                     <span class="search-input">
                     <i class="iconfont serach-icon">&#xe60d;</i>
-                    <input  class="search" v-model="searchItem" type="text" placeholder="搜索" @blur="searchBookmarks" @keyup.enter="searchBookmarks">
+                    <input  class="search" v-model="searchItem" type="text" placeholder="搜索" @blur="searchBookmarks" @keyup.enter="searchBookmarks"  v-autofocus="autofocus">
                     <i class="iconfont clear-icon" v-if="searchItem.length>0" @click="cleanSearch">&#xe609;</i></span>
                 </div>
                 <div class="row-right">
-                    <span class="action-icon" @click.stop="toggleMode" >
-                	<i class="iconfont" v-if="showMode==1">&#xe63c;</i>
-                	<i class="iconfont" v-if="showMode==2">&#xe600;</i>
+                    <span class="action-icon" @click.stop="toggleMode">
+                    <i class="iconfont" v-if="showMode==1">&#xe63c;</i>
+                    <i class="iconfont" v-if="showMode==2">&#xe600;</i>
                 </span>
-                    <span class="action-icon" @click.stop="toggleColor" >
-                	<i class="iconfont dark" v-if="isColorful">&#xe65e;</i>
-                	<i class="iconfont  colorful" v-if="!isColorful"> &#xe638;</i>
+                    <span class="action-icon" @click.stop="toggleColor">
+                    <i class="iconfont dark" v-if="isColorful">&#xe65e;</i>
+                    <i class="iconfont  colorful" v-if="!isColorful"> &#xe638;</i>
                 </span>
                 </div>
             </div>
@@ -57,13 +57,24 @@ export default {
     components: {
         model
     },
+    directives: {
+        autofocus: {
+            inserted: function(el) {
+                el.focus();
+            },
+            update: function(el) {
+                el.focus();
+            }
+        }
+    },
     props: {
         allNodes: Array,
         selectedNode: Array,
         isSearching: Boolean,
         isColorful: Boolean,
         showMode: Number,
-        isHistory: Boolean
+        isHistory: Boolean,
+        autofocus: Boolean
     },
     methods: {
         selectALL() {

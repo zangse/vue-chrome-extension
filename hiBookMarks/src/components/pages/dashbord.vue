@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <bookheader :allNodes="allNodes" :selectedNode="selectedNode" @isSearching="isSearchingHandler" @cleanSearch="cleanSearchHandler" @cancleSelected="cancleSelectedHandler" @reloadCurrent="reloadCurrentHandler" :showMode="showMode" @toggleMode="toggleModeHandler" :isColorful="isColorful" @toggleColor="toggleColorHandler" :isHistory="isHistory"></bookheader>
+        <bookheader :allNodes="allNodes" :selectedNode="selectedNode" @isSearching="isSearchingHandler" @cleanSearch="cleanSearchHandler" @cancleSelected="cancleSelectedHandler" @reloadCurrent="reloadCurrentHandler" :showMode="showMode" @toggleMode="toggleModeHandler" :isColorful="isColorful" @toggleColor="toggleColorHandler" :isHistory="isHistory" :autofocus="autofocus"></bookheader>
         <sidebar :folders="allFolder" @loadALL="loadALLHandler" @loadItem="loadItemHandler" :bookmarksNode="bookmarksNode"></sidebar>
         <div class="content">
             <div class="topbar">
@@ -45,7 +45,8 @@ export default {
             isColorful: false,
             maxResults: 10000,
             startTime: null,
-            endTime: null
+            endTime: null,
+            autofocus: true
         }
     },
     components: {
@@ -55,7 +56,6 @@ export default {
     },
     created() {
         this.loadBookmarks();
-        // this.loadHistory();
     },
     methods: {
         loadBookmarks() {
