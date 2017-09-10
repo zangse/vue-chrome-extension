@@ -1,6 +1,6 @@
 <template>
     <div>
-        <li v-if="!folders.url" @click.stop="toggle($event,folders)" v-on:mouseenter="toggle($event,folders)">
+        <li v-if="!folders.url" @click.stop="toggle($event,folders)" >
             <div class="folder-body" :class="{'checked':isChecked}">
                 <i class="iconfont expend-icon" v-if="!isOpen&&isFolder">&#xe60c;</i>
                 <i class="iconfont expend-icon" v-if="isOpen&&isFolder">&#xe6b1;</i>
