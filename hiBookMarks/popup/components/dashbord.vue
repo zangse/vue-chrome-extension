@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" >
         <div class="header">
             <span class="search-input">
                     <input  class="search" type="text" v-model="searchItem" placeholder="搜索(输入内容，回车搜索)" v-on:change="searchBookmarks" @keyup.enter="searchBookmarks">

@@ -36,15 +36,12 @@ export default {
         toggle(item) {
             this.isOpen = !this.isOpen;
             this.selectedItem = item;
-            // console.log('toggle item' + JSON.stringify(this.selectedItem))
             this.$emit('update:selectedItem', this.selectedItem)
         },
         handleUpdate(val) {
             this.$emit('update:selectedItem', val)
         },
         cancle(item) {
-            // console.log('cancle create folder:::::' + JSON.stringify(item))
-            // console.log('updateAdding', this.isAdding);
             let index = this.selectedItem.children.indexOf(item);
             this.selectedItem.children.splice(index, 1);
             this.isAdding = false;

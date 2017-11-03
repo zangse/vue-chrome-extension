@@ -4,6 +4,7 @@ dist/
 npm-debug.log
 yarn-error.log
 newTabs/
+negativeComment/
 # Editor directories and files
 .idea
 *.suo

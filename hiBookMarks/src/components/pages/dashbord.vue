@@ -98,7 +98,7 @@ export default {
         getTimeStamp(day) {
             let date = new Date();
             let timeStamp = date.getTime();
-            return (timeStamp - 24 * 3600 * 1000 * day)/1000
+            return (timeStamp - 24 * 3600 * 1000 * day) / 1000
         },
         sortRule(a, b) {
             return b.visitCount - a.visitCount
@@ -154,8 +154,18 @@ export default {
                     }
                 }
                 treeNodes = chrome.bookmarks.getChildren(item.id, (nodes) => {
-                    this.allNodes = nodes;
+                    // console.log(nodes)
+                    this.allNodes = nodes.sort(this.listSort);
                 });
+            }
+        },
+        listSort(x, y) {
+            if (x.url && !y.url) {
+                return 1
+            } else if (!x.url && y.url) {
+                return -1
+            } else  if ((x.url && y.url) || (!x.url && !y.url)) {
+                return 0
             }
         },
         openOnNewTab(item) {
