@@ -154,18 +154,20 @@ export default {
                     }
                 }
                 treeNodes = chrome.bookmarks.getChildren(item.id, (nodes) => {
-                    // console.log(nodes)
+                    console.log(nodes)
                     this.allNodes = nodes.sort(this.listSort);
                 });
             }
         },
         listSort(x, y) {
+            console.log(x,y)
             if (x.url && !y.url) {
                 return 1
             } else if (!x.url && y.url) {
                 return -1
             } else  if ((x.url && y.url) || (!x.url && !y.url)) {
-                return 0
+                // 按照首字母顺序排序
+                return x.title.localeCompare(y.title,'zh-Hans-CN')
             }
         },
         openOnNewTab(item) {
