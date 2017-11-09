@@ -1,11 +1,16 @@
 ### hiBookMark
-#### VUE project
-- 由vue-cli生成,webpack.config.js自行配置,双入口
+#### 使用
+下载后，先npm install安装所需依赖
+然后 npm run build 生成dist包
+在chrome中打开扩展管理（地址栏输入 chrome://extensions/），勾选开发者模式，加载已解压的扩展程序，选择dist目录即可
 
-- npm run watch 自动编译成静态文件，chrome可以正常运行，浏览器中需要手动刷新
-- npm run build 发布时编译，去除了console信息
+#### chrome商店安装（需翻墙）
+ [点击这里获取](https://chrome.google.com/webstore/detail/hibookmark/kimcgbcdngdnggfmkjdmmjceijnkcjmd?hl=zh-CN&gl=HK) 
 
-2017-11-9更新
+#### 介绍
+- 本项目由vue-cli编译生成,webpack.config.js中配置了双入口，分别配置了popup页面和管理页
+- 实现了书签的快速查找，只需在浏览器内按下 ctrl+B(mac为command+B)，即可唤出搜索页，输入书签名称或部分网址，回车即可获取搜索结果
+- 书签管理页可以管理书签，移动、删除书签（支持批量操作），查看最近浏览历史等
 ### 待修复bug
 - [x] 删除书签没有更新列表（建议更新书签后，根据操作刷新页面）
 - [x] 新建文件夹后，当前选中的文件夹消失
