@@ -136,8 +136,9 @@ export default {
                 nodes.forEach((item) => {
                     item.url ? chrome.bookmarks.remove(item.id, null) : chrome.bookmarks.removeTree(item.id, null);
                 })
+                 this.$emit('reloadCurrent');
             })
-            this.$emit('reloadCurrent')
+            // this.$emit('reloadCurrent')
         },
         searchBookmarks() {
             if (this.searchItem == '') {
@@ -211,10 +212,12 @@ export default {
         &.show {
             -webkit-transform: translateY(-54px);
             z-index: 201;
+            opacity: 1;
         }
         &.hide {
             -webkit-transform: translateY(-108px);
             z-index: 0;
+            opacity:0;
         }
         .row-left {
             width: 200px;

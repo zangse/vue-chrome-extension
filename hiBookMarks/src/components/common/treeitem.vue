@@ -36,7 +36,7 @@ export default {
         toggle(item) {
             this.isOpen = !this.isOpen;
             this.selectedItem = item;
-            this.$emit('update:selectedItem', this.selectedItem)
+            this.$emit('update:selectedItem', this.selectedItem);
         },
         handleUpdate(val) {
             this.$emit('update:selectedItem', val)
@@ -55,6 +55,8 @@ export default {
             chrome.bookmarks.create(newFolder, (data) => {
                 this.cancle(item);
                 this.selectedItem.children.push(data);
+                this.selectedItem = data;
+                this.$emit('update:selectedItem', this.selectedItem);
                 // console.log('data= new folder' + JSON.stringify(data))
             })
         },

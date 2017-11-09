@@ -67,7 +67,7 @@ export default {
         cursor: pointer;
         height: auto;
         overflow: hidden;
-        border: 1px solid #fff;
+        border: none;
         border-radius: 5px;
         z-index: 1;
         transition: all 0.3s ease;
@@ -84,7 +84,7 @@ export default {
         }
         &:hover {
             border-color: #5bc2e4;
-            @include transform( translateY(-6px));
+            // @include transform( translateY(-6px));
             @include box-shadow(0 26px 40px -24px rgba(0, 36, 100, .5));
             .item-light {
                 @include transition( all .3s ease);

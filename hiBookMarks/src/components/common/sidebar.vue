@@ -1,10 +1,13 @@
 <template>
     <div class="sidebar">
         <ul class="nav-list">
-            <li class="item"><span @click="targetItem(2)">最近浏览</span></li>
-            <li class="item"><span @click="targetItem(0)">所有书签</span></li>
-            <li class="item"><span @click="targetItem(1,bookmarksNode)">书签栏</span></li>
-            <li class="item" v-for="item in folders" @click="targetItem(1,item)">
+            <li class="item " :class="{'active':currentSelected=='-1'}"><span @click="targetItem(-1,historyNode)"><span class="iconfont icon-default font-18">&#xe6d1;</span><span>浏览历史</span></span>
+            </li>
+            <li class="item" :class="{'active':currentSelected=='0'}"><span @click="targetItem(0,allNode)"><span class="iconfont icon-default">&#xe63a;</span><span>所有书签</span></span>
+            </li>
+            <li class="item" :class="{'active':currentSelected=='1'}"><span @click="targetItem(1,bookmarksNode)"> <span class="iconfont icon-default">&#xe650;</span><span>书签栏</span></span>
+            </li>
+            <li class="item" v-for="item in folders" :class="{'active':currentSelected==item.id}" @click="targetItem(1,item)">
                 <span v-if="!item.children">
                         <span class="icon"><img :src="'chrome://favicon/' + item.url" ></span>
                 <span class="title">{{item.title}}</span>
@@ -21,14 +24,21 @@
 export default {
     name: 'sidebar',
     data() {
-        return {}
+        return {
+            currentSelected: 0,
+            historyNode: { id: -1 },
+            allNode: { id: 0 }
+        }
     },
     props: {
         folders: Array,
-        bookmarksNode: Object
+        bookmarksNode: Object,
+        currentSelected: String
     },
     methods: {
         targetItem(type, item) {
+            this.currentSelected = item.id;
+            this.$emit('currentSelected', this.currentSelected);
             this.$emit('loadItem', type, item);
         },
     }
@@ -58,8 +68,28 @@ export default {
             line-height: 45px;
             padding-left: 30px;
             white-space: nowrap;
-            width: 150px;
+            width: 100%;
             overflow: hidden;
+            box-sizing: border-box;
+            &:hover {
+                background: #f3f3f3;
+            }
+            &.active {
+                background: #ece5e5;
+            }
+            .icon-default {
+                width: 24px;
+                height: 45px;
+                line-height: 45px;
+                text-align: center;
+                color: #2790DE;
+                font-size: 16px;
+                margin-right: 5px;
+                cursor: pointer;
+                &.font-18 {
+                    font-size: 18px;
+                }
+            }
             .folder-icon {
                 width: 24px;
                 height: 45px;

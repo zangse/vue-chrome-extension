@@ -1,13 +1,12 @@
 <template>
     <div class="wrapper">
         <bookheader :allNodes="allNodes" :selectedNode="selectedNode" @isSearching="isSearchingHandler" @cleanSearch="cleanSearchHandler" @cancleSelected="cancleSelectedHandler" @reloadCurrent="reloadCurrentHandler" :showMode="showMode" @toggleMode="toggleModeHandler" :isColorful="isColorful" @toggleColor="toggleColorHandler" :isHistory="isHistory" :autofocus="autofocus"></bookheader>
-        <sidebar :folders="allFolder" @loadALL="loadALLHandler" @loadItem="loadItemHandler" :bookmarksNode="bookmarksNode"></sidebar>
+        <sidebar :folders="allFolder" @loadALL="loadALLHandler" :currentSelected="currentSelected" @currentSelected="currentSelectedHandler" @loadItem="loadItemHandler" :bookmarksNode="bookmarksNode"></sidebar>
         <div class="content">
             <div class="topbar">
                 <div class="tag-name">
                     {{currentNode.title}}
                 </div>
-                <!-- <div class="tag-desc">{{currentNode.desc}}</div> -->
                 <ul class="tag-list" v-if="topbarList.length>0">
                     <li v-for="(item,index) in topbarList" class="tag-item" :class="{'current':currentNode.id==item.id}" :style="{'z-index':100-index}" @click="getChildren(item,index)">
                         {{item.title}}
@@ -32,6 +31,7 @@ export default {
             allNodes: [],
             allFolder: [],
             currentNode: {},
+            currentSelected: 0,
             rootNode: {
                 title: '所有书签',
                 id: '0'
@@ -74,7 +74,6 @@ export default {
             this.isHistory = true;
             this.allNodes = [];
             let nodes = [];
-            // this.startTime = this.getTimeStamp(7)
             this.startTime = null
             console.log(this.startTime);
             let searchObj = {
@@ -117,15 +116,21 @@ export default {
         getChildren(item, index) {
             this.isSearching = false;
             this.isHistory = false;
-            this.selectedNode = [];
+            // 如果有 文件夹或书签被选中，则不跳转或打开
+            if (this.selectedNode.length > 0) {
+                return;
+            }
+            // console.log(this.selectedNode)
             let treeNodes = [];
             let node = JSON.parse(JSON.stringify(item));
             if (node.url) {
                 this.openOnNewTab(node)
             } else {
+                this.selectedNode = [];
                 delete node.children;
                 this.currentNode = node;
                 if (index !== null && index !== undefined) {
+                    this.currentSelected = item.id;
                     if (index >= 0) {
                         this.topbarList = this.topbarList.slice(0, index + 1);
                     }
@@ -134,6 +139,10 @@ export default {
                     if (length == 0) {
                         this.topbarList = [];
                         this.topbarList.push(this.rootNode);
+                        this.topbarList.push(this.bookmarksNode);
+                        if (this.bookmarksNode.id !== node.id) {
+                            this.topbarList.push(node);
+                        }
                     } else {
                         if (node.id == 1 && length >= 2) {
                             this.topbarList = this.topbarList.slice(0, 2);
@@ -160,14 +169,14 @@ export default {
             }
         },
         listSort(x, y) {
-            console.log(x,y)
+            console.log(x, y)
             if (x.url && !y.url) {
                 return 1
             } else if (!x.url && y.url) {
                 return -1
-            } else  if ((x.url && y.url) || (!x.url && !y.url)) {
+            } else if ((x.url && y.url) || (!x.url && !y.url)) {
                 // 按照首字母顺序排序
-                return x.title.localeCompare(y.title,'zh-Hans-CN')
+                return x.title.localeCompare(y.title, 'zh-Hans-CN')
             }
         },
         openOnNewTab(item) {
@@ -178,9 +187,7 @@ export default {
                 url: item.url,
                 active: true
             }
-            chrome.tabs.create(newTab, () => {
-
-            })
+            chrome.tabs.create(newTab)
         },
         updateSelected(selectedNode) {
             this.selectedNode = selectedNode;
@@ -194,7 +201,7 @@ export default {
                 this.loadBookmarks();
             } else if (type == 1) {
                 return item.url ? this.openOnNewTab(item) : this.getChildren(item);
-            } else if (type == 2) {
+            } else if (type == -1) {
                 this.loadHistory();
             }
 
@@ -221,6 +228,9 @@ export default {
         },
         toggleColorHandler() {
             this.isColorful = !this.isColorful;
+        },
+        currentSelectedHandler(data) {
+            this.currentSelected = data;
         }
     }
 }
