@@ -1,8 +1,8 @@
 <template>
-    <div class="wrapper" >
+    <div class="wrapper">
         <div class="header">
             <span class="search-input">
-                    <input  class="search" type="text" v-model="searchItem" placeholder="搜索(输入内容，回车搜索)" v-on:change="searchBookmarks" @keyup.enter="searchBookmarks">
+                    <input  class="search" type="text" v-model="searchItem" placeholder="搜索(输入内容，回车搜索)" @keyup.enter="searchBookmarks">
                     <i class="iconfont clear-icon" v-if="searchItem.length>0&&isSearch" @click.stop="cleanSearch">&#xe609;</i>
                      <i class="iconfont serach-icon" >&#xe60d;</i></span>
             <span @click="goHome" class="home"><i class="iconfont">&#xe601;</i></span>
@@ -30,7 +30,6 @@ export default {
         return {
             searchItem: '',
             allNodes: [],
-            isSearching: false,
             isSearch: false,
             searchList: []
         }
@@ -57,17 +56,13 @@ export default {
             });
         },
         searchBookmarks() {
-            console.log('search')
             if (this.searchItem == '') {
-                this.isSearch = false;
                 return;
             }
-            this.isSearching = true;
             this.isSearch = true;
             chrome.bookmarks.search(this.searchItem, (data) => {
                 this.searchList = data;
                 console.log('searchList' + JSON.stringify(this.searchList))
-                this.isSearching = false;
             })
         },
         cleanSearch() {
@@ -85,6 +80,16 @@ export default {
             chrome.tabs.create(newTab, () => {
                 console.log('1111')
             })
+        }
+    },
+    watch: {
+        searchItem: function(newVal) {
+            if (newVal.length == 0) {
+                console.log(newVal)
+                this.isSearch = false;
+            } else {
+                this.searchBookmarks();
+            }
         }
     }
 }
@@ -107,6 +112,7 @@ export default {
                 line-height: 24px;
                 width: 340px;
                 border: none;
+                outline: none;
                 padding: 3px 20px;
             }
             .serach-icon {

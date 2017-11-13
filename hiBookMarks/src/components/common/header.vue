@@ -8,7 +8,7 @@
                 <div class="row-center">
                     <span class="search-input">
                     <i class="iconfont serach-icon">&#xe60d;</i>
-                    <input  class="search" v-model="searchItem" type="text" placeholder="搜索" @blur="searchBookmarks" @keyup.enter="searchBookmarks"  v-autofocus="autofocus">
+                    <input  class="search" v-model="searchItem" type="text" placeholder="搜索" @keyup.enter="searchBookmarks"  v-autofocus="autofocus">
                     <i class="iconfont clear-icon" v-if="searchItem.length>0" @click="cleanSearch">&#xe609;</i></span>
                 </div>
                 <div class="row-right">
@@ -136,9 +136,8 @@ export default {
                 nodes.forEach((item) => {
                     item.url ? chrome.bookmarks.remove(item.id, null) : chrome.bookmarks.removeTree(item.id, null);
                 })
-                 this.$emit('reloadCurrent');
+                this.$emit('reloadCurrent');
             })
-            // this.$emit('reloadCurrent')
         },
         searchBookmarks() {
             if (this.searchItem == '') {
@@ -148,16 +147,18 @@ export default {
             if (!this.isHistory) {
                 chrome.bookmarks.search(this.searchItem, (data) => {
                     this.allNodes = data;
-                    this.isSearching = false;
+                    // this.isSearching = false;
+                    this.$emit('isSearching', this.allNodes);
                 })
             } else {
                 chrome.history.search({ text: this.searchItem }, (data) => {
                     data.sort(this.sortRule);
-                    this.isSearching = false;
+                    // this.isSearching = false;
                     this.allNodes = data;
+                    this.$emit('isSearching', this.allNodes);
                 })
             }
-            this.$emit('isSearching', this.allNodes);
+
         },
         sortRule(a, b) {
             return b.visitCount - a.visitCount
@@ -183,6 +184,16 @@ export default {
         },
         toggleColor() {
             this.$emit('toggleColor');
+        }
+    },
+    watch: {
+        searchItem: function(newVal) {
+            if (newVal.length == 0) {
+                console.log(newVal)
+                this.cleanSearch();
+            } else {
+                this.searchBookmarks();
+            }
         }
     }
 }
@@ -217,7 +228,7 @@ export default {
         &.hide {
             -webkit-transform: translateY(-108px);
             z-index: 0;
-            opacity:0;
+            opacity: 0;
         }
         .row-left {
             width: 200px;
@@ -277,6 +288,7 @@ export default {
                     line-height: 24px;
                     width: 350px;
                     border: none;
+                    outline: none;
                     padding: 3px 20px;
                 }
                 .serach-icon {

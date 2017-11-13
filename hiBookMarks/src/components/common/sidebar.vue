@@ -71,6 +71,7 @@ export default {
             width: 100%;
             overflow: hidden;
             box-sizing: border-box;
+            padding-right: 8px;
             &:hover {
                 background: #f3f3f3;
             }
@@ -112,6 +113,11 @@ export default {
                     display: block;
                     margin: 15px 4px 14px 4px;
                 }
+            }
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
     }

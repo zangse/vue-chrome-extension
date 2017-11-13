@@ -18,12 +18,14 @@
             </ul>
             <div v-if="isSearching&&allNodes.length===0">无匹配结果</div>
         </div>
+        <slider :selectedNode="selectedNode" @editNode="editNodeHandler"></slider>
     </div>
 </template>
 <script>
 import bookmarkitem from '../../components/common/bookmarkItem.vue'
 import sidebar from '../../components/common/sidebar.vue'
 import bookheader from '../../components/common/header.vue'
+import slider from '../../components/common/slider.vue'
 export default {
     name: 'app',
     data() {
@@ -52,7 +54,8 @@ export default {
     components: {
         bookmarkitem,
         sidebar,
-        bookheader
+        bookheader,
+        slider
     },
     created() {
         this.loadBookmarks();
@@ -120,10 +123,11 @@ export default {
             if (this.selectedNode.length > 0) {
                 return;
             }
-            // console.log(this.selectedNode)
             let treeNodes = [];
             let node = JSON.parse(JSON.stringify(item));
-            if (node.url) {
+            if (node.id == '0') {
+                this.loadBookmarks();
+            } else if (node.url) {
                 this.openOnNewTab(node)
             } else {
                 this.selectedNode = [];
@@ -169,7 +173,7 @@ export default {
             }
         },
         listSort(x, y) {
-            console.log(x, y)
+            // console.log(x, y)
             if (x.url && !y.url) {
                 return 1
             } else if (!x.url && y.url) {
@@ -191,7 +195,7 @@ export default {
         },
         updateSelected(selectedNode) {
             this.selectedNode = selectedNode;
-            // console.log(this.selectedNode)
+            console.log(this.selectedNode)
         },
         loadALLHandler() {
             this.loadBookmarks();
@@ -204,15 +208,16 @@ export default {
             } else if (type == -1) {
                 this.loadHistory();
             }
-
         },
         isSearchingHandler(data) {
             this.isSearching = true;
-            this.allNodes = data;
+            this.allNodes = data.sort(this.listSort);
             this.currentNode.title = '搜索';
             this.topbarList = [];
         },
         cleanSearchHandler() {
+            this.selectedNode = [];
+            this.currentSelected = 0;
             this.getChildren(this.bookmarksNode);
         },
         cancleSelectedHandler() {
@@ -221,7 +226,14 @@ export default {
         // 删除，移动操作，刷新当前节点
         reloadCurrentHandler() {
             this.selectedNode = [];
-            this.getChildren(this.currentNode);
+            if (this.isSearching) {
+                this.isSearching = false;
+                this.currentSelected = 0;
+                this.getChildren(this.bookmarksNode);
+            } else {
+                this.getChildren(this.currentNode);
+            }
+
         },
         toggleModeHandler() {
             this.showMode = this.showMode == 1 ? 2 : 1;
@@ -231,6 +243,11 @@ export default {
         },
         currentSelectedHandler(data) {
             this.currentSelected = data;
+            this.selectedNode = [];
+        },
+        editNodeHandler() {
+            this.selectedNode = [];
+            this.getChildren(this.currentNode);
         }
     }
 }
