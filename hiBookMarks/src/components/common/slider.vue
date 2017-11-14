@@ -56,6 +56,7 @@ export default {
         cancle() {
             this.selectedNode.length = 0;
             this.$emit('editNode');
+            this.$emit('toast-show', 'cancle', '取消编辑');
         },
         save() {
             let node = {
@@ -65,6 +66,7 @@ export default {
             chrome.bookmarks.update(this.currentNode.id, node, (res) => {
                 console.log(res)
                 this.$emit('editNode');
+                this.$emit('toast-show', 'success', '编辑成功');
             })
         }
     }

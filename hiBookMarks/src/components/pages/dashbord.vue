@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <bookheader :allNodes="allNodes" :selectedNode="selectedNode" @isSearching="isSearchingHandler" @cleanSearch="cleanSearchHandler" @cancleSelected="cancleSelectedHandler" @reloadCurrent="reloadCurrentHandler" :showMode="showMode" @toggleMode="toggleModeHandler" :isColorful="isColorful" @toggleColor="toggleColorHandler" :isHistory="isHistory" :autofocus="autofocus"></bookheader>
+        <bookheader :allNodes="allNodes" :selectedNode="selectedNode" @isSearching="isSearchingHandler" @cleanSearch="cleanSearchHandler" @cancleSelected="cancleSelectedHandler" @reloadCurrent="reloadCurrentHandler" :showMode="showMode" @toggleMode="toggleModeHandler" :isColorful="isColorful" @toggleColor="toggleColorHandler" :isHistory="isHistory" :autofocus="autofocus" @toast-show="toastShowHandler"></bookheader>
         <sidebar :folders="allFolder" @loadALL="loadALLHandler" :currentSelected="currentSelected" @currentSelected="currentSelectedHandler" @loadItem="loadItemHandler" :bookmarksNode="bookmarksNode"></sidebar>
         <div class="content">
             <div class="topbar">
@@ -18,7 +18,8 @@
             </ul>
             <div v-if="isSearching&&allNodes.length===0">无匹配结果</div>
         </div>
-        <slider :selectedNode="selectedNode" @editNode="editNodeHandler"></slider>
+        <slider :selectedNode="selectedNode" @editNode="editNodeHandler" @toast-show="toastShowHandler"></slider>
+        <toast v-model="showToast" :toastMsg="toastMsg" @toast-hide="toastHideHandler"> </toast>
     </div>
 </template>
 <script>
@@ -26,6 +27,7 @@ import bookmarkitem from '../../components/common/bookmarkItem.vue'
 import sidebar from '../../components/common/sidebar.vue'
 import bookheader from '../../components/common/header.vue'
 import slider from '../../components/common/slider.vue'
+import toast from '../../components/common/toast.vue'
 export default {
     name: 'app',
     data() {
@@ -48,14 +50,21 @@ export default {
             maxResults: 10000,
             startTime: null,
             endTime: null,
-            autofocus: true
+            autofocus: true,
+            showToast: false,
+            toastMsg: {
+                text: '操作成功',
+                type: 'wraning',
+                padding: '22px'
+            }
         }
     },
     components: {
         bookmarkitem,
         sidebar,
         bookheader,
-        slider
+        slider,
+        toast
     },
     created() {
         this.loadBookmarks();
@@ -248,6 +257,17 @@ export default {
         editNodeHandler() {
             this.selectedNode = [];
             this.getChildren(this.currentNode);
+        },
+        toastHideHandler() {
+            console.log('toastHideHandler')
+            this.showToast = false;
+        },
+        toastShowHandler(type, text, padding) {
+            console.log('toastHideHandler')
+            this.toastMsg.type = type ? type : 'success';
+            this.toastMsg.text = text ? text : '操作成功';
+            this.toastMsg.padding = padding ? padding : '22px';
+            this.showToast = true;
         }
     }
 }

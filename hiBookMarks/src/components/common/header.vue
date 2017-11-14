@@ -124,7 +124,7 @@ export default {
         openSelected() {
             chrome.bookmarks.get(this.selectedNode, (nodes) => {
                 if (nodes.length > 5) {
-                    return alert("打开多个窗口可能会造成浏览器卡死")
+                    return this.$emit('toast-show', 'wraning', '打开多个窗口可能会造成浏览器卡死','4px');
                 }
                 nodes.forEach((item) => {
                     this.openOnNewTab(item);

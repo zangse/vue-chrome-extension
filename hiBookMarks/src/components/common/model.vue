@@ -1,21 +1,23 @@
 <template>
-    <div class="model-wrapper" :class="{'show':showModel}">
+    <div class="model-wrapper" v-show="showModel">
         <div class="model-mask"></div>
-        <div class="model-body">
-            <div class="model-header">
-                <span class="header-title">移动到</span>
-                <span class=" float-r" @click="cancle"><i class="iconfont close-icon">&#xe622;</i></span> </div>
-            <div class="model-content">
-                <ul class="folder-list">
-                    <treeitem v-for="item in allFolder" class="folder-item" :folders="item" :key="item.id" :selectedItem.sync="selectedItem" @update:selectedItem="handleUpdate" :isAdding="isAdding" v-on:updateAdding="handleAddUpdate"></treeitem>
-                </ul>
+        <transition name="fade">
+            <div class="model-body" v-if="showModel">
+                <div class="model-header">
+                    <span class="header-title">移动到</span>
+                    <span class=" float-r" @click="cancle"><i class="iconfont close-icon">&#xe622;</i></span> </div>
+                <div class="model-content">
+                    <ul class="folder-list">
+                        <treeitem v-for="item in allFolder" class="folder-item" :folders="item" :key="item.id" :selectedItem.sync="selectedItem" @update:selectedItem="handleUpdate" :isAdding="isAdding" v-on:updateAdding="handleAddUpdate"></treeitem>
+                    </ul>
+                </div>
+                <div class="model-footer">
+                    <span class="btn-md float-l" @click="addFolder"><i class="iconfont new-folder">&#xe62d;</i></span>
+                    <span class="btn-md float-r" @click="move">确定</span>
+                    <span class="btn-md float-r" @click="cancle">关闭</span>
+                </div>
             </div>
-            <div class="model-footer">
-                <span class="btn-md float-l" @click="addFolder"><i class="iconfont new-folder">&#xe62d;</i></span>
-                <span class="btn-md float-r" @click="move">确定</span>
-                <span class="btn-md float-r" @click="cancle">关闭</span>
-            </div>
-        </div>
+        </transition>
     </div>
 </template>
 <script>
@@ -25,7 +27,8 @@ export default {
     data() {
         return {
             allFolder: [],
-            isAdding: false
+            isAdding: false,
+            showBody: false
         }
     },
     props: {
@@ -45,9 +48,7 @@ export default {
         loadALlFolder() {
             this.allFolder = [];
             chrome.bookmarks.getTree((treeNodes) => {
-                // console.log(treeNodes);
                 this.allFolder = treeNodes[0].children;
-                // console.log(this.allFolder);
             });
         },
         addFolder() {
@@ -78,44 +79,49 @@ export default {
             this.$emit('updateMove', this.showModel);
         },
         handleAddUpdate() {
-            // console.log('adding update handle')
             this.isAdding = false;
         },
         handleUpdate(val) {
             this.$emit('update:selectedItem', val)
         },
-    },
-    watch: {
-        isAdding: function(newVal) {
-            // console.log('adding update watch' + newVal)
-        }
     }
 }
 </script>
 <style lang="scss" scoped>
 .model-wrapper {
-    display: none;
+    display: block;
     position: fixed;
-    top: 0px;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
-    &.show {
-        display: block;
-        z-index: 400;
-    }
+    z-index: 400;
     .model-mask {
-        position: absolute;
-        z-index: 500;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.35);
+        position: fixed;
+        z-index: 400;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, .35);
+    }
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: all 0.5s cubic-bezier(.36, .66, .04, 1);
+    }
+    .fade-enter-to,
+    .fade-leave {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .fade-enter,
+    .fade-leave-to {
+        opacity: 0;
+        transform: translateY(-100%);
     }
     .model-body {
-        position: relative;
         width: 500px;
         height: 380px;
         background: #f8f8f8;
