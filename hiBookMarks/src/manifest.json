@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "书签管理",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "在任何页面都可以通过书签关键字快速搜索打开书签,管理您的书签",
     "icons": {
         "128": "static/images/icon128.png"

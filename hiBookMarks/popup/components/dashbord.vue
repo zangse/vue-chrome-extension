@@ -1,19 +1,19 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" @keyup.tab="tabCall($event)">
         <div class="header">
             <span class="search-input">
-                    <input  class="search" type="text" v-model="searchItem" placeholder="搜索(输入内容，回车搜索)" @keyup.enter="searchBookmarks">
+                    <input  class="search" type="text" v-model="searchItem" placeholder="搜索(输入内容，自动搜索)"  tabindex="0">
                     <i class="iconfont clear-icon" v-if="searchItem.length>0&&isSearch" @click.stop="cleanSearch">&#xe609;</i>
                      <i class="iconfont serach-icon" >&#xe60d;</i></span>
             <span @click="goHome" class="home"><i class="iconfont">&#xe601;</i></span>
         </div>
-        <div class="main-content ">
-            <ul class="search-list" v-if="isSearch">
-                <li v-for="item in searchList" class="list-item" v-if="searchList.length>0" @click.stop="openOnNewTab(item)">
+        <div class="main-content">
+            <ul class="search-list" v-if="isSearch" @keyup.enter="openByTab($event)">
+                <a v-for="(item,index) in searchList" class="list-item" v-if="searchList.length>0" @click.stop="openOnNewTab(item)" :class="{'selected':selectedId==item.id }" v-bind:tabindex="index+1">
                     <i class="icon"><img :src="'chrome://favicon/' + item.url" ></i>
                     <span class="title" v-if="item.title">{{item.title}}</span>
                     <span class="title" v-if="!item.title">{{item.url}}</span>
-                </li>
+                </a>
                 <li v-if="searchList.length==0">暂无匹配结果,换个关键词试试吧</li>
             </ul>
             <ul class="tree-list" v-if="!isSearch">
@@ -31,7 +31,8 @@ export default {
             searchItem: '',
             allNodes: [],
             isSearch: false,
-            searchList: []
+            searchList: [],
+            selectedId: null
         }
     },
     components: {
@@ -61,8 +62,8 @@ export default {
             }
             this.isSearch = true;
             chrome.bookmarks.search(this.searchItem, (data) => {
-                this.searchList = data;
-                console.log('searchList' + JSON.stringify(this.searchList))
+                console.log(data)
+                this.searchList = data.filter(this.getTab);
             })
         },
         cleanSearch() {
@@ -77,17 +78,41 @@ export default {
                 url: item.url,
                 active: true
             }
-            chrome.tabs.create(newTab, () => {
-                console.log('1111')
-            })
+            chrome.tabs.create(newTab)
+        },
+        tabCall(e) {
+            console.log(e.target)
+            let tabIndex = e.target.tabIndex;
+            if (!this.isSearch || this.searchList.length == 0) {
+                return;
+            }
+            // console.log(tabIndex);
+            if (this.searchList[tabIndex - 1]) {
+                this.selectedId = this.searchList[tabIndex - 1].id;
+            }
+        },
+        openByTab(e) {
+            if (this.searchList.length == 0 || !this.selectedId) {
+                return;
+            }
+            console.log('enter')
+            console.log(e.target.tabIndex)
+            let tabIndex = e.target.tabIndex;
+            let newTab = this.searchList[tabIndex - 1];
+            this.openOnNewTab(newTab);
+        },
+        getTab(item) {
+            return item.url;
         }
     },
     watch: {
         searchItem: function(newVal) {
             if (newVal.length == 0) {
                 console.log(newVal)
+                this.selectedId = null;
                 this.isSearch = false;
             } else {
+                this.selectedId = null;
                 this.searchBookmarks();
             }
         }
@@ -142,10 +167,11 @@ export default {
     .main-content {
         width: 100%;
         height: auto;
-        padding: 5px 10px;
-        padding-top: 30px;
+        padding: 0 8px;
+        padding-top: 40px;
+        box-sizing: border-box;
         .search-list {
-            padding-top: 5px;
+            margin: 0;
             transition: all 0.5s;
             .list-item {
                 height: 28px;
@@ -154,6 +180,8 @@ export default {
                 text-align: left;
                 cursor: pointer;
                 overflow: hidden;
+                outline: none;
+                padding-left: 15px;
                 .icon {
                     width: 20px;
                     height: 28px;
@@ -173,7 +201,14 @@ export default {
                 &:hover {
                     background: #e4f1f9;
                 }
+                &.selected {
+                    background: #e4f1f9;
+                }
             }
+        }
+        .tree-list {
+            margin: 0;
+            transition: all 0.5s;
         }
     }
 }

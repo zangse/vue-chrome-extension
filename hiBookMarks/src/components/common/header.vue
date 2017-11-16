@@ -8,7 +8,7 @@
                 <div class="row-center">
                     <span class="search-input">
                     <i class="iconfont serach-icon">&#xe60d;</i>
-                    <input  class="search" v-model="searchItem" type="text" placeholder="搜索" @keyup.enter="searchBookmarks"  v-autofocus="autofocus">
+                    <input  class="search" v-model="searchItem" type="text" placeholder="搜索(输入内容，自动搜索)" @keyup.enter="searchBookmarks"   v-autofocus="autofocus">
                     <i class="iconfont clear-icon" v-if="searchItem.length>0" @click="cleanSearch">&#xe609;</i></span>
                 </div>
                 <div class="row-right">
