@@ -146,6 +146,7 @@ export default {
         padding-top: 30px;
         .search-list {
             padding-top: 5px;
+            transition: all 0.5s;
             .list-item {
                 height: 28px;
                 display: block;

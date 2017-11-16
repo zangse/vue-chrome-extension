@@ -262,11 +262,12 @@ export default {
             console.log('toastHideHandler')
             this.showToast = false;
         },
-        toastShowHandler(type, text, padding) {
+        toastShowHandler(data) {
             console.log('toastHideHandler')
-            this.toastMsg.type = type ? type : 'success';
-            this.toastMsg.text = text ? text : '操作成功';
-            this.toastMsg.padding = padding ? padding : '22px';
+            console.log(data)
+            this.toastMsg.type = data.type ? data.type : 'success';
+            this.toastMsg.text = data.text ? data.text : '操作成功';
+            this.toastMsg.padding = data.padding ? data.padding : '22px';
             this.showToast = true;
         }
     }

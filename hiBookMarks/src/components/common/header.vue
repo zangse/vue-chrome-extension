@@ -40,22 +40,27 @@
                 </div>
             </div>
         </div>
-        <model class="model" :showModel="showModel" @updateShow="onCloseHandler" @updateMove="onMoveHandler" :selectedItem.sync="selectedItem"></model>
+        <model class="model" v-model="showModel" @updateShow="onCloseHandler" @updateMove="onMoveHandler" :selectedItem.sync="selectedItem"></model>
+        <confirm v-model="showConfirm" :confirmMsg="confirmMsg" @on-confirm="onConfirmHandler"></confirm>
     </div>
 </template>
 <script>
 import model from '../common/model.vue'
+import confirm from '../common/confirm.vue'
 export default {
     name: 'bookheader',
     data() {
         return {
             searchItem: '',
             showModel: false,
-            selectedItem: {}
+            selectedItem: {},
+            showConfirm: false,
+            confirmMsg: {}
         }
     },
     components: {
-        model
+        model,
+        confirm
     },
     directives: {
         autofocus: {
@@ -115,16 +120,31 @@ export default {
                 chrome.bookmarks.move(item, folder, null)
             })
             this.selectedNode = [];
+            const data = {
+                type: 'success',
+                text: '操作成功'
+            }
+            this.$emit('toast-show', data);
             this.$emit('reloadCurrent');
         },
         cancleSelected() {
             this.selectedNode = [];
-            this.$emit('cancleSelected')
+            const data = {
+                type: 'cancle',
+                text: '操作已取消'
+            }
+            this.$emit('toast-show', data);
+            this.$emit('cancleSelected');
         },
         openSelected() {
             chrome.bookmarks.get(this.selectedNode, (nodes) => {
                 if (nodes.length > 5) {
-                    return this.$emit('toast-show', 'wraning', '打开多个窗口可能会造成浏览器卡死','4px');
+                    const data = {
+                        type: 'wraning',
+                        text: '打开多个窗口可能会造成浏览器卡死',
+                        padding: '4px'
+                    }
+                    return this.$emit('toast-show', data);
                 }
                 nodes.forEach((item) => {
                     this.openOnNewTab(item);
@@ -132,12 +152,8 @@ export default {
             })
         },
         removeSelected() {
-            chrome.bookmarks.get(this.selectedNode, (nodes) => {
-                nodes.forEach((item) => {
-                    item.url ? chrome.bookmarks.remove(item.id, null) : chrome.bookmarks.removeTree(item.id, null);
-                })
-                this.$emit('reloadCurrent');
-            })
+            this.confirmMsg.text = "书签删除后无法恢复，是否继续？"
+            this.showConfirm = true;
         },
         searchBookmarks() {
             if (this.searchItem == '') {
@@ -184,6 +200,24 @@ export default {
         },
         toggleColor() {
             this.$emit('toggleColor');
+        },
+        onConfirmHandler(data) {
+            this.showConfirm = false;
+            if (data == 1) {
+                this.cancleSelected();
+            } else if (data == 2) {
+                chrome.bookmarks.get(this.selectedNode, (nodes) => {
+                    nodes.forEach((item) => {
+                        item.url ? chrome.bookmarks.remove(item.id, null) : chrome.bookmarks.removeTree(item.id, null);
+                    })
+                    const data = {
+                        type: 'success',
+                        text: '删除成功'
+                    }
+                    this.$emit('toast-show', data);
+                    this.$emit('reloadCurrent');
+                })
+            }
         }
     },
     watch: {

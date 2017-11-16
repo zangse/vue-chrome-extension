@@ -108,6 +108,7 @@ ul {
             font-size: 14px;
             margin-right: 5px;
             cursor: pointer;
+            color: #535558;
             display: inline-block;
         }
         .folder-icon {

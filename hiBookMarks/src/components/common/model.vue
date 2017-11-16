@@ -1,5 +1,5 @@
 <template>
-    <div class="model-wrapper" v-show="showModel">
+    <div class="model-wrapper" :class="{'show':showModel}">
         <div class="model-mask"></div>
         <transition name="fade">
             <div class="model-body" v-if="showModel">
@@ -12,8 +12,8 @@
                     </ul>
                 </div>
                 <div class="model-footer">
-                    <span class="btn-md float-l" @click="addFolder"><i class="iconfont new-folder">&#xe62d;</i></span>
-                    <span class="btn-md float-r" @click="move">确定</span>
+                    <span class="btn-md float-l" @click="addFolder"><i class="iconfont new-folder">&#xe632;</i></span>
+                    <span class="btn-md float-r confirm" @click="move">确定</span>
                     <span class="btn-md float-r" @click="cancle">关闭</span>
                 </div>
             </div>
@@ -28,17 +28,19 @@ export default {
         return {
             allFolder: [],
             isAdding: false,
-            showBody: false
+            showModel: false
         }
     },
     props: {
-        showModel: Boolean,
+        value: Boolean,
         selectedItem: Object
     },
     components: {
         treeitem
     },
     created() {
+        // 
+        console.log('model create')
         this.isAdding = false;
         this.selectedItem = {};
         this.allFolder = [];
@@ -59,7 +61,6 @@ export default {
                 return;
             }
             this.isAdding = true;
-            // console.log('selectedItem:' + this.selectedItem)
             let newFolder = {
                 title: '新建文件夹',
                 parentId: this.selectedItem.id,
@@ -71,12 +72,10 @@ export default {
             this.selectedItem.children.push(newFolder);
         },
         cancle() {
-            this.showModel = false;
-            this.$emit('updateShow', this.showModel);
+            this.$emit('updateShow');
         },
         move() {
-            this.showModel = false;
-            this.$emit('updateMove', this.showModel);
+            this.$emit('updateMove');
         },
         handleAddUpdate() {
             this.isAdding = false;
@@ -84,12 +83,16 @@ export default {
         handleUpdate(val) {
             this.$emit('update:selectedItem', val)
         },
+    },
+    watch: {
+        value(newVal) {
+            this.showModel = newVal
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
 .model-wrapper {
-    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -97,7 +100,14 @@ export default {
     bottom: 0;
     width: 100%;
     height: 100%;
-    z-index: 400;
+    z-index: 0;
+    opacity: 0;
+    display: none;
+    &.show {
+        display: block;
+        opacity: 1;
+        z-index: 400;
+    }
     .model-mask {
         position: fixed;
         z-index: 400;
@@ -134,16 +144,34 @@ export default {
         margin-left: -250px;
         overflow: hidden;
         .btn-md {
-            box-sizing: border-box;
-            padding: 4px 8px;
+            width: 48px;
             height: 28px;
-            line-height: 20px;
-            margin: 4px;
-            background: #5e9dda;
-            border-radius: 5px;
-            color: #fff;
-            font-size: 13px;
+            display: inline-block;
+            line-height: 28px;
+            white-space: nowrap;
             cursor: pointer;
+            background: #fff;
+            border: 1px solid #d8dce5;
+            border-color: #d8dce5;
+            color: #5a5e66;
+            -webkit-appearance: none;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            font-size: 12px;
+            border-radius: 4px;
+            margin: 5px;
+            &.confirm {
+                color: #fff;
+                background-color: #409eff;
+                border-color: #409eff;
+            }
         }
         .float-l {
             float: left;
@@ -164,9 +192,13 @@ export default {
             }
             .close-icon {
                 padding: 4px;
-                font-size: 20px;
+                font-size: 18px;
                 margin-right: 5px;
                 cursor: pointer;
+                color: #878d99;
+                &:hover {
+                    color: #409eff;
+                }
             }
         }
         .model-content {
@@ -186,7 +218,8 @@ export default {
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
             .new-folder {
-                font-size: 22px;
+                color: #ffb927;
+                font-size: 16px;
                 cursor: pointer;
             }
         }

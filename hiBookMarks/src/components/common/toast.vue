@@ -1,12 +1,11 @@
 <template>
-    <div class="toast-wrapper" v-show="show">
-        <div class="toast-mask"></div>
-        <div class="toast-content" :style="{padding:toastPadding}">
+    <div class="toast-wrapper" :class="{'show':show}">
+        <div class="toast-content">
             <i class="toast-icon iconfont success" v-if="this.toastMsg.type=='success'">&#xe62e;</i>
             <i class="toast-icon iconfont error" v-if="this.toastMsg.type=='error'">&#xe60e;</i>
             <i class="toast-icon iconfont cancle" v-if="this.toastMsg.type=='cancle'">&#xe60e;</i>
             <i class="toast-icon iconfont wraning" v-if="this.toastMsg.type=='wraning'">&#xe6d5;</i>
-            <p class="toast-text">{{toastMsg.text}}</p>
+            <span class="toast-text" :class="this.toastMsg.type">{{toastMsg.text}}</span>
         </div>
     </div>
 </template>
@@ -16,9 +15,7 @@ export default {
     data() {
         return {
             time: 2000,
-            show: false,
-            iconUnicode: '&#xe62e;',
-            toastPadding: '22px 8px'
+            show: false
         }
     },
     props: {
@@ -26,23 +23,18 @@ export default {
         toastMsg: Object
     },
     created() {
-        if (this.toastMsg.padding) {
-            console.log(this.toastMsg.padding)
-            this.toastPadding = `${this.toastMsg.padding} 8px`;
-        }
         if (this.value) {
             this.time = 2000;
             this.show = true;
         }
-
     },
     watch: {
         show(val) {
             if (val) {
-                // setTimeout(() => {
-                //     this.show = false;
-                //     this.$emit('toast-hide');
-                // }, this.time)
+                setTimeout(() => {
+                    this.show = false;
+                    this.$emit('toast-hide');
+                }, this.time)
             }
         },
         value(val) {
@@ -53,46 +45,35 @@ export default {
 </script>
 <style lang="scss" scoped>
 .toast-wrapper {
-    display: block;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
+    top: 60px;
+    right: 10px;
     z-index: 400;
-    .toast-mask {
-        position: fixed;
-        z-index: 400;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        background: rgba(17, 17, 17, 0.35);
+    width: 280px;
+    padding: 14px 26px 14px 13px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    border: 1px solid #e6ebf5;
+    background-color: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+    transition: all 0.3s;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(100%);
+    &.show {
+        display: block;
+        opacity: 1;
+        transform: translateX(0);
     }
     .toast-content {
-        position: fixed;
-        z-index: 999;
-        width: 120px;
-        min-height: 120px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: #fff;
-        text-align: center;
-        border-radius: 5px;
-        color: #333;
-        padding: 22px 8px;
-        box-sizing: border-box;
+        display: flex;
+        text-align: left;
         .toast-icon {
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            display: block;
+            display: inline-block;
             text-align: center;
-            margin: 5px auto;
-            font-size: 32px;
+            font-size: 22px;
+            line-height: 28px;
+            vertical-align: center;
             &.success {
                 color: #4ba033;
             }
@@ -107,10 +88,23 @@ export default {
             }
         }
         .toast-text {
-            padding: 8px;
+            padding-left: 8px;
+            line-height: 28px;
+            height: 28px;
             font-size: 14px;
-            text-align: center;
-            margin: 0 auto;
+            text-align: left;
+            &.success {
+                color: #4ba033;
+            }
+            &.cancle {
+                color: #afabab;
+            }
+            &.error {
+                color: #afabab;
+            }
+            &.wraning {
+                color: #ffb927;
+            }
         }
     }
 }

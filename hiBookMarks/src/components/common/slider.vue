@@ -56,7 +56,11 @@ export default {
         cancle() {
             this.selectedNode.length = 0;
             this.$emit('editNode');
-            this.$emit('toast-show', 'cancle', '取消编辑');
+            const data = {
+                type: 'cancle',
+                text: '取消编辑'
+            }
+            this.$emit('toast-show', data);
         },
         save() {
             let node = {
@@ -65,8 +69,12 @@ export default {
             }
             chrome.bookmarks.update(this.currentNode.id, node, (res) => {
                 console.log(res)
+                const data = {
+                    type: 'success',
+                    text: '编辑成功'
+                }
                 this.$emit('editNode');
-                this.$emit('toast-show', 'success', '编辑成功');
+                this.$emit('toast-show', data);
             })
         }
     }
@@ -154,14 +162,14 @@ export default {
             padding: 0 8px;
             height: 28px;
             line-height: 28px;
-            border-radius: 5px;
+            border-radius: 4px;
             font-weight: 500;
             color: #fff;
             &.cancle {
-                background: #b8b9c3;
+                background: #c8c8ca;
             }
             &.save {
-                background: #4250dc;
+                background: #409eff;
             }
         }
     }
