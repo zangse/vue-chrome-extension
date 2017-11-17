@@ -34,7 +34,7 @@
                 <li class="list-item">
                     <div class="item remove" @click.stop="newTab('chrome://settings/clearBrowserData')"><i class="iconfont icon">&#xe642;</i><span class="title">清除浏览数据</span></div>
                 </li>
-                 <li class="list-item">
+                <li class="list-item">
                     <div class="item " @click.stop="newTab('https://chrome.google.com/webstore/category/extensions')"><i class="iconfont icon">&#xe62f;</i><span class="title">应用商店</span></div>
                 </li>
             </ul>
@@ -80,7 +80,7 @@ export default {
                 })
                 this.disabledAll = enabledCount > 0 ? false : true;
                 this.allNodes = nodes;
-                console.log(JSON.stringify(this.allNodes));
+                // console.log(JSON.stringify(this.allNodes));
             });
         },
         setEnabledHandler() {
@@ -230,6 +230,7 @@ export default {
         height: auto;
         padding: 5px 0;
         background: #fff;
+        box-sizing: border-box;
         .tree-list {
             margin-bottom: 0;
             margin-top: 0;
