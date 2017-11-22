@@ -1,18 +1,21 @@
 <template>
     <li class="extension-item" :class="{'enable':extendItem.enabled,'disable':!extendItem.enabled}">
-        <span class="extension-content" @click.stop="toggle(extendItem)">
-                    <span class=" extension-icon">
+        <div class="extension-content" @click.stop="toggle(extendItem)">
+            <span class=" extension-icon">
                     <img :src="showIcon"  v-if="showIcon">
-                    <!-- <i class="iconfont" v-if="showIcon">&#xe641;</i> -->
                     </span>
-        <span class="item-title">{{ extendItem.name }}</span>
-        <span class="version"><i class="iconfont ">&#xe601;</i><span>{{extendItem.version}}</span></span>
-        </span>
-        <span class="option">
+            <div class="extension-body">
+                <p class="item-title">{{ extendItem.name }}</p>
+                <p class="version">
+                    <i class="iconfont ">&#xe601;</i><span>{{extendItem.version}}</span>
+                </p>
+            </div>
+            <span class="option">
                 <i class="iconfont option-icon view" :class="{'disabled':!extendItem.homepageUrl}" @click.stop="openOnNewTab(extendItem.homepageUrl)">&#xe619;</i>
                 <i class="iconfont option-icon config " :class="{'disabled':!extendItem.optionsUrl}" @click.stop="openOnNewTab(extendItem.optionsUrl)">&#xe602;</i>
                 <i class="iconfont option-icon uninstall" @click.stop="unInstall(extendItem)">&#xe642;</i>
             </span>
+        </div>
     </li>
 </template>
 <script>
@@ -53,6 +56,7 @@ export default {
                 let length = this.extendItem.icons.length;
                 result = this.extendItem.icons[length - 1].url;
             }
+            console.log(result)
             return result
         }
     }
@@ -60,19 +64,18 @@ export default {
 </script>
 <style lang="scss" scoped>
 .extension-item {
+    display:block;
     text-align: left;
-    line-height: 28px;
-    height: 28px;
     overflow: hidden;
     cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 6px;
     background: #ccc;
-    padding: 4px 5px;
-    display: flex;
-    margin: 3px 0;
+    padding: 6px;
+    margin: 12px 15px;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 8px #3b3a49;
     &.enable {
-        background-color: #dff0d8;
+        background-color: #fff;
         border-color: #d6e9c6;
         .extension-content {
             .item-title {
@@ -90,65 +93,73 @@ export default {
         }
     }
     &:hover {
-        border-color: #f58500;
         background: #e5f0fb;
     }
     .extension-content {
-        flex: 1;
+        display: flex;
+        height: 48px;
         .extension-icon {
-            color: rgb(255, 185, 39);
-            width: 24px;
-            height: 28px;
-            line-height: 28px;
-            margin-right: 5px;
+            width: 40px;
+            height: 40px;
+            margin: 4px;
             display: inline-block;
+            border-radius: 50%;
+            background: #f5f5f5;
             img {
                 display: block;
                 margin: 4px auto;
-                width: 20px;
-                height: 20px;
+                width: 32px;
+                height: 32px;
             }
         }
-        .item-title {
-            overflow: hidden;
-            height: 28px;
-            display: inline-block;
-            line-height: 28px;
-            font-size: 14px;
-            margin-right: 3px;
-        }
-        .version {
-            display: inline-block;
-            font-size: 12px;
-            height: 28px;
-            line-height: 28px;
-            color: #7d7a7a;
-            vertical-align: top;
-            i {
+        .extension-body {
+            flex: 1;
+            padding-left: 8px;
+            .item-title {
+                overflow: hidden;
+                height: 24px;
+                display: block;
+                line-height: 24px;
                 font-size: 14px;
                 margin-right: 3px;
+                color: #3b3a49;
+                margin: 0;
+            }
+            .version {
+                display: block;
+                font-size: 12px;
+                height: 24px;
+                line-height: 24px;
+                color: #949494;
+                vertical-align: top;
+                margin: 0;
+                i {
+                    font-size: 14px;
+                    margin-right: 3px;
+                }
             }
         }
-    }
-    .option {
-        width: 70px;
-        .option-icon {
-            width: 20px;
-            height: 20px;
-            padding: 2px;
-            cursor: pointer;
-            color: #333;
-            &.disabled {
-                color: #ccc;
-            }
-            &.view {
-                font-size: 16px;
-            }
-            &.config {
-                font-size: 15px;
-            }
-            &.uninstall {
-                font-size: 18px;
+
+        .option {
+            line-height:48px;
+            .option-icon {
+                width: 24px;
+                height: 24px;
+                padding: 2px;
+                cursor: pointer;
+                color: #949494;
+                &.disabled {
+                    color: #ccc;
+                }
+                &.view {
+                    font-size: 18px;
+                }
+                &.config {
+                    font-size: 17px;
+                }
+                &.uninstall {
+                    font-size: 20px;
+                }
             }
         }
     }

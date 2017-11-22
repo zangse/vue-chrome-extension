@@ -5,7 +5,6 @@
                 <span class="tabs">
                 <span class="iconfont icon extension" :class="{'active':currentActive===1}" @click.stop="setTab(1)">&#xe62b;</span>
                 <span class="iconfont icon link" :class="{'active':currentActive===2}" @click.stop="setTab(2)">&#xe612;</span>
-                <!--        <span class="iconfont icon setting" :class="{'active':currentActive===3}" @click.stop="setTab(3)">&#xe63b;</span> -->
                 </span>
                 <span class="switch" :class="{'enabled':!disabledAll,'disabled':disabledAll}" @click.stop="toggleDisable" v-if="currentActive===1">
                     <i class="icon-i"></i>
@@ -20,7 +19,7 @@
             </ul>
             <ul class="shortcut-list" v-show="currentActive===2">
                 <li class="list-item">
-                    <div class="item" @click.stop="newTab('chrome://downloads/')"><i class="iconfont icon">&#xe60f;</i><span class="title">下载管理</span></div>
+                    <div class="item download" @click.stop="newTab('chrome://downloads/')"><i class="iconfont icon">&#xe60f;</i><span class="title">下载管理</span></div>
                 </li>
                 <li class="list-item">
                     <div class="item" @click.stop="newTab('chrome://history/')"><i class="iconfont icon">&#xe7d8;</i><span class="title">历史记录</span></div>
@@ -35,7 +34,7 @@
                     <div class="item remove" @click.stop="newTab('chrome://settings/clearBrowserData')"><i class="iconfont icon">&#xe642;</i><span class="title">清除浏览数据</span></div>
                 </li>
                 <li class="list-item">
-                    <div class="item " @click.stop="newTab('https://chrome.google.com/webstore/category/extensions')"><i class="iconfont icon">&#xe62f;</i><span class="title">应用商店</span></div>
+                    <div class="item shop" @click.stop="newTab('https://chrome.google.com/webstore/category/extensions')"><i class="iconfont icon">&#xe62f;</i><span class="title">应用商店</span></div>
                 </li>
             </ul>
         </div>
@@ -110,15 +109,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .wrapper {
+    background: #D6D7DE;
     .header {
+        position: fixed;
+        top: 0;
+        left: 0;
         display: flex;
-        height: 45px;
-        line-height: 45px;
+        height: 60px;
+        line-height: 60px;
         padding: 0 10px;
-        background: #f5f5f5;
+        background: #3B3A49;
         width: 100%;
         box-sizing: border-box;
-        border-bottom: 1px solid #ddd;
+        z-index: 100;
+        box-shadow: 2px 2px 8px #333;
         .header-content {
             display: flex;
             width: 100%;
@@ -127,19 +131,16 @@ export default {
                 display: inline-block;
                 flex: 1;
                 position: relative;
+                overflow: hidden;
                 .icon {
                     position: absolute;
                     top: 0;
-                    font-size: 22px;
+                    font-size: 24px;
                     cursor: pointer;
-                    width: 45px;
-                    height: 45px;
+                    width: 30px;
+                    height: 58px;
                     text-align: center;
-                    box-sizing: border-box;
-                    border: 1px solid #f5f5f5;
-                    border-top-left-radius: 3px;
-                    border-top-right-radius: 3px;
-                    border-bottom-color: #ddd;
+                    color: #fff;
                     &.extension {
                         left: 0;
                     }
@@ -150,30 +151,21 @@ export default {
                         left: 90px;
                     }
                     &.active {
-                        border-color: #ddd;
-                        border-bottom-color: #fff;
-                        background: #fff;
-                        color: #f58500;
-                    }
-                    &:hover {
-                        border-color: #f58500;
-                        border-bottom-color: #fff;
-                        background: #e5f0fb;
+                        border-bottom: 2px solid #64F8E4;
                     }
                 }
             }
             .switch {
                 width: 50px;
                 display: inline-block;
-                height: 18px;
+                height: 20px;
                 position: relative;
-                border-radius: 18px;
-                border: 1px solid #ccc;
+                border-radius: 20px;
                 background-color: #fff;
                 z-index: 10;
                 transition: all 0.5s;
                 cursor: pointer;
-                margin-top: 10px;
+                margin-top: 20px;
                 .icon-i {
                     width: 1px;
                     height: 10px;
@@ -181,18 +173,18 @@ export default {
                     background: #f5f5f5;
                     position: absolute;
                     left: 9px;
-                    top: 4px;
+                    top: 5px;
                     z-index: 50;
                 }
                 .icon-o {
-                    width: 8px;
-                    height: 8px;
+                    width: 10px;
+                    height: 10px;
                     border-radius: 50%;
                     display: inline-block;
                     background: #fff;
                     border: 1px solid #ccc;
                     position: absolute;
-                    right: 9px;
+                    right: 6px;
                     top: 4px;
                     z-index: 50;
                 }
@@ -201,8 +193,7 @@ export default {
                     position: absolute;
                     display: block;
                     top: 0;
-                    left: 32px;
-                    height: 16px;
+                    height: 18px;
                     background: #fff;
                     border: 1px solid #ccc;
                     position: relative;
@@ -213,14 +204,14 @@ export default {
                         left: 0px;
                     }
                     &.enabled {
-                        left: 32x;
+                        left: 32px;
                     }
                 }
                 &.disabled {
                     background: #fff;
                 }
                 &.enabled {
-                    background: #64cc0c;
+                    background: #3fab7a;
                 }
             }
         }
@@ -228,9 +219,11 @@ export default {
     .main-content {
         width: 100%;
         height: auto;
-        padding: 5px 0;
-        background: #fff;
+        margin-top: 60px;
+        padding: 10px 0;
+        background: #D6D7DE;
         box-sizing: border-box;
+        overflow-y: auto;
         .tree-list {
             margin-bottom: 0;
             margin-top: 0;
@@ -240,6 +233,7 @@ export default {
             margin-bottom: 0;
             margin-top: 0;
             overflow: hidden;
+            padding: 15px;
             .list-item {
                 display: block;
                 text-align: center;
@@ -247,18 +241,19 @@ export default {
                 overflow: hidden;
                 float: left;
                 width: 25%;
-                background: #fff;
                 .item {
                     margin: 8px;
                     padding: 8px;
-                    border: 1px solid #ddd;
                     border-radius: 8px;
                     text-align: center;
-                    background: #f5f5f5;
+                    background: #fff;
+                    box-shadow: 3px 3px 6px #3b3a49;
                     .icon {
+                        color:#F98168;
                         display: block;
                         height: 40px;
-                        font-size: 40px;
+                        line-height: 40px;
+                        font-size: 32px;
                         vertical-align: middle;
                     }
                     .title {
@@ -270,17 +265,26 @@ export default {
                     }
                     &.remove {
                         .icon {
-                            font-size: 54px;
+                            font-size: 44px;
+                            padding-top: 4px;
+                            box-sizing: border-box;
                         }
                         .title {
                             width: 72px;
                         }
                     }
-                    &:hover {
-                        background: #e4f1f9;
+                    &.download {
                         .icon {
-                            color: #f58500;
+                            font-size: 28px;
                         }
+                    }
+                    &.shop {
+                        .icon {
+                            font-size: 28px;
+                        }
+                    }
+                    &:hover {
+                        background: #e5f0fb;
                     }
                 }
             }
