@@ -63,7 +63,7 @@ module.exports = {
         }, {
             from: path.resolve(__dirname, 'src/manifest.json'),
             to: path.resolve(__dirname, 'dist/')
-        }, ]),
+        } ]),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"production"'

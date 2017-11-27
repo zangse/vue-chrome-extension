@@ -18,12 +18,12 @@ export default {
 <style lang="scss" scoped>
 #app {
     width: 420px;
-    height: auto;
+    min-height: 120px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #333;
-    background:#FFFFFF;
+    background: #FFFFFF;
 }
 </style>

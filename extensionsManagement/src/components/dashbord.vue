@@ -217,17 +217,33 @@ export default {
         }
     }
     .main-content {
-        width: 100%;
-        height: auto;
+        width: 420px;
+        min-height: 60px;
         margin-top: 60px;
         padding: 10px 0;
         background: #D6D7DE;
         box-sizing: border-box;
-        overflow-y: auto;
+        overflow: hidden;
         .tree-list {
+            height: 100%;
             margin-bottom: 0;
             margin-top: 0;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            &::-webkit-scrollbar {
+                width: 12px
+            }
+
+            &::-webkit-scrollbar-track {
+                background-color: #607d9b;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                width: 10px;
+                border-radius: 5px;
+                background-color: #486f96;
+            }
         }
         .shortcut-list {
             margin-bottom: 0;
@@ -249,7 +265,7 @@ export default {
                     background: #fff;
                     box-shadow: 3px 3px 6px #3b3a49;
                     .icon {
-                        color:#F98168;
+                        color: #F98168;
                         display: block;
                         height: 40px;
                         line-height: 40px;
