@@ -30,7 +30,6 @@ export default {
             item.enabled = !item.enabled;
             chrome.management.setEnabled(item.id, item.enabled, (data) => {
                 this.$emit('setEnabled');
-                // console.log('setEnabled')
             })
         },
         openOnNewTab(url) {
@@ -64,7 +63,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .extension-item {
-    display:block;
+    display: block;
     text-align: left;
     overflow: hidden;
     cursor: pointer;
@@ -141,24 +140,26 @@ export default {
         }
 
         .option {
-            line-height:48px;
+            line-height: 48px;
             .option-icon {
-                width: 24px;
-                height: 24px;
-                padding: 2px;
+                margin: 2px 3px;
                 cursor: pointer;
-                color: #949494;
+                color: #555;
+                font-weight: 500;
+                display: inline-block;
+                vertical-align: top;
                 &.disabled {
-                    color: #ccc;
+                    color: #c3c3c3;
+                    font-weight: 400;
                 }
                 &.view {
-                    font-size: 18px;
+                    font-size: 19px;
                 }
                 &.config {
                     font-size: 17px;
                 }
                 &.uninstall {
-                    font-size: 20px;
+                    font-size: 23px;
                 }
             }
         }

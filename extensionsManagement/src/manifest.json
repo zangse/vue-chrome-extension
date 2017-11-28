@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "扩展管理",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "管理你的扩展程序,启用/禁用,卸载，配置，查看，快捷方式",
     "icons":
     {
