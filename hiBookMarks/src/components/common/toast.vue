@@ -3,7 +3,7 @@
         <div class="toast-content">
             <i class="toast-icon iconfont success" v-if="this.toastMsg.type=='success'">&#xe62e;</i>
             <i class="toast-icon iconfont error" v-if="this.toastMsg.type=='error'">&#xe60e;</i>
-            <i class="toast-icon iconfont cancle" v-if="this.toastMsg.type=='cancle'">&#xe60e;</i>
+            <i class="toast-icon iconfont cancel" v-if="this.toastMsg.type=='cancel'">&#xe60e;</i>
             <i class="toast-icon iconfont wraning" v-if="this.toastMsg.type=='wraning'">&#xe6d5;</i>
             <span class="toast-text" :class="this.toastMsg.type">{{toastMsg.text}}</span>
         </div>
@@ -77,7 +77,7 @@ export default {
             &.success {
                 color: #4ba033;
             }
-            &.cancle {
+            &.cancel {
                 color: #afabab;
             }
             &.error {
@@ -96,7 +96,7 @@ export default {
             &.success {
                 color: #4ba033;
             }
-            &.cancle {
+            &.cancel {
                 color: #afabab;
             }
             &.error {

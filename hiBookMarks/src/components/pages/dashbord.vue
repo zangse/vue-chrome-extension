@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <bookheader :allNodes="allNodes" :selectedNode="selectedNode" @isSearching="isSearchingHandler" @cleanSearch="cleanSearchHandler" @cancleSelected="cancleSelectedHandler" @reloadCurrent="reloadCurrentHandler" :showMode="showMode" @toggleMode="toggleModeHandler" :isColorful="isColorful" @toggleColor="toggleColorHandler" :isHistory="isHistory" :autofocus="autofocus" @toast-show="toastShowHandler"></bookheader>
+        <bookheader :allNodes="allNodes" :selectedNode="selectedNode" @isSearching="isSearchingHandler" @cleanSearch="cleanSearchHandler" @cancelSelected="cancelSelectedHandler" @reloadCurrent="reloadCurrentHandler" :showMode="showMode" @toggleMode="toggleModeHandler" :isColorful="isColorful" @toggleColor="toggleColorHandler" :isHistory="isHistory" :autofocus="autofocus" @toast-show="toastShowHandler"></bookheader>
         <sidebar :folders="allFolder" @loadALL="loadALLHandler" :currentSelected="currentSelected" @currentSelected="currentSelectedHandler" @loadItem="loadItemHandler" :bookmarksNode="bookmarksNode"></sidebar>
         <div class="content">
             <div class="topbar">
@@ -16,7 +16,7 @@
             <ul class="bookmarks-list">
                 <bookmarkitem :bookmarkitem="item" v-for="item in allNodes" :key="item.id" :selectedNode="selectedNode" @updateSelected="updateSelected" @click.native="getChildren(item)" :showMode="showMode" :isColorful="isColorful" :isHistory="isHistory"></bookmarkitem>
             </ul>
-            <div v-if="isSearching&&allNodes.length===0">无匹配结果</div>
+            <div v-if="isSearching&&allNodes.length===0" class="no-reault">{{i18n.noMatchResult}}</div>
         </div>
         <slider :selectedNode="selectedNode" @editNode="editNodeHandler" @toast-show="toastShowHandler"></slider>
         <toast v-model="showToast" :toastMsg="toastMsg" @toast-hide="toastHideHandler"> </toast>
@@ -37,7 +37,7 @@ export default {
             currentNode: {},
             currentSelected: 0,
             rootNode: {
-                title: '所有书签',
+                title: '',
                 id: '0'
             },
             bookmarksNode: {},
@@ -53,9 +53,16 @@ export default {
             autofocus: true,
             showToast: false,
             toastMsg: {
-                text: '操作成功',
+                text: '',
                 type: 'wraning',
                 padding: '22px'
+            },
+            i18n: {
+                noMatchResult: '',
+                searchText: '',
+                allBookmarks: '',
+                operateSuccess: '',
+                browsingHistory: ''
             }
         }
     },
@@ -67,6 +74,14 @@ export default {
         toast
     },
     created() {
+        this.i18n.noMatchResult = chrome.i18n.getMessage("noMatchResult");
+        this.i18n.allBookmarks = chrome.i18n.getMessage("allBookmarks");
+        this.i18n.operateSuccess = chrome.i18n.getMessage("operateSuccess");
+        this.i18n.searchText = chrome.i18n.getMessage("searchText");
+        this.i18n.browsingHistory = chrome.i18n.getMessage("browsingHistory");
+        console.log(this.i18n.allBookmarks);
+        this.rootNode.title = this.i18n.allBookmarks;
+        this.toastMsg.text = this.i18n.operateSuccess;
         this.loadBookmarks();
     },
     methods: {
@@ -100,7 +115,7 @@ export default {
                 nodes.sort(this.sortRule);
                 console.log(nodes)
                 this.currentNode = {
-                    title: "浏览历史"
+                    title: this.i18n.browsingHistory
                 }
                 this.topbarList = [];
                 this.allNodes = nodes;
@@ -221,7 +236,7 @@ export default {
         isSearchingHandler(data) {
             this.isSearching = true;
             this.allNodes = data.sort(this.listSort);
-            this.currentNode.title = '搜索';
+            this.currentNode.title = this.i18n.searchText;
             this.topbarList = [];
         },
         cleanSearchHandler() {
@@ -229,7 +244,7 @@ export default {
             this.currentSelected = 0;
             this.getChildren(this.bookmarksNode);
         },
-        cancleSelectedHandler() {
+        cancelSelectedHandler() {
             this.selectedNode = [];
         },
         // 删除，移动操作，刷新当前节点
@@ -266,7 +281,7 @@ export default {
             console.log('toastHideHandler')
             console.log(data)
             this.toastMsg.type = data.type ? data.type : 'success';
-            this.toastMsg.text = data.text ? data.text : '操作成功';
+            this.toastMsg.text = data.text ? data.text : this.i18n.operateSuccess;
             this.toastMsg.padding = data.padding ? data.padding : '22px';
             this.showToast = true;
         }
@@ -356,6 +371,9 @@ export default {
             text-align: left;
             padding: 0 20px;
             margin-top: 0;
+        }
+        .no-reault {
+            font-size: 16px;
         }
     }
 }

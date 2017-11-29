@@ -4,8 +4,8 @@
         <transition name="fade">
             <div class="model-body" v-if="showModel">
                 <div class="model-header">
-                    <span class="header-title">移动到</span>
-                    <span class=" float-r" @click="cancle"><i class="iconfont close-icon">&#xe622;</i></span> </div>
+                    <span class="header-title">{{i18n.moveTo}}</span>
+                    <span class=" float-r" @click="cancel"><i class="iconfont close-icon">&#xe622;</i></span> </div>
                 <div class="model-content">
                     <ul class="folder-list">
                         <treeitem v-for="item in allFolder" class="folder-item" :folders="item" :key="item.id" :selectedItem.sync="selectedItem" @update:selectedItem="handleUpdate" :isAdding="isAdding" v-on:updateAdding="handleAddUpdate"></treeitem>
@@ -13,8 +13,8 @@
                 </div>
                 <div class="model-footer">
                     <span class="btn-md float-l" @click="addFolder"><i class="iconfont new-folder">&#xe632;</i></span>
-                    <span class="btn-md float-r confirm" @click="move">确定</span>
-                    <span class="btn-md float-r" @click="cancle">关闭</span>
+                    <span class="btn-md float-r confirm" @click="move">{{i18n.confirm}}</span>
+                    <span class="btn-md float-r" @click="cancel">{{i18n.close}}</span>
                 </div>
             </div>
         </transition>
@@ -28,7 +28,12 @@ export default {
         return {
             allFolder: [],
             isAdding: false,
-            showModel: false
+            showModel: false,
+            i18n: {
+                moveTo: '',
+                confirm: '',
+                colse: ''
+            }
         }
     },
     props: {
@@ -39,8 +44,9 @@ export default {
         treeitem
     },
     created() {
-        // 
-        console.log('model create')
+        this.i18n.moveTo = chrome.i18n.getMessage("moveTo");
+        this.i18n.confirm = chrome.i18n.getMessage("confirm");
+        this.i18n.close = chrome.i18n.getMessage("close");
         this.isAdding = false;
         this.selectedItem = {};
         this.allFolder = [];
@@ -71,7 +77,7 @@ export default {
             }
             this.selectedItem.children.push(newFolder);
         },
-        cancle() {
+        cancel() {
             this.$emit('updateShow');
         },
         move() {

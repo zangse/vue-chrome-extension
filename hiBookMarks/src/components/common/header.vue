@@ -8,7 +8,7 @@
                 <div class="row-center">
                     <span class="search-input">
                     <i class="iconfont serach-icon">&#xe60d;</i>
-                    <input  class="search" v-model="searchItem" type="text" placeholder="搜索(输入内容，自动搜索)" @keyup.enter="searchBookmarks"   v-autofocus="autofocus">
+                    <input  class="search" v-model="searchItem" type="text" v-bind:placeholder="i18n.searchPlaceholder" @keyup.enter="searchBookmarks"   v-autofocus="autofocus">
                     <i class="iconfont clear-icon" v-if="searchItem.length>0" @click="cleanSearch">&#xe609;</i></span>
                 </div>
                 <div class="row-right">
@@ -24,19 +24,19 @@
             </div>
             <div class="header-action" :class="{'show':selectedNode.length>=1,'hide':selectedNode.length==0}" v-if="!isHistory">
                 <div class="row-left">
-                    <span class="sleected-num">已选择{{selectedNode.length}}项</span>
+                    <span class="sleected-num">{{i18n.selected}}{{selectedNode.length}}{{i18n.unitName}}</span>
                 </div>
                 <div class="row-center">
                     <span class="action-btn" @click="selectALL()"><i></i>
-                    <span >全选</span>
+                    <span >{{i18n.selectALL}}</span>
                     </span>
-                    <span class="action-btn" @click="unSelect()"><i></i><span>反选</span></span>
-                    <span class="action-btn" @click="moveTo()"><i></i><span>移动至</span></span>
+                    <span class="action-btn" @click="unSelect()"><i></i><span>{{i18n.unSelect}}</span></span>
+                    <span class="action-btn" @click="moveTo()"><i></i><span>{{i18n.moveTo}}</span></span>
                 </div>
                 <div class="row-right">
-                    <span class="action-btn" @click="cancleSelected()"><i></i><span>取消</span></span>
-                    <span class="action-btn" @click="openSelected()"><i></i><span>打开</span></span>
-                    <span class="action-btn" @click="removeSelected()"><i></i><span>删除</span></span>
+                    <span class="action-btn" @click="cancelSelected()"><i></i><span>{{i18n.cancel}}</span></span>
+                    <span class="action-btn" @click="openSelected()"><i></i><span>{{i18n.open}}</span></span>
+                    <span class="action-btn" @click="removeSelected()"><i></i><span>{{i18n.delete}}</span></span>
                 </div>
             </div>
         </div>
@@ -55,7 +55,23 @@ export default {
             showModel: false,
             selectedItem: {},
             showConfirm: false,
-            confirmMsg: {}
+            confirmMsg: {},
+            i18n: {
+                searchPlaceholder: '',
+                selected: '',
+                unitName: '',
+                selectALL: '',
+                unSelect: '',
+                moveTo: '',
+                cancel: '',
+                open: '',
+                delete: '',
+                operateSuccess: '',
+                operateCancel: '',
+                deleteSuccess: '',
+                wraningFiveWindows: '',
+                deleteConfirm: ''
+            }
         }
     },
     components: {
@@ -80,6 +96,22 @@ export default {
         showMode: Number,
         isHistory: Boolean,
         autofocus: Boolean
+    },
+    created() {
+        this.i18n.searchPlaceholder = chrome.i18n.getMessage("searchPlaceholder");
+        this.i18n.selected = chrome.i18n.getMessage("selected");
+        this.i18n.unitName = chrome.i18n.getMessage("unitName");
+        this.i18n.selectALL = chrome.i18n.getMessage("selectALL");
+        this.i18n.unSelect = chrome.i18n.getMessage("unSelect");
+        this.i18n.moveTo = chrome.i18n.getMessage("moveTo");
+        this.i18n.cancel = chrome.i18n.getMessage("cancel");
+        this.i18n.open = chrome.i18n.getMessage("open");
+        this.i18n.delete = chrome.i18n.getMessage("delete");
+        this.i18n.operateSuccess = chrome.i18n.getMessage("operateSuccess");
+        this.i18n.operateCancel = chrome.i18n.getMessage("operateCancel");
+        this.i18n.deleteSuccess = chrome.i18n.getMessage("deleteSuccess");
+        this.i18n.wraningFiveWindows = chrome.i18n.getMessage("wraningFiveWindows");
+        this.i18n.deleteConfirm = chrome.i18n.getMessage("deleteConfirm");
     },
     methods: {
         selectALL() {
@@ -122,26 +154,26 @@ export default {
             this.selectedNode = [];
             const data = {
                 type: 'success',
-                text: '操作成功'
+                text: this.i18n.operateSuccess
             }
             this.$emit('toast-show', data);
             this.$emit('reloadCurrent');
         },
-        cancleSelected() {
+        cancelSelected() {
             this.selectedNode = [];
             const data = {
-                type: 'cancle',
-                text: '操作已取消'
+                type: 'cancel',
+                text: this.i18n.operateCancel
             }
             this.$emit('toast-show', data);
-            this.$emit('cancleSelected');
+            this.$emit('cancelSelected');
         },
         openSelected() {
             chrome.bookmarks.get(this.selectedNode, (nodes) => {
                 if (nodes.length > 5) {
                     const data = {
                         type: 'wraning',
-                        text: '打开多个窗口可能会造成浏览器卡死',
+                        text: this.i18n.wraningFiveWindows,
                         padding: '4px'
                     }
                     return this.$emit('toast-show', data);
@@ -152,7 +184,7 @@ export default {
             })
         },
         removeSelected() {
-            this.confirmMsg.text = "书签删除后无法恢复，是否继续？"
+            this.confirmMsg.text = this.i18n.deleteConfirm;
             this.showConfirm = true;
         },
         searchBookmarks() {
@@ -204,7 +236,7 @@ export default {
         onConfirmHandler(data) {
             this.showConfirm = false;
             if (data == 1) {
-                this.cancleSelected();
+                this.cancelSelected();
             } else if (data == 2) {
                 chrome.bookmarks.get(this.selectedNode, (nodes) => {
                     nodes.forEach((item) => {
@@ -212,7 +244,7 @@ export default {
                     })
                     const data = {
                         type: 'success',
-                        text: '删除成功'
+                        text: this.i18n.operateSuccess
                     }
                     this.$emit('toast-show', data);
                     this.$emit('reloadCurrent');

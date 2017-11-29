@@ -11,7 +11,7 @@
             <i class=" expend-icon"></i>
             <span class="iconfont folder-icon">&#xe632;</span>
             <input type="text" v-model="folders.title">
-            <span class="iconfont cancle-icon" @click.stop="cancle(folders)">&#xe609;</span>
+            <span class="iconfont cancel-icon" @click.stop="cancel(folders)">&#xe609;</span>
             <span class="iconfont confirm-icon" @click.stop="create(folders)">&#xe6a7;</span>
         </div>
         <ul v-if="folders.children&&isOpen">
@@ -41,7 +41,7 @@ export default {
         handleUpdate(val) {
             this.$emit('update:selectedItem', val)
         },
-        cancle(item) {
+        cancel(item) {
             let index = this.selectedItem.children.indexOf(item);
             this.selectedItem.children.splice(index, 1);
             this.isAdding = false;
@@ -53,7 +53,7 @@ export default {
                 parentId: item.parentId
             }
             chrome.bookmarks.create(newFolder, (data) => {
-                this.cancle(item);
+                this.cancel(item);
                 this.selectedItem.children.push(data);
                 this.selectedItem = data;
                 this.$emit('update:selectedItem', this.selectedItem);
@@ -117,7 +117,7 @@ ul {
             margin-right: 5px;
             cursor: pointer;
         }
-        .cancle-icon {
+        .cancel-icon {
             color: red;
             font-size: 18px;
             margin-right: 5px;

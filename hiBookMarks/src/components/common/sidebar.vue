@@ -1,11 +1,11 @@
 <template>
     <div class="sidebar">
         <ul class="nav-list">
-            <li class="item " :class="{'active':currentSelected=='-1'}"><span @click="targetItem(-1,historyNode)"><span class="iconfont icon-default font-18">&#xe6d1;</span><span>浏览历史</span></span>
+            <li class="item " :class="{'active':currentSelected=='-1'}"><span @click="targetItem(-1,historyNode)"><span class="iconfont icon-default font-18">&#xe6d1;</span><span>{{i18n.browsingHistory}}</span></span>
             </li>
-            <li class="item" :class="{'active':currentSelected=='0'}"><span @click="targetItem(0,allNode)"><span class="iconfont icon-default">&#xe63a;</span><span>所有书签</span></span>
+            <li class="item" :class="{'active':currentSelected=='0'}"><span @click="targetItem(0,allNode)"><span class="iconfont icon-default">&#xe63a;</span><span>{{i18n.allBookmarks}}</span></span>
             </li>
-            <li class="item" :class="{'active':currentSelected=='1'}"><span @click="targetItem(1,bookmarksNode)"> <span class="iconfont icon-default">&#xe650;</span><span>书签栏</span></span>
+            <li class="item" :class="{'active':currentSelected=='1'}"><span @click="targetItem(1,bookmarksNode)"> <span class="iconfont icon-default">&#xe650;</span><span>{{i18n.bookmarksBar}}</span></span>
             </li>
             <li class="item" v-for="item in folders" :class="{'active':currentSelected==item.id}" @click="targetItem(1,item)">
                 <span v-if="!item.children">
@@ -27,13 +27,23 @@ export default {
         return {
             currentSelected: 0,
             historyNode: { id: -1 },
-            allNode: { id: 0 }
+            allNode: { id: 0 },
+            i18n: {
+                browsingHistory: '',
+                bookmarksBar: '',
+                allBookmarks:''
+            }
         }
     },
     props: {
         folders: Array,
         bookmarksNode: Object,
         currentSelected: String
+    },
+    created() {
+        this.i18n.allBookmarks = chrome.i18n.getMessage("allBookmarks");
+        this.i18n.browsingHistory = chrome.i18n.getMessage("browsingHistory");
+        this.i18n.bookmarksBar = chrome.i18n.getMessage("bookmarksBar");
     },
     methods: {
         targetItem(type, item) {

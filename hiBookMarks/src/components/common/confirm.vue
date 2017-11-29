@@ -4,15 +4,15 @@
         <transition name="fade">
             <div class="confirm-body" :style="confirmPadding" v-if="show">
                 <div class="confirm-header">
-                    <span class="title">提示</span>
+                    <span class="title">{{i18n.tipsText}}</span>
                 </div>
                 <div class="confirm-content">
                     <span class="confirm-icon iconfont wraning">&#xe6d5;</span>
                     <span class="confirm-text">{{confirmMsg.text}}</span>
                 </div>
                 <div class="confirm-footer">
-                    <span class="btn cancle" @click="onConfirm(1)">取消</span>
-                    <span class="btn confirm" @click="onConfirm(2)">确定</span>
+                    <span class="btn cancel" @click="onConfirm(1)">{{i18n.cancel}}</span>
+                    <span class="btn confirm" @click="onConfirm(2)">{{i18n.confirm}}</span>
                 </div>
             </div>
         </transition>
@@ -23,7 +23,12 @@ export default {
     name: 'confirm',
     data() {
         return {
-            show: false
+            show: false,
+            i18n: {
+                tipsText: '',
+                cancel: '',
+                confirm: ''
+            }
         }
     },
     props: {
@@ -31,6 +36,9 @@ export default {
         confirmMsg: Object
     },
     created() {
+        this.i18n.tipsText = chrome.i18n.getMessage("tipsText");
+        this.i18n.confirm = chrome.i18n.getMessage("confirm");
+        this.i18n.cancel = chrome.i18n.getMessage("cancel");
         if (this.value) {
             this.show = true;
         }

@@ -55,7 +55,7 @@ export default {
                 newTab.active = false;
             }
             chrome.tabs.create(newTab, () => {
-                console.log('1111')
+                // console.log('1111')
             })
         }
     },

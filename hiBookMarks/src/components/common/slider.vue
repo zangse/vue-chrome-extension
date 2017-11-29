@@ -1,6 +1,6 @@
 <template>
     <ul class="slider-warpper" :class="{'show':selectedNode.length==1,'hide':selectedNode.length!==1}">
-        <li class="item"><span class="title">书签编辑</span></li>
+        <li class="item"><span class="title">{{i18n.bookmarksEdit}}</span></li>
         <li class="item">
             <div class="icon-wrapper">
                 <span class="icon-content">
@@ -9,16 +9,16 @@
             </div>
         </li>
         <li class="item  input-group">
-            <span class="input-label">标题:</span>
+            <span class="input-label">{{i18n.title}}:</span>
             <input type="text" class="input-edit " v-model="currentNode.title">
         </li>
         <li class="item input-group" v-if="!currentNode.dateGroupModified">
-            <span class="input-label">地址:</span>
+            <span class="input-label">{{i18n.url}}:</span>
             <input type="text" class="input-edit " v-model="currentNode.url">
         </li>
         <li class="item">
-            <span class="btn cancle" @click="cancle">取消</span>
-            <span class="btn save" @click="save">保存</span>
+            <span class="btn cancel" @click="cancel">{{i18n.cancel}}</span>
+            <span class="btn save" @click="save">{{i18n.save}}</span>
         </li>
     </ul>
 </template>
@@ -29,7 +29,16 @@ export default {
         return {
             isShow: false,
             currentNode: {},
-            nodeIcon: ''
+            nodeIcon: '',
+            i18n: {
+                bookmarksEdit: '',
+                title: '',
+                url: '',
+                cancel: '',
+                save: '',
+                editCancel: '',
+                editSuccess: ''
+            }
         }
     },
     props: {
@@ -43,6 +52,15 @@ export default {
             }
         }
     },
+    created() {
+        this.i18n.bookmarksEdit = chrome.i18n.getMessage("bookmarksEdit");
+        this.i18n.title = chrome.i18n.getMessage("title");
+        this.i18n.url = chrome.i18n.getMessage("url");
+        this.i18n.cancel = chrome.i18n.getMessage("cancel");
+        this.i18n.save = chrome.i18n.getMessage("save");
+        this.i18n.editCancel = chrome.i18n.getMessage("editCancel");
+        this.i18n.editSuccess = chrome.i18n.getMessage("editSuccess");
+    },
     methods: {
         loadCurrent(data) {
             chrome.bookmarks.get(data, (res) => {
@@ -53,12 +71,12 @@ export default {
                 }
             })
         },
-        cancle() {
+        cancel() {
             this.selectedNode.length = 0;
             this.$emit('editNode');
             const data = {
-                type: 'cancle',
-                text: '取消编辑'
+                type: 'cancel',
+                text: this.i18n.editCancel
             }
             this.$emit('toast-show', data);
         },
@@ -71,7 +89,7 @@ export default {
                 console.log(res)
                 const data = {
                     type: 'success',
-                    text: '编辑成功'
+                    text: this.i18n.editSuccess
                 }
                 this.$emit('editNode');
                 this.$emit('toast-show', data);
@@ -165,7 +183,7 @@ export default {
             border-radius: 4px;
             font-weight: 500;
             color: #fff;
-            &.cancle {
+            &.cancel {
                 background: #c8c8ca;
             }
             &.save {

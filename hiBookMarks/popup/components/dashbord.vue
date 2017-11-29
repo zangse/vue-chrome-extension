@@ -2,7 +2,7 @@
     <div class="wrapper" @keyup.tab="tabCall($event)">
         <div class="header">
             <span class="search-input">
-                    <input  class="search" type="text" v-model="searchItem" placeholder="搜索(输入内容，自动搜索)"  tabindex="0">
+                    <input  class="search" type="text" v-model="searchItem" v-bind:placeholder="i18n.searchPlaceholder"  tabindex="0">
                     <i class="iconfont clear-icon" v-if="searchItem.length>0&&isSearch" @click.stop="cleanSearch">&#xe609;</i>
                      <i class="iconfont serach-icon" >&#xe60d;</i></span>
             <span @click="goHome" class="home"><i class="iconfont">&#xe601;</i></span>
@@ -14,7 +14,7 @@
                     <span class="title" v-if="item.title">{{item.title}}</span>
                     <span class="title" v-if="!item.title">{{item.url}}</span>
                 </a>
-                <li v-if="searchList.length==0">暂无匹配结果,换个关键词试试吧</li>
+                <li class="no-reault" v-if="searchList.length==0">{{i18n.noMatchResult}}</li>
             </ul>
             <ul class="tree-list" v-if="!isSearch">
                 <treeitem v-for="item in allNodes" class="folder-item" :folders="item" :key="item.id"></treeitem>
@@ -32,13 +32,19 @@ export default {
             allNodes: [],
             isSearch: false,
             searchList: [],
-            selectedId: null
+            selectedId: null,
+            i18n: {
+                searchPlaceholder: '',
+                noMatchResult: ''
+            }
         }
     },
     components: {
         treeitem: treeitem
     },
     created() {
+        this.i18n.searchPlaceholder = chrome.i18n.getMessage("searchPlaceholder");
+        this.i18n.noMatchResult = chrome.i18n.getMessage("noMatchResult");
         this.loadAllNodes();
     },
     methods: {
@@ -121,6 +127,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .wrapper {
+    min-height: 100px;
     .header {
         display: flex;
         height: 30px;
@@ -204,6 +211,9 @@ export default {
                 &.selected {
                     background: #e4f1f9;
                 }
+            }
+            .no-reault {
+                margin-top: 15px;
             }
         }
         .tree-list {
