@@ -133,20 +133,24 @@ export default {
             padding: 10px 15px;
             color: #5a5e66;
             font-size: 14px;
+            display: flex;
             .confirm-icon {
                 line-height: 32px;
                 font-size: 24px!important;
+                display: inline-block;
                 &.wraning {
                     color: #ffb927;
                 }
             }
             .confirm-text {
                 margin: 0;
-                padding-left: 8px;
+                flex: 1;
+                margin-left: 12px;
                 padding-right: 12px;
                 font-size: 14px;
                 line-height: 32px;
-                text-align: center;
+                text-align: left;
+                display: inline-block;
             }
         }
         .confirm-footer {

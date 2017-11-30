@@ -24,7 +24,7 @@
             </div>
             <div class="header-action" :class="{'show':selectedNode.length>=1,'hide':selectedNode.length==0}" v-if="!isHistory">
                 <div class="row-left">
-                    <span class="sleected-num">{{i18n.selected}}{{selectedNode.length}}{{i18n.unitName}}</span>
+                    <span class="sleected-num">{{i18n.selected}}<span class="num">{{selectedNode.length}}</span>{{i18n.unitName}}</span>
                 </div>
                 <div class="row-center">
                     <span class="action-btn" @click="selectALL()"><i></i>
@@ -300,6 +300,9 @@ export default {
             width: 200px;
             text-align: center;
             font-weight: bold;
+            .num {
+                padding: 0 3px;
+            }
         }
         .row-center {
             flex: 1;
