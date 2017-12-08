@@ -1,8 +1,9 @@
 {
     "manifest_version": 2,
-    "name": "ExtensionManager  扩展管理",
-    "version": "0.0.3",
-    "description": "管理你的扩展程序,启用/禁用,卸载，配置，查看，快捷方式",
+    "name":"__MSG_appName__",
+    "default_locale": "zh_CN",
+    "version": "0.0.4",
+    "description":"__MSG_appDescription__",
     "icons":
     {
         "128": "static/images/icon_128.png"

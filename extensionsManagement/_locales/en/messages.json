@@ -1,0 +1,34 @@
+{
+    "appName":
+    {
+        "message": " ExtensionManager"
+    },
+    "appDescription":
+    {
+        "message": " Manage your extensions, enable / disable extensions, uninstall extensions, configure extensions, view extensions in the app store, and some shortcuts. "
+    },
+    "downloads":
+    {
+        "message": "downloads"
+    },
+    "history":
+    {
+        "message": "history"
+    },
+    "extensions":
+    {
+        "message": "extensions"
+    },
+    "settings":
+    {
+        "message": "settings"
+    },
+    "clearBrowserData":
+    {
+        "message": "clearData"
+    },
+    "webstore":
+    {
+        "message": "webstore"
+    }
+}

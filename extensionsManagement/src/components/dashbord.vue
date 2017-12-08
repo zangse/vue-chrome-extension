@@ -19,22 +19,22 @@
             </ul>
             <ul class="shortcut-list" v-show="currentActive===2">
                 <li class="list-item">
-                    <div class="item download" @click.stop="newTab('chrome://downloads/')"><i class="iconfont icon">&#xe60f;</i><span class="title">下载管理</span></div>
+                    <div class="item download" @click.stop="newTab('chrome://downloads/')"><i class="iconfont icon">&#xe60f;</i><span class="title">{{i18n.downloads}}</span></div>
                 </li>
                 <li class="list-item">
-                    <div class="item" @click.stop="newTab('chrome://history/')"><i class="iconfont icon">&#xe7d8;</i><span class="title">历史记录</span></div>
+                    <div class="item" @click.stop="newTab('chrome://history/')"><i class="iconfont icon">&#xe7d8;</i><span class="title">{{i18n.history}}</span></div>
                 </li>
                 <li class="list-item">
-                    <div class="item" @click.stop="newTab('chrome://extensions/')"><i class="iconfont icon">&#xe641;</i><span class="title">扩展程序</span></div>
+                    <div class="item" @click.stop="newTab('chrome://extensions/')"><i class="iconfont icon">&#xe641;</i><span class="title">{{i18n.extensions}}</span></div>
                 </li>
                 <li class="list-item">
-                    <div class="item" @click.stop="newTab('chrome://settings/')"><i class="iconfont icon">&#xe63b;</i><span class="title">设置</span></div>
+                    <div class="item" @click.stop="newTab('chrome://settings/')"><i class="iconfont icon">&#xe63b;</i><span class="title">{{i18n.settings}}</span></div>
                 </li>
                 <li class="list-item">
-                    <div class="item remove" @click.stop="newTab('chrome://settings/clearBrowserData')"><i class="iconfont icon">&#xe642;</i><span class="title">清除浏览数据</span></div>
+                    <div class="item remove" @click.stop="newTab('chrome://settings/clearBrowserData')"><i class="iconfont icon">&#xe642;</i><span class="title">{{i18n.clearBrowserData}}</span></div>
                 </li>
                 <li class="list-item">
-                    <div class="item shop" @click.stop="newTab('https://chrome.google.com/webstore/category/extensions')"><i class="iconfont icon">&#xe62f;</i><span class="title">应用商店</span></div>
+                    <div class="item shop" @click.stop="newTab('https://chrome.google.com/webstore/category/extensions')"><i class="iconfont icon">&#xe62f;</i><span class="title">{{i18n.webstore}}</span></div>
                 </li>
             </ul>
         </div>
@@ -49,13 +49,27 @@ export default {
             allNodes: [],
             disabledAll: true,
             selfId: null,
-            currentActive: 1
+            currentActive: 1,
+            i18n: {
+                downloads: '',
+                history: '',
+                extensions: '',
+                settings: '',
+                clearBrowserData: '',
+                webstore: ''
+            }
         }
     },
     components: {
         treeitem: treeitem
     },
     created() {
+        this.i18n.downloads = chrome.i18n.getMessage("downloads");
+        this.i18n.history = chrome.i18n.getMessage("history");
+        this.i18n.extensions = chrome.i18n.getMessage("extensions");
+        this.i18n.settings = chrome.i18n.getMessage("settings");
+        this.i18n.clearBrowserData = chrome.i18n.getMessage("clearBrowserData");
+        this.i18n.webstore = chrome.i18n.getMessage("webstore");
         this.getSelfInfo();
     },
     methods: {

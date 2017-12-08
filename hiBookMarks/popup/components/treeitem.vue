@@ -1,6 +1,6 @@
 <template>
     <div>
-        <li v-if="!folders.url" @click.stop="toggle($event,folders)" >
+        <li v-if="!folders.url" @click.stop="toggle($event,folders)">
             <div class="folder-body" :class="{'checked':isChecked}">
                 <i class="iconfont expend-icon" v-if="!isOpen&&isFolder">&#xe60c;</i>
                 <i class="iconfont expend-icon" v-if="isOpen&&isFolder">&#xe6b1;</i>
@@ -90,6 +90,8 @@ ul {
         transition: all 2s;
 
         .folder-body {
+            height: 28px;
+            line-height: 28px;
             &:hover {
                 background: #e5f0fb;
             }
@@ -119,10 +121,8 @@ ul {
         }
         .item-title {
             padding-left: 18px;
-            max-width: 300px;
             overflow: hidden;
             height: 28px;
-            display: inline-block;
             line-height: 28px;
             vertical-align: middle;
         }
