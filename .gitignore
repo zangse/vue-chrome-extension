@@ -5,6 +5,8 @@ npm-debug.log
 yarn-error.log
 newTabs/
 negativeComment/
+hiBookMarks/
+extensionsManagement/
 # Editor directories and files
 .idea
 *.suo
