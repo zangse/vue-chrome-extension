@@ -43,6 +43,9 @@ chrome商店安装（需翻墙）
 - [ ] 检查死链
 - [ ] 滑动时限定区域滑动
 - [ ] 新建文件夹后，如果在下方，没有定位到下方
+- [ ] 搜索结果自动聚焦第一条，上下键可切换，Ctrl+数字键可选择（直接打开？）
+- [ ] 增加配置页（配置书签栏是否自动展开，管理页书签的默认展开方式）
+- [ ] 增加新标签页（可配置是否开启）
 
 ## case2: 扩展管理(测试版现已上线 [点击这里获取](https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86/jijileelaefjahodboljljdgfpbjjlac?hl=zh-CN&gl=HK) 欢迎吐槽)
 
