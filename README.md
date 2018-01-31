@@ -52,6 +52,7 @@ chrome商店安装（需翻墙）
 - [ ] 增加新标签页（可配置是否开启）
 - [ ] 记住上次打开位置（可配置是否开启）
 - [ ] 打开当前文件夹自动关闭其他文件夹（可配置是否开启）
+- [ ] 解决快捷键冲突，实现自定义快捷键
 
 ## case2: 扩展管理(测试版现已上线 [点击这里获取](https://chrome.google.com/webstore/detail/%E6%89%A9%E5%B1%95%E7%AE%A1%E7%90%86/jijileelaefjahodboljljdgfpbjjlac?hl=zh-CN&gl=HK) 欢迎吐槽)
 
