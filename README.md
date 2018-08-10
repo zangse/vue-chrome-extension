@@ -1,3 +1,6 @@
+## 商店截图
+![image](https://github.com/zangse/vue-chrome-extension/blob/master/screenshots/chrome-extension.png)
+### 截止2018年8月10日 书签管理用户数 900+，扩展管理用户数500+
 ## chrome 扩展文档
 
 ## Chrome-extension（基于vue.js开发Chrome扩展）
