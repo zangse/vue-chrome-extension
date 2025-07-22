@@ -24,7 +24,7 @@
     "dev:bookmarks": "pnpm --filter hiBookMarks run watch"
   },
   "lint-staged": {
-    "*.{js,ts,vue}": [
+    "{extensionsManagement,hiBookMarks}/{src,popup}/**/*.{js,ts,vue}": [
       "biome format --write",
       "biome lint --write"
     ],

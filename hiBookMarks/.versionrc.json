@@ -1,0 +1,48 @@
+{
+  "types": [
+    {
+      "type": "feat",
+      "section": "✨ 新功能"
+    },
+    {
+      "type": "fix",
+      "section": "🐛 Bug 修复"
+    },
+    {
+      "type": "perf",
+      "section": "⚡ 性能优化"
+    },
+    {
+      "type": "refactor",
+      "section": "♻️ 代码重构"
+    },
+    {
+      "type": "style",
+      "section": "💄 样式调整"
+    },
+    {
+      "type": "docs",
+      "section": "📚 文档更新"
+    },
+    {
+      "type": "chore",
+      "section": "🔧 构建/工具"
+    }
+  ],
+  "packageFiles": [
+    {
+      "filename": "package.json",
+      "type": "json"
+    }
+  ],
+  "bumpFiles": [
+    {
+      "filename": "package.json",
+      "type": "json"
+    },
+    {
+      "filename": "src/manifest.json",
+      "type": "json"
+    }
+  ]
+} 
