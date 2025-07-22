@@ -1,34 +1,26 @@
 {
-    "appName":
-    {
-        "message": " ExtensionManager"
-    },
-    "appDescription":
-    {
-        "message": " Manage your extensions, enable / disable extensions, uninstall extensions, configure extensions, view extensions in the app store, and some shortcuts. "
-    },
-    "downloads":
-    {
-        "message": "downloads"
-    },
-    "history":
-    {
-        "message": "history"
-    },
-    "extensions":
-    {
-        "message": "extensions"
-    },
-    "settings":
-    {
-        "message": "settings"
-    },
-    "clearBrowserData":
-    {
-        "message": "clearData"
-    },
-    "webstore":
-    {
-        "message": "webstore"
-    }
+  "appName": {
+    "message": "Extension Manager"
+  },
+  "appDescription": {
+    "message": "Professional Chrome extension management tool. Quickly enable/disable extensions, set favorite extension mode, and search all your extensions."
+  },
+  "downloads": {
+    "message": "downloads"
+  },
+  "history": {
+    "message": "history"
+  },
+  "extensions": {
+    "message": "extensions"
+  },
+  "settings": {
+    "message": "settings"
+  },
+  "clearBrowserData": {
+    "message": "clearData"
+  },
+  "webstore": {
+    "message": "webstore"
+  }
 }

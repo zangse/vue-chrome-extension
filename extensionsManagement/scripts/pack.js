@@ -3,17 +3,14 @@ const path = require('path');
 const archiver = require('archiver');
 const packageJson = require('../package.json');
 
-// 创建发布目录
-const publishDir = path.join(__dirname, '../publish');
-if (!fs.existsSync(publishDir)) {
-  fs.mkdirSync(publishDir, { recursive: true });
-}
-
 // 获取版本号和扩展名
 const version = packageJson.version;
 const extensionName = packageJson.name;
 const zipFileName = `${extensionName}-v${version}.zip`;
-const zipFilePath = path.join(publishDir, zipFileName);
+
+// dist目录既是源目录也是输出目录
+const distPath = path.join(__dirname, '../dist');
+const zipFilePath = path.join(distPath, zipFileName);
 
 // 创建zip文件
 const output = fs.createWriteStream(zipFilePath);
@@ -29,8 +26,8 @@ output.on('close', function() {
   console.log(`✅ 打包完成！`);
   console.log(`📦 文件名: ${zipFileName}`);
   console.log(`📏 文件大小: ${sizeInMB} MB`);
-  console.log(`📍 文件路径: ${zipFilePath}`);
-  console.log(`\n🎉 Chrome 扩展打包完成，可以上传到 Chrome Web Store！`);
+  console.log(`📍 保存位置: dist/${zipFileName}`);
+  console.log(`\n🎉 Chrome 扩展打包完成，可以直接上传到 Chrome Web Store！`);
 });
 
 archive.on('error', function(err) {
@@ -41,14 +38,13 @@ archive.on('error', function(err) {
 // 连接输出流
 archive.pipe(output);
 
-// 添加dist目录的所有文件到zip
-const distPath = path.join(__dirname, '../dist');
+// 检查dist目录是否存在
 if (!fs.existsSync(distPath)) {
   console.error('❌ dist目录不存在，请先运行 npm run build');
   process.exit(1);
 }
 
-// 验证dist/manifest.json的版本号是否正确
+// 验证manifest.json的版本号是否正确
 const manifestPath = path.join(distPath, 'manifest.json');
 if (fs.existsSync(manifestPath)) {
   try {
@@ -65,8 +61,23 @@ if (fs.existsSync(manifestPath)) {
   console.warn('⚠️  未找到manifest.json文件');
 }
 
-// 递归添加dist目录中的所有文件
-archive.directory(distPath, false);
+// 添加dist目录中的所有文件到zip（排除已存在的zip文件）
+const files = fs.readdirSync(distPath);
+files.forEach(file => {
+  const filePath = path.join(distPath, file);
+  const stat = fs.statSync(filePath);
+  
+  // 跳过zip文件，避免包含自己
+  if (path.extname(file) === '.zip') {
+    return;
+  }
+  
+  if (stat.isDirectory()) {
+    archive.directory(filePath, file);
+  } else {
+    archive.file(filePath, { name: file });
+  }
+});
 
 // 完成打包
 archive.finalize(); 

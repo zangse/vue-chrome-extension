@@ -1,34 +1,26 @@
 {
-    "appName":
-    {
-        "message": " 扩展管理 "
-    },
-    "appDescription":
-    {
-        "message": " 管理你的扩展程序,启用/禁用扩展,卸载扩展，配置扩展，在应用商店查看扩展，和一些快捷方式。 "
-    },
-    "downloads":
-    {
-        "message": "下载管理"
-    },
-    "history":
-    {
-        "message": "历史记录"
-    },
-    "extensions":
-    {
-        "message": "扩展管理"
-    },
-    "settings":
-    {
-        "message": "设置"
-    },
-    "clearBrowserData":
-    {
-        "message": "清除浏览数据"
-    },
-    "webstore":
-    {
-        "message": "应用商店"
-    }
+  "appName": {
+    "message": "扩展管理器"
+  },
+  "appDescription": {
+    "message": "专业的Chrome扩展管理工具。快速启用/禁用扩展，设置常用扩展模式，搜索管理您的所有扩展程序。"
+  },
+  "downloads": {
+    "message": "下载管理"
+  },
+  "history": {
+    "message": "历史记录"
+  },
+  "extensions": {
+    "message": "扩展管理"
+  },
+  "settings": {
+    "message": "设置"
+  },
+  "clearBrowserData": {
+    "message": "清除浏览数据"
+  },
+  "webstore": {
+    "message": "应用商店"
+  }
 }
