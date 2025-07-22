@@ -1,5 +1,6 @@
 .wrapper {
     min-height: 100px;
+
     .header {
       display: flex;
       height: 30px;
@@ -9,8 +10,10 @@
       padding: 5px;
       background: #f5f5f5;
       z-index: 500;
+
       .search-input {
         position: relative;
+
         .search {
           height: 24px;
           line-height: 24px;
@@ -19,6 +22,7 @@
           outline: none;
           padding: 3px 20px;
         }
+
         .serach-icon {
           position: absolute;
           left: 0;
@@ -27,6 +31,7 @@
           padding-left: 3px;
           cursor: pointer;
         }
+
         .clear-icon {
           position: absolute;
           right: 0;
@@ -36,6 +41,7 @@
           cursor: pointer;
         }
       }
+
       .home {
         width: 30px;
         height: 30px;
@@ -43,15 +49,18 @@
         cursor: pointer;
       }
     }
+
     .main-content {
       width: 100%;
       height: auto;
       padding: 0 8px;
       padding-top: 40px;
       box-sizing: border-box;
+
       .search-list {
         margin: 0;
         transition: all 0.5s;
+
         .list-item {
           height: 28px;
           display: block;
@@ -61,33 +70,40 @@
           overflow: hidden;
           outline: none;
           padding-left: 15px;
+
           .icon {
             width: 20px;
             height: 28px;
             line-height: 28px;
             vertical-align: middle;
             display: inline-block;
+
             img {
               padding-top: 5px;
             }
           }
+
           .title {
             padding-left: 5px;
             height: 28px;
             line-height: 28px;
             color: #42b983;
           }
+
           &:hover {
             background: #e4f1f9;
           }
+
           &.selected {
             background: #e4f1f9;
           }
         }
+
         .no-reault {
           margin-top: 15px;
         }
       }
+
       .tree-list {
         margin: 0;
         transition: all 0.5s;

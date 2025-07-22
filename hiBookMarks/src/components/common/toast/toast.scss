@@ -9,53 +9,65 @@
     box-sizing: border-box;
     border: 1px solid #e6ebf5;
     background-color: #fff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
     transition: all 0.3s;
     overflow: hidden;
     opacity: 0;
     transform: translateX(100%);
+
     &.show {
         display: block;
         opacity: 1;
         transform: translateX(0);
     }
+
     .toast-content {
         display: flex;
         text-align: left;
+
         .toast-icon {
             display: inline-block;
             text-align: center;
             font-size: 22px;
             line-height: 28px;
             vertical-align: center;
+
             &.success {
                 color: #4ba033;
             }
+
             &.cancel {
                 color: #afabab;
             }
+
             &.error {
                 color: #afabab;
             }
+
             &.wraning {
                 color: #ffb927;
             }
         }
+
         .toast-text {
             padding-left: 8px;
             line-height: 28px;
             height: 28px;
             font-size: 14px;
             text-align: left;
+
             &.success {
                 color: #4ba033;
             }
+
             &.cancel {
                 color: #afabab;
             }
+
             &.error {
                 color: #afabab;
             }
+
             &.wraning {
                 color: #ffb927;
             }

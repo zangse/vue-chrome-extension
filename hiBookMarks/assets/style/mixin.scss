@@ -1,15 +1,17 @@
+@use "sass:math";
+
 /*
   px 转换 rem
 */
 
 @function px2rem($px, $base-font-size: 16px) {
-  @if (unitless($px)) {
+  @if math.is-unitless($px) {
     @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
-    @return px2rem($px + 0px); // That may fail.
-  }
-  @else if (unit($px)==rem) {
+    @return px2rem($px + 0); // That may fail.
+  } @else if math.unit($px) == rem {
     @return $px;
   }
+
   @return ($px / $base-font-size) * 1rem;
 }
 
@@ -60,7 +62,7 @@
 
 
 
-/*截取字符串*/
+/* 截取字符串 */
 
 @mixin ellipsis($value) {
   text-overflow: ellipsis;
@@ -71,7 +73,7 @@
 
 
 
-/*flex 数值*/
+/* flex 数值 */
 
 @mixin flex-num($num) {
   -webkit-box-flex: $num;
@@ -81,9 +83,11 @@
 
 @mixin border-top($color) {
   position: relative;
+
   &::before {
     content: "";
     pointer-events: none;
+
     /* 防止点击触发 */
     box-sizing: border-box;
     position: absolute;
@@ -97,7 +101,8 @@
 
 @mixin border-bottom($color) {
   position: relative;
-  &:after {
+
+  &::after {
     display: block;
     position: absolute;
     left: 0;
@@ -134,28 +139,22 @@
 
 @mixin opacity($opacity) {
   opacity: $opacity;
+
   $opacity-ie: $opacity * 100;
-  filter: alpha(opacity=$opacity-ie); //IE8
+
+  filter: alpha(opacity=$opacity-ie); // IE8
 }
 
 @mixin placeholder($color) {
-  input::-webkit-input-placeholder {
-    color: $color;
-  }
-  input:-moz-placeholder {
-    color: $color;
-  }
-  input::-moz-placeholder {
-    color: $color;
-  }
-  input:-ms-input-placeholder {
+  input::placeholder {
     color: $color;
   }
 }
 
 .clearfix {
   display: inline-block;
-  &:after {
+
+  &::after {
     display: block;
     content: ".";
     height: 0;
@@ -167,19 +166,19 @@
 
 // 动画
 @mixin keyframes($animation-name) {
-  @-webkit-keyframes $animation-name {
+  @keyframes #{$animation-name} {
     @content;
   }
-  @-moz-keyframes $animation-name {
+  
+  @keyframes #{$animation-name} {
     @content;
   }
-  @-ms-keyframes $animation-name {
+  
+  @keyframes #{$animation-name} {
     @content;
   }
-  @-o-keyframes $animation-name {
-    @content;
-  }
-  @keyframes $animation-name {
+  
+  @keyframes #{$animation-name} {
     @content;
   }
 }

@@ -2,15 +2,16 @@ ul {
     margin: 0;
     height: 0;
     transition: all 2s;
+
     &.expend {
       height: 100%;
     }
+
     li {
       display: block;
       text-align: left;
       line-height: 28px;
       padding-left: 15px;
-      overflow: hidden;
       cursor: pointer;
       margin: 1px 0;
       overflow: hidden;
@@ -19,13 +20,16 @@ ul {
       .folder-body {
         height: 28px;
         line-height: 28px;
+
         &:hover {
           background: #e5f0fb;
         }
+
         &.checked {
           background: #bbd4ef;
         }
       }
+
       .expend-icon {
         width: 14px;
         height: 14px;
@@ -34,18 +38,21 @@ ul {
         cursor: pointer;
         display: inline-block;
       }
+
       .folder-icon {
-        color: rgb(255, 185, 39);
+        color: rgb(255 185 39);
         font-size: 14px;
         margin-right: 5px;
         cursor: pointer;
         position: relative;
+
         img {
           position: absolute;
           top: 2px;
-          left: 0px;
+          left: 0;
         }
       }
+
       .item-title {
         padding-left: 18px;
         overflow: hidden;
