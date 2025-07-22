@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_appName__",
   "default_locale": "zh_CN",
-  "version": "0.0.4",
+  "version": "1.0.1",
   "description": "__MSG_appDescription__",
   "icons": {
     "128": "static/images/icon_128.png"
@@ -12,6 +12,12 @@
     "default_title": "扩展管理",
     "default_popup": "index.html"
   },
-  "permissions": ["tabs", "management", "storage"],
-  "host_permissions": ["<all_urls>"]
+  "permissions": [
+    "tabs",
+    "management",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
 }
