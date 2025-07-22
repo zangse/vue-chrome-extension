@@ -1,10 +1,8 @@
 @font-face {
   font-family: "iconfont";
-  src: url("iconFont/iconfont.eot");
-  src: url("iconFont/iconfont.eot?#iefix") format("embedded-opentype"),
+  src: url("iconFont/iconfont.woff2") format("woff2"),
     url("iconFont/iconfont.woff") format("woff"),
-    url("iconFont/iconfont.ttf") format("truetype"),
-    url("iconFont/iconfont.svg#iconfont") format("svg");
+    url("iconFont/iconfont.ttf") format("truetype");
 }
 
 .iconfont {

@@ -62,21 +62,9 @@
       transform: scale(1);
       pointer-events: auto;
 
-      //   position: relative;
-      .label {
-        position: absolute;
-        display: none;
-        top: 10px;
-        right: 30px;
-        height: 16px;
-        width: 201px;
-        color: #fff;
-        font-size: 12px;
-        font-weight: 500;
-        z-index: 10;
-        background-color: rgb(255 255 255 / 50%);
-        padding: 2px 4px;
-        border-radius: 4px;
+      &:hover .label {
+        opacity: 1;
+        visibility: visible;
       }
     }
 
@@ -119,6 +107,36 @@
       height: 16px;
       display: block;
       filter: brightness(0) invert(1); /* 让黑色SVG变成白色 */
+    }
+
+    .label {
+      position: absolute;
+      top: 50%;
+      left: -10px;
+      transform: translateX(-100%) translateY(-50%);
+      background: rgb(0 0 0 / 80%);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1;
+      white-space: nowrap;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      pointer-events: none;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        transform: translateY(-50%);
+        border: 5px solid transparent;
+        border-left-color: rgb(0 0 0 / 80%);
+      }
     }
 
     /* 按钮颜色区分 */

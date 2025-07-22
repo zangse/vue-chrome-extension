@@ -2,22 +2,27 @@
   <div class="wrapper" :class="{ expanded: headerExpanded }">
     <div class="header">
       <div class="header-content">
-        <span class="tabs">
+        <div class="tabs">
           <span
-            class="iconfont icon extension"
-            :class="{ active: currentActive === 1 }"
-            @click.stop="setTab(1)"
+            class="iconfont icon main"
+            :class="{ active: currentActive === Tab.Main }"
+            @click.stop="setTab(Tab.Main)"
             >&#xe62b;</span
           >
           <span
+            class="iconfont icon extension"
+            :class="{ active: currentActive === Tab.Extension }"
+            @click.stop="setTab(Tab.Extension)"
+            >&#xe641;</span
+          >
+          <span
             class="iconfont icon link"
-            :class="{ active: currentActive === 2 }"
-            @click.stop="setTab(2)"
+            :class="{ active: currentActive === Tab.Link }"
+            @click.stop="setTab(Tab.Link)"
             >&#xe612;</span
           >
-        </span>
+        </div>
         <ActionButtonGroup
-          v-if="currentActive === 1"
           :disabled="disabledAll"
           @enable-common="enableCommonExtensions"
           @enable-all="enableAllExtensions"
@@ -28,7 +33,7 @@
       </div>
     </div>
     <div class="main-content">
-      <ul class="tree-list" v-show="currentActive === 1">
+      <ul class="tree-list" v-show="currentActive === Tab.Main">
         <TreeItem
           v-for="item in allNodes"
           class="folder-item"
@@ -37,7 +42,7 @@
           @setEnabled="setEnabledHandler"
         />
       </ul>
-      <ul class="shortcut-list" v-show="currentActive === 2">
+      <ul class="shortcut-list" v-show="currentActive === Tab.Link">
         <li class="list-item">
           <div
             class="item download"
@@ -86,6 +91,11 @@
           </div>
         </li>
       </ul>
+      <ExtensionIcons
+        v-show="currentActive === Tab.Extension"
+        :extensions="allNodes"
+        @refresh="loadAllNodes"
+      />
     </div>
   </div>
 </template>
@@ -94,6 +104,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import TreeItem from '../treeitem/treeitem.vue'
 import ActionButtonGroup from '../actionButtonGroup/index.vue'
+import ExtensionIcons from '../extensionIcons/index.vue'
 
 // 响应式数据
 const allNodes = ref([])
@@ -102,6 +113,13 @@ const selfId = ref(null)
 const currentActive = ref(1)
 const actionButtonGroup = ref(null)
 const headerExpanded = ref(false)
+
+// Tab 常量
+const Tab = {
+  Main: 1,
+  Link: 2,
+  Extension: 3,
+}
 
 const i18n = reactive({
   downloads: '',
@@ -340,32 +358,64 @@ const toggleDisable = () => {
   })
 }
 
-// 开启常用扩展（只开启用户自己安装的扩展）
+// 开启常用扩展（开启常用扩展，关闭其他扩展）
 const enableCommonExtensions = () => {
-  const commonExtensions = allNodes.value.filter((item) => {
-    return item.isOperatable && item.installType === 'normal' && !item.enabled
-  })
+  // 直接从localStorage读取常用扩展
+  let favoriteIds = []
+  try {
+    const stored = localStorage.getItem('extension-favorites')
+    favoriteIds = stored ? JSON.parse(stored) : []
+  } catch (error) {
+    console.error('读取常用扩展失败:', error)
+    return
+  }
 
-  if (commonExtensions.length === 0) {
-    console.log('没有常用扩展需要开启')
+  if (favoriteIds.length === 0) {
+    console.log('没有设置常用扩展')
+    return
+  }
+
+  // 获取所有可操作的扩展
+  const operableExtensions = allNodes.value.filter((item) => item.isOperatable)
+
+  if (operableExtensions.length === 0) {
+    console.log('没有可操作的扩展')
     return
   }
 
   let processedCount = 0
-  const totalCount = commonExtensions.length
+  const totalCount = operableExtensions.length
 
-  commonExtensions.forEach((item) => {
-    chrome.management.setEnabled(item.id, true, () => {
-      if (chrome.runtime.lastError) {
-        console.error('开启扩展失败:', item.name, chrome.runtime.lastError.message)
-      }
+  operableExtensions.forEach((item) => {
+    // 如果是常用扩展且未启用，则启用
+    // 如果不是常用扩展且已启用，则禁用
+    const shouldEnable = favoriteIds.includes(item.id)
+    const needsChange = item.enabled !== shouldEnable
+
+    if (needsChange) {
+      chrome.management.setEnabled(item.id, shouldEnable, () => {
+        if (chrome.runtime.lastError) {
+          console.error(
+            `${shouldEnable ? '开启' : '关闭'}扩展失败:`,
+            item.name,
+            chrome.runtime.lastError.message
+          )
+        }
+        processedCount++
+        if (processedCount === totalCount) {
+          setTimeout(() => {
+            loadAllNodes()
+          }, 100)
+        }
+      })
+    } else {
       processedCount++
       if (processedCount === totalCount) {
         setTimeout(() => {
           loadAllNodes()
         }, 100)
       }
-    })
+    }
   })
 }
 

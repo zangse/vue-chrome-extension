@@ -1,0 +1,184 @@
+{
+  "id": "395101",
+  "name": "扩展管理",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1119141",
+      "name": "书签",
+      "font_class": "shuqian",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "77195",
+      "name": "喜欢",
+      "font_class": "msnui-love",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "2679880",
+      "name": "喜欢",
+      "font_class": "xihuan",
+      "unicode": "e6f1",
+      "unicode_decimal": 59121
+    },
+    {
+      "icon_id": "1121966",
+      "name": "取消",
+      "font_class": "quxiao",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "749605",
+      "name": "放大镜",
+      "font_class": "zoom",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "237211",
+      "name": "加",
+      "font_class": "jia",
+      "unicode": "e6cc",
+      "unicode_decimal": 59084
+    },
+    {
+      "icon_id": "452596",
+      "name": "关闭",
+      "font_class": "92",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "1061681",
+      "name": "部分选中",
+      "font_class": "bufenxuanzhong",
+      "unicode": "e816",
+      "unicode_decimal": 59414
+    },
+    {
+      "icon_id": "3224048",
+      "name": "开启",
+      "font_class": "kaiqi",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "3392009",
+      "name": "关 闭",
+      "font_class": "guanbi",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
+      "icon_id": "255537",
+      "name": "应用商店",
+      "font_class": "yingyongshangdian",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "150076",
+      "name": "历史记录",
+      "font_class": "lishijilu",
+      "unicode": "e7d8",
+      "unicode_decimal": 59352
+    },
+    {
+      "icon_id": "1535777",
+      "name": "下载",
+      "font_class": "xiazai",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "2297306",
+      "name": "组件列表 ",
+      "font_class": "zujianliebiao-",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "1227538",
+      "name": "组件",
+      "font_class": "components",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "1761987",
+      "name": "查看",
+      "font_class": "chakan1",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "1547451",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "537939",
+      "name": "选项",
+      "font_class": "iconfonticonfontset",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "1324194",
+      "name": "快捷方式",
+      "font_class": "kuaijiefangshi",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "1605086",
+      "name": "配置",
+      "font_class": "peizhi-copy",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "1697691",
+      "name": "分享",
+      "font_class": "ic_share_px",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
+      "icon_id": "1808055",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "2097249",
+      "name": "权限",
+      "font_class": "quanxian1",
+      "unicode": "e6b4",
+      "unicode_decimal": 59060
+    },
+    {
+      "icon_id": "2694027",
+      "name": "版本号",
+      "font_class": "banbenhao",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "2727652",
+      "name": "系统扩展管理",
+      "font_class": "system-extension",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    }
+  ]
+}
