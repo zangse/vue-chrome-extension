@@ -1,13 +1,17 @@
-@import "../../../../assets/style/mixin.scss";
+@use "../../../../assets/style/mixin.scss" as *;
+
 .wrapper {
   position: relative;
+
   .content {
     margin-left: 200px;
     margin-top: 54px;
+
     .topbar {
       padding: 15px 0 15px 25px;
       text-align: left;
       cursor: pointer;
+
       .tag-name {
         color: #4a4a4a;
         font-size: 22px;
@@ -18,6 +22,7 @@
         padding-right: 6px !important;
         white-space: nowrap;
       }
+
       .tag-list {
         border-left: #e5e5e5;
         clear: both;
@@ -27,6 +32,7 @@
         padding: 0;
         white-space: nowrap;
         width: auto;
+
         .tag-item {
           background: #f1f1f1;
           border-top-left-radius: 2px;
@@ -49,10 +55,12 @@
           margin-left: -4px;
           -webkit-transition: all 0.3s;
           width: auto;
+
           &:first-child {
             padding-left: 26px;
           }
-          &:after {
+
+          &::after {
             background: #f1f1f1;
             border-right: #e5e5e5 1px solid;
             border-top: #e5e5e5 1px solid;
@@ -67,15 +75,18 @@
             -webkit-transition: all 0.3s;
             width: 27px;
           }
+
           &.current {
             background-color: #f8f8f8;
-            &:after {
+
+            &::after {
               background-color: #f8f8f8;
             }
           }
         }
       }
     }
+
     .bookmarks-list {
       display: flex;
       flex-wrap: wrap;
@@ -84,6 +95,7 @@
       margin-top: 0;
       align-items: flex-start;
     }
+
     .no-reault {
       font-size: 16px;
     }

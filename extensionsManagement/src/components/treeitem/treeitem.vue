@@ -157,5 +157,5 @@ const showIcon = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "./treeitem.scss";
+@use "./treeitem.scss" as *;
 </style>

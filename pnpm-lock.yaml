@@ -73,10 +73,10 @@ importers:
         specifier: ^2.7.6
         version: 2.9.2(webpack@5.100.2)
       sass:
-        specifier: ^1.69.7
+        specifier: ^1.89.2
         version: 1.89.2
       sass-loader:
-        specifier: ^13.3.2
+        specifier: ^13.3.3
         version: 13.3.3(sass@1.89.2)(webpack@5.100.2)
       shelljs:
         specifier: ^0.8.5
@@ -152,10 +152,10 @@ importers:
         specifier: ^5.5.3
         version: 5.6.3(webpack@5.100.2)
       sass:
-        specifier: ^1.69.7
+        specifier: ^1.89.2
         version: 1.89.2
       sass-loader:
-        specifier: ^13.3.2
+        specifier: ^13.3.3
         version: 13.3.3(sass@1.89.2)(webpack@5.100.2)
       shelljs:
         specifier: ^0.8.5

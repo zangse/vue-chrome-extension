@@ -365,6 +365,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-@import "./dashboard.scss";
-</style>
+<style lang="scss" scoped src="./dashboard.scss"></style>

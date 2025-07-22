@@ -1,4 +1,4 @@
-@import "../../../../assets/style/mixin.scss";
+@use "../../../../assets/style/mixin.scss" as *;
 
 .slider-warpper {
     width: 200px;
@@ -11,23 +11,29 @@
     margin: 0;
     box-sizing: border-box;
     overflow: hidden;
+
     @include transition(all 0.5s ease);
+
     &.show {
-        -webkit-transform: translateX(0px);
+        -webkit-transform: translateX(0);
         z-index: 201;
         opacity: 1;
     }
+
     &.hide {
         -webkit-transform: translateX(-200px);
         z-index: 0;
         opacity: 0;
     }
+
     .item {
         display: block;
         margin: 10px 0;
+
         .title {
             font-size: 18px;
         }
+
         .icon-wrapper {
             position: relative;
             margin: 10px auto;
@@ -35,6 +41,7 @@
             height: 50px;
             border-radius: 50%;
             border: 1px dashed #ccc;
+
             .icon-content {
                 width: 32px;
                 height: 32px;
@@ -47,20 +54,24 @@
                 border-radius: 50%;
                 box-sizing: border-box;
                 padding: 8px;
+
                 .icon-item {
                     width: 16px;
                     height: 16px;
                 }
             }
         }
+
         &.input-group {
             display: flex;
+
             .input-label {
                 width: 30px;
                 display: inline-block;
                 height: 28px;
                 line-height: 28px;
             }
+
             .input-edit {
                 flex: 1;
                 width: 100%;
@@ -74,6 +85,7 @@
                 box-sizing: border-box;
             }
         }
+
         .btn {
             cursor: pointer;
             display: inline-block;
@@ -83,9 +95,11 @@
             border-radius: 4px;
             font-weight: 500;
             color: #fff;
+
             &.cancel {
                 background: #c8c8ca;
             }
+
             &.save {
                 background: #409eff;
             }

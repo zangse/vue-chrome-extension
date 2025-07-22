@@ -1,7 +1,9 @@
-@import "../../../../assets/style/mixin.scss";
+@use "../../../../assets/style/mixin.scss" as *;
+
 .item-wrapper {
   padding: 8px;
   box-sizing: border-box;
+
   .item {
     position: relative;
     cursor: pointer;
@@ -12,6 +14,7 @@
     z-index: 1;
     transition: all 0.3s ease;
     padding: 8px;
+
     .item-light {
       cursor: pointer;
       position: absolute;
@@ -21,44 +24,55 @@
       height: 100%;
       background-image: -webkit-linear-gradient(
         0deg,
-        hsla(0, 0%, 100%, 0),
-        hsla(0, 0%, 100%, 0.5),
-        hsla(0, 0%, 100%, 0)
+        hsl(0deg 0% 100% / 0%),
+        hsl(0deg 0% 100% / 50%),
+        hsl(0deg 0% 100% / 0%)
       );
+
       @include transform(skewx(-25deg));
     }
+
     &:hover {
       border-color: #5bc2e4;
+
       // @include transform( translateY(-6px));
       @include box-shadow(0 26px 40px -24px rgba(0, 36, 100, 0.5));
+
       .item-light {
         @include transition(all 0.3s ease);
+
         left: 100%;
       }
+
       .check-icon {
         display: block;
       }
     }
+
     .item-content {
       width: 100px;
       text-align: center;
       z-index: 1;
+
       .item-body {
         width: 50px;
         height: 50px;
         margin: auto;
+
         .folder {
           margin: auto;
           text-align: center;
-          color: rgb(255, 185, 39);
+          color: rgb(255 185 39);
           font-size: 40px;
         }
+
         .link {
           margin: auto;
           width: 50px;
           height: 50px;
           border-radius: 50%;
           position: relative;
+
           .icon-wrapper {
             width: 32px;
             height: 32px;
@@ -71,6 +85,7 @@
             border-radius: 50%;
             box-sizing: border-box;
             padding: 8px;
+
             .icon-item {
               width: 16px;
               height: 16px;
@@ -78,6 +93,7 @@
           }
         }
       }
+
       .item-footer {
         padding-top: 10px;
         text-align: center;
@@ -85,17 +101,20 @@
         line-height: 20px;
         overflow: hidden;
         border-top: 1px dashed #fff;
+
         .title {
           color: #fff;
           text-decoration: none !important;
           font-size: 14px;
           font-weight: 400;
+
           &:hover {
             color: #00a8ff;
           }
         }
       }
     }
+
     .mask {
       position: absolute;
       width: 100%;
@@ -104,12 +123,14 @@
       top: 0;
       right: 0;
       z-index: 0; // transition: all 0.5s;
+
       &.checked {
         height: 100%;
         z-index: 99;
-        background-color: rgba(77, 144, 254, 0.38);
+        background-color: rgb(77 144 254 / 38%);
       }
     }
+
     .check-icon {
       display: none;
       font-size: 20px;
@@ -118,16 +139,19 @@
       right: 5px;
       z-index: 100;
       color: #fff;
+
       &.folder {
         color: #333;
       }
     }
+
     .visited-count {
       position: absolute;
       top: 3px;
       right: 5px;
       color: #fff;
     }
+
     .icon-checked {
       display: block;
       position: absolute;
@@ -137,8 +161,10 @@
       z-index: 100;
       color: #fff;
     }
+
     &.folder-item {
       background: #fff !important;
+
       .item-content {
         .item-body {
           .folder {
@@ -147,6 +173,7 @@
           }
         }
       }
+
       .item-footer {
         .title {
           color: #333 !important;
@@ -154,56 +181,74 @@
       }
     }
   }
+
   &:nth-child(7n + 1) .item {
     background: #70c3ff;
   }
+
   &:nth-child(7n + 2) .item {
     background: #15d8ad;
   }
+
   &:nth-child(7n + 3) .item {
     background: #b8bdf1;
   }
+
   &:nth-child(7n + 4) .item {
     background: #f9bc80;
   }
+
   &:nth-child(7n + 5) .item {
     background: #ef9e9e;
   }
+
   &:nth-child(7n + 6) .item {
     background: #d05f5f;
   }
+
   &:nth-child(7n + 7) .item {
     background: #f9bc80;
   }
+
   &.wra-col-5 {
     width: 20%;
+
     &:nth-child(7n + 1) .item {
       border-left-color: #70c3ff;
     }
+
     &:nth-child(7n + 2) .item {
       border-left-color: #15d8ad;
     }
+
     &:nth-child(7n + 3) .item {
       border-left-color: #b8bdf1;
     }
+
     &:nth-child(7n + 4) .item {
       border-left-color: #f9bc80;
     }
+
     &:nth-child(7n + 5) .item {
       border-left-color: #ef9e9e;
     }
+
     &:nth-child(7n + 6) .item {
       border-left-color: #d05f5f;
     }
+
     &:nth-child(7n + 7) .item {
       border-left-color: #f9bc80;
     }
+
     .item {
       height: 50px;
       border-left: 4px solid;
+
       .item-content {
         width: 100%;
         display: flex;
+
         .item-footer {
           flex: 1;
           text-align: left;
@@ -215,9 +260,11 @@
           padding-left: 8px;
         }
       }
+
       .mask {
         height: 68px;
       }
+
       &.folder-item {
         .item-content {
           .item-body {
@@ -226,6 +273,7 @@
               margin-top: 5px;
             }
           }
+
           .item-footer {
             line-height: 40px;
           }
@@ -233,27 +281,34 @@
       }
     }
   }
+
   &.no-color {
     .item {
       background: #fff !important;
       border-radius: 0;
+
       .icon-checked {
         color: #70c3ff;
       }
+
       .check-icon {
         color: #ccc;
       }
+
       .visited-count {
         color: #333;
       }
+
       .item-content {
         .item-body {
           width: 50px;
           height: 50px;
           margin: auto;
+
           .link {
             width: 50px;
             height: 50px;
+
             .icon-wrapper {
               width: 50px;
               height: 50px;
@@ -264,42 +319,53 @@
             }
           }
         }
+
         .item-footer {
           border-top: none;
+
           .title {
             color: #757575;
           }
         }
       }
     }
+
     &.wra-col-5 {
       &:nth-child(7n + 1) .item {
         border-left-color: #70c3ff;
       }
+
       &:nth-child(7n + 2) .item {
         border-left-color: #15d8ad;
       }
+
       &:nth-child(7n + 3) .item {
         border-left-color: #b8bdf1;
       }
+
       &:nth-child(7n + 4) .item {
         border-left-color: #f9bc80;
       }
+
       &:nth-child(7n + 5) .item {
         border-left-color: #ef9e9e;
       }
+
       &:nth-child(7n + 6) .item {
         border-left-color: #d05f5f;
       }
+
       &:nth-child(7n + 7) .item {
         border-left-color: #f9bc80;
       }
+
       .item {
         &:hover {
           border-top: none;
           border-right: none;
           border-bottom: none;
         }
+
         .item-content {
           .item-body {
             .link {
@@ -312,6 +378,7 @@
             }
           }
         }
+
         &.folder-item {
           .item-content {
             .item-body {
@@ -321,6 +388,7 @@
                 margin-top: 5px;
               }
             }
+
             .item-footer {
               line-height: 40px;
             }

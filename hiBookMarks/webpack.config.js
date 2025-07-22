@@ -77,7 +77,17 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: [
+          MiniCssExtractPlugin.loader, 
+          'css-loader', 
+          {
+            loader: 'sass-loader',
+            options: {
+              api: 'modern',
+              implementation: require('sass'),
+            },
+          }
+        ],
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
