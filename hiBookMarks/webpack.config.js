@@ -1,137 +1,105 @@
-var path = require('path')
-var webpack = require('webpack')
-var htmlWebpackPlugin = require('html-webpack-plugin')
-var copyWebpackPlugin = require('copy-webpack-plugin')
-var cleanWebpackPlugin = require('clean-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var uglifyJsConfig = {
-    sourceMap: true,
-    compress: {
-        warnings: false,
-        drop_console: false
-    }
-}
-if (process.env.NODE_ENV === 'production') {
-    uglifyJsConfig.compress.drop_console = true
-}
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+
 module.exports = {
-    entry: {
-        main: './src/main.js',
-        popup: './popup/main.js',
-    }, //入口文件
-    output: {
-        path: path.resolve(__dirname, './dist'),
-        publicPath: './',
-        filename: '[name].main.js'
-    },
-    plugins: [
-        new cleanWebpackPlugin(
-            ['dist/*', ], 　 //匹配删除的文件
-            {
-                root: __dirname,
-                　　　　　　　　　　 //根目录
-                verbose: true,
-                　　　　　　　　　　 //开启在控制台输出信息
-                dry: false　　　　　　　　　　 //启用删除文件
-            }
-        ),
-        new htmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'index.html',
-            inject: 'body',
-            chunks: ["main"],
-            minify: { //压缩
-                removeComments: true,
-                collapseWhitespace: true,
-            }
-        }),
-        new htmlWebpackPlugin({
-            filename: 'popup.html',
-            template: 'popup/popup.html',
-            inject: 'body',
-            chunks: ["popup"],
-            minify: { //压缩
-                removeComments: true,
-                collapseWhitespace: true,
-            }
-        }),
-        // copy custom static assets
-        new copyWebpackPlugin([{
-            from: path.resolve(__dirname, 'assets/'),
-            to: 'static',
-            ignore: ['.*']
-        }, {
-            from: path.resolve(__dirname, 'src/manifest.json'),
-            to: path.resolve(__dirname, 'dist/')
-        }, {
-            from: path.resolve(__dirname, '_locales/'),
-            to: path.resolve(__dirname, 'dist/_locales')
-        }]),
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
-        }),
-        new webpack.optimize.UglifyJsPlugin(uglifyJsConfig),
-        new webpack.LoaderOptionsPlugin({
-            minimize: true
-        }),
-        new ExtractTextPlugin('css/[name].css')
-
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  entry: {
+    main: './src/main.js',
+    popup: './popup/main.js',
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: './',
+    filename: '[name].main.js',
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'index.html',
+      inject: 'body',
+      chunks: ['main'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+      },
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'popup.html',
+      template: 'popup/popup.html',
+      inject: 'body',
+      chunks: ['popup'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+      },
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: path.resolve(__dirname, 'assets/'), to: 'static', noErrorOnMissing: true },
+        { from: path.resolve(__dirname, 'src/manifest.json'), to: path.resolve(__dirname, 'dist/'), noErrorOnMissing: true },
+        { from: path.resolve(__dirname, '_locales/'), to: path.resolve(__dirname, 'dist/_locales'), noErrorOnMissing: true },
+      ],
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: '[name][ext]?[hash]',
+        },
+      },
+      {
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10000,
+          },
+        },
+        generator: {
+          filename: 'static/fonts/[name].[hash:7][ext]',
+        },
+      },
     ],
-    module: {
-        rules: [{
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    loaders: {
-                        'scss': 'vue-style-loader!css-loader!sass-loader',
-                        'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
-                    }
-                }
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]?[hash]'
-                }
-            },
-            {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader', 'sass-loader']
-                })
-            },
-            {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                query: {
-                    limit: 10000,
-                    name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]')
-                }
-            }
-        ]
+  },
+  resolve: {
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      'src': path.resolve(__dirname, 'src'),
+      'assets': path.resolve(__dirname, 'assets'),
     },
-    resolve: {
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js',
-            'src': resolve('src'),
-            'assets': resolve('assets')
-        }
-    },
-    performance: {
-        hints: false
-    },
-    devtool: '#source-map'
-}
-
-function resolve(dir) {
-    return path.join(__dirname, '..', dir)
-}
+    extensions: ['.js', '.vue', '.json'],
+  },
+  performance: {
+    hints: false,
+  },
+  devtool: 'source-map',
+};

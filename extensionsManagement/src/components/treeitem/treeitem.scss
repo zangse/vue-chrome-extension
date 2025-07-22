@@ -1,0 +1,176 @@
+.extension-item {
+  display: block;
+  text-align: left;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 6px;
+  background: #ccc;
+  padding: 6px;
+  margin: 12px 15px;
+  box-sizing: border-box;
+  box-shadow: 2px 2px 8px #3b3a49;
+
+  &.enable {
+    background-color: #fff;
+    border-color: #d6e9c6;
+
+    .extension-content {
+      .item-title {
+        color: #3c763d;
+      }
+    }
+  }
+
+  &.disable {
+    background-color: #eae8e8;
+    border-color: #d2d2d2;
+
+    .extension-content {
+      .item-title {
+        color: #949494;
+      }
+    }
+  }
+
+  &.readonly {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    cursor: not-allowed;
+
+    .extension-content {
+      .item-title {
+        color: #888;
+      }
+    }
+  }
+
+  &:hover {
+    background: #e5f0fb;
+
+    &.readonly {
+      background: #f0f0f0;
+    }
+  }
+
+  .extension-content {
+    display: flex;
+    height: 48px;
+
+    .extension-icon {
+      width: 40px;
+      height: 40px;
+      margin: 4px;
+      display: inline-block;
+      border-radius: 50%;
+      background: #f5f5f5;
+
+      img {
+        display: block;
+        margin: 4px auto;
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    .extension-body {
+      flex: 1;
+      padding-left: 8px;
+
+      .item-title {
+        overflow: hidden;
+        height: 24px;
+        display: block;
+        line-height: 24px;
+        font-size: 14px;
+        color: #3b3a49;
+        margin: 0 3px 0 0;
+      }
+
+      .version {
+        display: block;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        color: #949494;
+        vertical-align: top;
+        margin: 0;
+
+        i {
+          font-size: 14px;
+          margin-right: 3px;
+        }
+
+        .status-tag {
+          margin-left: 8px;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-size: 10px;
+          font-weight: bold;
+          display: inline-block;
+
+          &.enabled {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+          }
+
+          &.enabled-locked {
+            background-color: #cce5ff;
+            color: #004085;
+            border: 1px solid #9cf;
+          }
+
+          &.user-disabled {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+          }
+
+          &.chrome-disabled {
+            color: #658504;
+          }
+
+          &.system-managed {
+            background-color: #e2e3e5;
+            color: #383d41;
+            border: 1px solid #d6d8db;
+          }
+
+          &.admin-managed {
+            color: #c71648;
+          }
+        }
+      }
+    }
+
+    .option {
+      line-height: 48px;
+
+      .option-icon {
+        margin: 2px 3px;
+        cursor: pointer;
+        color: #555;
+        font-weight: 500;
+        display: inline-block;
+        vertical-align: top;
+
+        &.disabled {
+          color: #c3c3c3;
+          font-weight: 400;
+        }
+
+        &.view {
+          font-size: 19px;
+        }
+
+        &.config {
+          font-size: 17px;
+        }
+
+        &.uninstall {
+          font-size: 23px;
+        }
+      }
+    }
+  }
+}

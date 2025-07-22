@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "__MSG_appName__",
     "version": "0.0.12",
     "default_locale": "zh_CN",
@@ -7,21 +7,14 @@
     "icons": {
         "128": "static/images/icon128.png"
     },
-    "browser_action": {
+    "action": {
         "default_icon": "static/images/icon128.png",
         "default_title": "书签管理",
         "default_popup": "popup.html"
     },
-    "options_page": "index.html",
-    "commands": {
-        "_execute_browser_action": {
-            "suggested_key": {
-                "windows": "Ctrl+B",
-                "mac": "Command+B",
-                "chromeos": "Ctrl+B",
-                "linux": "Ctrl+B"
-            }
-        }
+    "options_ui": {
+        "page": "index.html",
+        "open_in_tab": true
     },
-    "permissions": ["activeTab", "bookmarks", "tabs", "history", "<all_urls>"]
+    "permissions": ["activeTab", "bookmarks", "tabs", "history", "scripting"]
 }

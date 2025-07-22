@@ -1,0 +1,36 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-recommended-vue"
+  ],
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "no-duplicate-selectors": true,
+    "color-hex-length": "short",
+    "color-named": "never",
+    "selector-max-id": null,
+    "font-family-name-quotes": "always-unless-keyword",
+    "rule-empty-line-before": [
+      "always-multi-line",
+      {
+        "except": ["first-nested", "after-single-line-comment"]
+      }
+    ],
+    "declaration-block-no-shorthand-property-overrides": true,
+    "declaration-block-no-redundant-longhand-properties": true,
+    "declaration-block-no-duplicate-properties": true,
+    "length-zero-no-unit": true,
+    "scss/at-rule-no-unknown": true,
+    "scss/load-partial-extension": null,
+    "at-rule-no-unknown": null,
+    "no-descending-specificity": null,
+    "selector-class-pattern": null,
+    "property-no-vendor-prefix": null,
+    "value-no-vendor-prefix": null
+  },
+  "ignoreFiles": [
+    "dist/**/*",
+    "node_modules/**/*",
+    "assets/style/iconFont/**/*"
+  ]
+}

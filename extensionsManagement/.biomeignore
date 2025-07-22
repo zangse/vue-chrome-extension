@@ -1,0 +1,18 @@
+# 构建输出
+dist/
+build/
+
+# 依赖
+node_modules/
+
+# 静态资源
+assets/
+*.min.js
+*.min.css
+
+# 配置文件
+webpack.config.js
+babel.config.js
+
+# 第三方库
+_locales/ 
