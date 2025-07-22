@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :class="{ expanded: headerExpanded }">
     <div class="header">
       <div class="header-content">
         <span class="tabs">
@@ -16,19 +16,15 @@
             >&#xe612;</span
           >
         </span>
-        <span
-          class="switch"
-          :class="{ enabled: !disabledAll, disabled: disabledAll }"
-          @click.stop="toggleDisable"
+        <ActionButtonGroup
           v-if="currentActive === 1"
-        >
-          <i class="icon-i"></i>
-          <i class="icon-o"></i>
-          <span
-            class="icon-round"
-            :class="{ enabled: !disabledAll, disabled: disabledAll }"
-          ></span>
-        </span>
+          :disabled="disabledAll"
+          @enable-common="enableCommonExtensions"
+          @enable-all="enableAllExtensions"
+          @disable-all="disableAllExtensions"
+          @buttons-toggle="handleButtonsToggle"
+          ref="actionButtonGroup"
+        />
       </div>
     </div>
     <div class="main-content">
@@ -97,12 +93,15 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import TreeItem from '../treeitem/treeitem.vue'
+import ActionButtonGroup from '../actionButtonGroup/index.vue'
 
 // 响应式数据
 const allNodes = ref([])
 const disabledAll = ref(true)
 const selfId = ref(null)
 const currentActive = ref(1)
+const actionButtonGroup = ref(null)
+const headerExpanded = ref(false)
 
 const i18n = reactive({
   downloads: '',
@@ -339,6 +338,98 @@ const toggleDisable = () => {
       }
     })
   })
+}
+
+// 开启常用扩展（只开启用户自己安装的扩展）
+const enableCommonExtensions = () => {
+  const commonExtensions = allNodes.value.filter((item) => {
+    return item.isOperatable && item.installType === 'normal' && !item.enabled
+  })
+
+  if (commonExtensions.length === 0) {
+    console.log('没有常用扩展需要开启')
+    return
+  }
+
+  let processedCount = 0
+  const totalCount = commonExtensions.length
+
+  commonExtensions.forEach((item) => {
+    chrome.management.setEnabled(item.id, true, () => {
+      if (chrome.runtime.lastError) {
+        console.error('开启扩展失败:', item.name, chrome.runtime.lastError.message)
+      }
+      processedCount++
+      if (processedCount === totalCount) {
+        setTimeout(() => {
+          loadAllNodes()
+        }, 100)
+      }
+    })
+  })
+}
+
+// 开启所有扩展
+const enableAllExtensions = () => {
+  const disabledExtensions = allNodes.value.filter((item) => {
+    return item.isOperatable && !item.enabled
+  })
+
+  if (disabledExtensions.length === 0) {
+    console.log('没有扩展需要开启')
+    return
+  }
+
+  let processedCount = 0
+  const totalCount = disabledExtensions.length
+
+  disabledExtensions.forEach((item) => {
+    chrome.management.setEnabled(item.id, true, () => {
+      if (chrome.runtime.lastError) {
+        console.error('开启扩展失败:', item.name, chrome.runtime.lastError.message)
+      }
+      processedCount++
+      if (processedCount === totalCount) {
+        setTimeout(() => {
+          loadAllNodes()
+        }, 100)
+      }
+    })
+  })
+}
+
+// 关闭所有扩展
+const disableAllExtensions = () => {
+  const enabledExtensions = allNodes.value.filter((item) => {
+    return item.isOperatable && item.enabled
+  })
+
+  if (enabledExtensions.length === 0) {
+    console.log('没有扩展需要关闭')
+    return
+  }
+
+  let processedCount = 0
+  const totalCount = enabledExtensions.length
+
+  enabledExtensions.forEach((item) => {
+    chrome.management.setEnabled(item.id, false, () => {
+      if (chrome.runtime.lastError) {
+        console.error('关闭扩展失败:', item.name, chrome.runtime.lastError.message)
+      }
+      processedCount++
+      if (processedCount === totalCount) {
+        setTimeout(() => {
+          loadAllNodes()
+        }, 100)
+      }
+    })
+  })
+}
+
+// 处理按钮展开/收起事件
+const handleButtonsToggle = (expanded) => {
+  headerExpanded.value = expanded
 }
 
 // 设置当前标签页

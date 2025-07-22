@@ -16,7 +16,9 @@ import '../assets/style/icon.scss'
 <style lang="scss" scoped>
 #app {
   width: 420px;
-  min-height: 120px;
+  min-width: 420px;
+  height: 600px;
+  min-height: 600px;
   font-family: "Avenir", "Helvetica", "Arial", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

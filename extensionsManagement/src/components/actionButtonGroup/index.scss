@@ -1,0 +1,149 @@
+.switch-container {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.switch {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 50%;
+  background-color: #13d155;
+  border: 1px solid #fff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+  z-index: 10;
+  transition: all 0.5s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #13d155;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 25%);
+    transform: scale(1.05);
+  }
+
+  &.expanded {
+    transform: rotate(45deg);
+    background-color: #b58481;
+
+    &:hover {
+      background-color: #b58481;
+      transform: rotate(45deg) scale(1.05);
+    }
+  }
+
+  .plus-icon {
+    width: 24px;
+    height: 24px;
+    display: block;
+    transition: all 0.5s ease;
+    filter: brightness(0) invert(1); /* 让黑色SVG变成白色 */
+  }
+}
+
+/* 扇形按钮组样式 */
+.action-buttons {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 5;
+
+  &.active {
+    pointer-events: auto;
+
+    .action-btn {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+
+      //   position: relative;
+      .label {
+        position: absolute;
+        display: none;
+        top: 10px;
+        right: 30px;
+        height: 16px;
+        width: 201px;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 500;
+        z-index: 10;
+        background-color: rgb(255 255 255 / 50%);
+        padding: 2px 4px;
+        border-radius: 4px;
+      }
+    }
+
+    .btn-common {
+      transform: translateX(-80px) translateY(-20px) scale(1); /* 正左方 0度 */
+      transition-delay: 0.1s;
+    }
+
+    .btn-all {
+      transform: translateX(-65px) translateY(30px) scale(1); /* 左下方 45度 */
+      transition-delay: 0.3s;
+    }
+
+    .btn-disable {
+      transform: translateX(-20px) translateY(55px) scale(1); /* 正下方 90度 */
+      transition-delay: 0.5s;
+    }
+  }
+
+  .action-btn {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    background: #4a9eff;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    transform: scale(0);
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+
+    .btn-icon {
+      width: 16px;
+      height: 16px;
+      display: block;
+      filter: brightness(0) invert(1); /* 让黑色SVG变成白色 */
+    }
+
+    /* 按钮颜色区分 */
+    &.btn-common {
+      background: #4caf50; /* 绿色 - 常用扩展 */
+
+      &:hover {
+        background: #45a049;
+      }
+    }
+
+    &.btn-all {
+      background: #2196f3; /* 蓝色 - 全部扩展 */
+
+      &:hover {
+        background: #1976d2;
+      }
+    }
+
+    &.btn-disable {
+      background: #f44336; /* 红色 - 关闭扩展 */
+
+      &:hover {
+        background: #d32f2f;
+      }
+    }
+  }
+}
