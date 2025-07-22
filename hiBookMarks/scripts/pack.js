@@ -30,7 +30,7 @@ output.on('close', function() {
   console.log(`📦 文件名: ${zipFileName}`);
   console.log(`📏 文件大小: ${sizeInMB} MB`);
   console.log(`📍 文件路径: ${zipFilePath}`);
-  console.log(`\n🎉 发布包已生成，可以上传到Chrome Web Store！`);
+  console.log(`\n🎉 Chrome 扩展打包完成，可以上传到 Chrome Web Store！`);
 });
 
 archive.on('error', function(err) {

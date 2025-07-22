@@ -12,11 +12,10 @@
     "release:patch": "standard-version --release-as patch",
     "release:minor": "standard-version --release-as minor",
     "release:major": "standard-version --release-as major",
-    "release:prerelease": "standard-version --prerelease",
-    "publish:patch": "npm run release:patch && npm run build && node scripts/publish.js",
-    "publish:minor": "npm run release:minor && npm run build && node scripts/publish.js",
-    "publish:major": "npm run release:major && npm run build && node scripts/publish.js",
-    "publish": "npm run release && npm run build && node scripts/publish.js"
+    "pack": "npm run build && node scripts/pack.js",
+    "pack:patch": "npm run release:patch && npm run pack",
+    "pack:minor": "npm run release:minor && npm run pack",
+    "pack:major": "npm run release:major && npm run pack"
   },
   "dependencies": {
     "vue": "^3.4.0"
