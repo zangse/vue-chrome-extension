@@ -1,7 +1,7 @@
 {
   "name": "extensionsManagement",
   "description": "A Vue.js 3 project",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "zangse <zangse@live.com>",
   "private": true,
   "scripts": {
