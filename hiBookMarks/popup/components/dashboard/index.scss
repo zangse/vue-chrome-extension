@@ -1,0 +1,96 @@
+.wrapper {
+    min-height: 100px;
+    .header {
+      display: flex;
+      height: 30px;
+      line-height: 30px;
+      position: fixed;
+      top: 0;
+      padding: 5px;
+      background: #f5f5f5;
+      z-index: 500;
+      .search-input {
+        position: relative;
+        .search {
+          height: 24px;
+          line-height: 24px;
+          width: 340px;
+          border: none;
+          outline: none;
+          padding: 3px 20px;
+        }
+        .serach-icon {
+          position: absolute;
+          left: 0;
+          top: 0;
+          color: #333;
+          padding-left: 3px;
+          cursor: pointer;
+        }
+        .clear-icon {
+          position: absolute;
+          right: 0;
+          top: 0;
+          color: #333;
+          padding-right: 3px;
+          cursor: pointer;
+        }
+      }
+      .home {
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+    .main-content {
+      width: 100%;
+      height: auto;
+      padding: 0 8px;
+      padding-top: 40px;
+      box-sizing: border-box;
+      .search-list {
+        margin: 0;
+        transition: all 0.5s;
+        .list-item {
+          height: 28px;
+          display: block;
+          line-height: 28px;
+          text-align: left;
+          cursor: pointer;
+          overflow: hidden;
+          outline: none;
+          padding-left: 15px;
+          .icon {
+            width: 20px;
+            height: 28px;
+            line-height: 28px;
+            vertical-align: middle;
+            display: inline-block;
+            img {
+              padding-top: 5px;
+            }
+          }
+          .title {
+            padding-left: 5px;
+            height: 28px;
+            line-height: 28px;
+            color: #42b983;
+          }
+          &:hover {
+            background: #e4f1f9;
+          }
+          &.selected {
+            background: #e4f1f9;
+          }
+        }
+        .no-reault {
+          margin-top: 15px;
+        }
+      }
+      .tree-list {
+        margin: 0;
+        transition: all 0.5s;
+      }
+    }
+  }

@@ -1,68 +1,3 @@
-<template>
-  <div class="confirm-wrapper" :class="{ show: show }">
-    <div class="confirm-mask"></div>
-    <transition name="fade">
-      <div class="confirm-body" :style="confirmPadding" v-if="show">
-        <div class="confirm-header">
-          <span class="title">{{ i18n.tipsText }}</span>
-        </div>
-        <div class="confirm-content">
-          <span class="confirm-icon iconfont wraning">&#xe6d5;</span>
-          <span class="confirm-text">{{ confirmMsg.text }}</span>
-        </div>
-        <div class="confirm-footer">
-          <span class="btn cancel" @click="onConfirm(1)">{{
-            i18n.cancel
-          }}</span>
-          <span class="btn confirm" @click="onConfirm(2)">{{
-            i18n.confirm
-          }}</span>
-        </div>
-      </div>
-    </transition>
-  </div>
-</template>
-<script>
-export default {
-  name: "confirm",
-  data() {
-    return {
-      show: false,
-      i18n: {
-        tipsText: "",
-        cancel: "",
-        confirm: "",
-      },
-    };
-  },
-  props: {
-    value: Boolean,
-    confirmMsg: Object,
-  },
-  created() {
-    this.i18n.tipsText = chrome.i18n.getMessage("tipsText");
-    this.i18n.confirm = chrome.i18n.getMessage("confirm");
-    this.i18n.cancel = chrome.i18n.getMessage("cancel");
-    if (this.value) {
-      this.show = true;
-    }
-  },
-  methods: {
-    onConfirm(type) {
-      if (!this.show) {
-        return;
-      }
-      this.$emit("on-confirm", type);
-    },
-  },
-  watch: {
-    value(val) {
-      this.show = val;
-    },
-  },
-};
-</script>
-<style lang="scss" scoped>
 .confirm-wrapper {
   display: none;
   position: fixed;
@@ -190,5 +125,4 @@ export default {
       }
     }
   }
-}
-</style>
+} 

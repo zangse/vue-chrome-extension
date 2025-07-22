@@ -1,91 +1,4 @@
-<template>
-  <li
-    class="item-wrapper"
-    :class="{ 'wra-col-5': showMode == 2, 'no-color': !isColorful }"
-  >
-    <div class="item" :class="{ 'folder-item': !bookmarkitem.url }">
-      <div
-        class="mask"
-        :class="{ checked: isSelected(bookmarkitem) }"
-        v-if="!isHistory"
-      ></div>
-      <span
-        class="check-icon iconfont"
-        :class="{ folder: !bookmarkitem.url }"
-        @click.stop="checkItem(bookmarkitem)"
-        v-if="!isSelected(bookmarkitem) && !isHistory"
-        >&#xe637;</span
-      >
-      <span
-        class="icon-checked iconfont"
-        @click.stop="checkItem(bookmarkitem)"
-        v-if="isSelected(bookmarkitem) && !isHistory"
-        >&#xe614;</span
-      >
-      <span class="visited-count" v-if="isHistory">{{
-        bookmarkitem.visitCount
-      }}</span>
-      <i class="item-light"></i>
-      <div class="item-content">
-        <div class="item-body">
-          <div class="folder iconfont" v-if="!bookmarkitem.url">&#xe632;</div>
-          <div class="link" v-if="bookmarkitem.url">
-            <span class="icon-wrapper">
-              <img
-                :src="'chrome://favicon/' + bookmarkitem.url"
-                class="icon-item"
-              />
-            </span>
-          </div>
-        </div>
-        <div class="item-footer">
-          <span
-            v-if="!bookmarkitem.url"
-            class="title"
-            :title="bookmarkitem.tiutle"
-          >
-            {{ bookmarkitem.title }}
-          </span>
-          <a v-if="bookmarkitem.url" class="title" :title="bookmarkitem.url">
-            <span v-if="bookmarkitem.title">{{ bookmarkitem.title }}</span>
-            <span v-if="!bookmarkitem.title">{{ bookmarkitem.url }}</span></a
-          >
-        </div>
-      </div>
-    </div>
-  </li>
-</template>
-<script>
-export default {
-  name: "bookmarkItem",
-  data() {
-    return {};
-  },
-  props: {
-    bookmarkitem: Object,
-    selectedNode: Array,
-    showMode: Number,
-    isColorful: Boolean,
-    isHistory: Boolean,
-  },
-  methods: {
-    checkItem(item) {
-      let index = this.selectedNode.indexOf(item.id);
-      if (index >= 0) {
-        this.selectedNode.splice(index, 1);
-      } else if (index == -1) {
-        this.selectedNode.push(item.id);
-      }
-      this.$emit("updateSelected", this.selectedNode);
-    },
-    isSelected(item) {
-      return this.selectedNode.indexOf(item.id) == -1 ? false : true;
-    },
-  },
-};
-</script>
-<style lang="scss" scoped>
-@import "assets/style/mixin.scss";
+@import "../../../../assets/style/mixin.scss";
 .item-wrapper {
   padding: 8px;
   box-sizing: border-box;
@@ -416,5 +329,4 @@ export default {
       }
     }
   }
-}
-</style>
+} 

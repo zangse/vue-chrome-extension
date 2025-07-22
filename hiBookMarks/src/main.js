@@ -1,9 +1,9 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
-new Vue({
-    el: '#app',
-    render: h => h(App)
-})
-// Vue.directive('autofocus', function(el) {
+
+const app = createApp(App)
+app.mount('#app')
+
+// app.directive('autofocus', function(el) {
 //     el.focus();
 // })

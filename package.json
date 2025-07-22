@@ -1,0 +1,49 @@
+{
+  "name": "vue-chrome-extension",
+  "version": "1.0.0",
+  "description": "Vue Chrome Extension Monorepo",
+  "private": true,
+  "workspaces": [
+    "extensionsManagement",
+    "hiBookMarks"
+  ],
+  "scripts": {
+    "prepare": "husky",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "style:lint": "stylelint '**/*.{css,scss,vue}'",
+    "style:fix": "stylelint '**/*.{css,scss,vue}' --fix",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "lint:all": "pnpm run lint && pnpm run style:lint",
+    "fix:all": "pnpm run lint:fix && pnpm run style:fix",
+    "build:all": "pnpm -r run build",
+    "dev:extensions": "pnpm --filter extensionsManagement run watch",
+    "dev:bookmarks": "pnpm --filter hiBookMarks run watch"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": [
+      "biome format --write",
+      "biome lint --write"
+    ],
+    "*.{css,scss,vue}": [
+      "stylelint --fix"
+    ]
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.1.2",
+    "husky": "9.1.7",
+    "lint-staged": "16.1.2",
+    "stylelint": "16.22.0",
+    "stylelint-config-recommended-vue": "1.6.1",
+    "stylelint-config-standard-scss": "15.0.1",
+    "stylelint-scss": "6.12.1"
+  },
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "packageManager": "pnpm@8.0.0"
+}

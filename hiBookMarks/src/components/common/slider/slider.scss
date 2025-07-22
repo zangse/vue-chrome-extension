@@ -1,0 +1,94 @@
+@import "../../../../assets/style/mixin.scss";
+
+.slider-warpper {
+    width: 200px;
+    height: 100%;
+    background: #f5f5f5;
+    position: fixed;
+    left: 0;
+    top: 54px;
+    padding: 0 3px;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    @include transition(all 0.5s ease);
+    &.show {
+        -webkit-transform: translateX(0px);
+        z-index: 201;
+        opacity: 1;
+    }
+    &.hide {
+        -webkit-transform: translateX(-200px);
+        z-index: 0;
+        opacity: 0;
+    }
+    .item {
+        display: block;
+        margin: 10px 0;
+        .title {
+            font-size: 18px;
+        }
+        .icon-wrapper {
+            position: relative;
+            margin: 10px auto;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px dashed #ccc;
+            .icon-content {
+                width: 32px;
+                height: 32px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -16px;
+                margin-left: -16px;
+                background: #fff;
+                border-radius: 50%;
+                box-sizing: border-box;
+                padding: 8px;
+                .icon-item {
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+        }
+        &.input-group {
+            display: flex;
+            .input-label {
+                width: 30px;
+                display: inline-block;
+                height: 28px;
+                line-height: 28px;
+            }
+            .input-edit {
+                flex: 1;
+                width: 100%;
+                display: inline-block;
+                height: 28px;
+                line-height: 28px;
+                border: none;
+                outline: none;
+                background: #fff;
+                padding: 4px;
+                box-sizing: border-box;
+            }
+        }
+        .btn {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0 8px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #fff;
+            &.cancel {
+                background: #c8c8ca;
+            }
+            &.save {
+                background: #409eff;
+            }
+        }
+    }
+} 

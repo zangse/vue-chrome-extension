@@ -12,17 +12,16 @@
               class="search"
               v-model="searchItem"
               type="text"
-              v-bind:placeholder="i18n.searchPlaceholder"
+              :placeholder="i18n.searchPlaceholder"
               @keyup.enter="searchBookmarks"
-              v-autofocus="autofocus"
             />
             <i
               class="iconfont clear-icon"
               v-if="searchItem.length > 0"
               @click="cleanSearch"
               >&#xe609;</i
-            ></span
-          >
+            >
+          </span>
         </div>
         <div class="row-right">
           <span class="action-icon" @click.stop="toggleMode">
@@ -81,19 +80,32 @@
       @updateShow="onCloseHandler"
       @updateMove="onMoveHandler"
       :selectedItem.sync="selectedItem"
-    ></model>
+    />
     <confirm
       v-model="showConfirm"
       :confirmMsg="confirmMsg"
       @on-confirm="onConfirmHandler"
-    ></confirm>
+    />
   </div>
 </template>
+
 <script>
-import model from "../common/model.vue";
-import confirm from "../common/confirm.vue";
+import model from "../model/index.vue";
+import confirm from "../confirm/index.vue";
 export default {
   name: "bookheader",
+  components: {
+    model,
+    confirm,
+  },
+  props: {
+    allNodes: Array,
+    selectedNode: Array,
+    showMode: Number,
+    isColorful: Boolean,
+    isHistory: Boolean,
+    autofocus: Boolean,
+  },
   data() {
     return {
       searchItem: "",
@@ -119,29 +131,6 @@ export default {
       },
     };
   },
-  components: {
-    model,
-    confirm,
-  },
-  directives: {
-    autofocus: {
-      inserted: function (el) {
-        el.focus();
-      },
-      update: function (el) {
-        el.focus();
-      },
-    },
-  },
-  props: {
-    allNodes: Array,
-    selectedNode: Array,
-    isSearching: Boolean,
-    isColorful: Boolean,
-    showMode: Number,
-    isHistory: Boolean,
-    autofocus: Boolean,
-  },
   created() {
     this.i18n.searchPlaceholder = chrome.i18n.getMessage("searchPlaceholder");
     this.i18n.selected = chrome.i18n.getMessage("selected");
@@ -160,13 +149,13 @@ export default {
   },
   methods: {
     selectALL() {
-      if (this.selectedNode.length == this.allNodes.length) {
+      if (this.selectedNode.length === this.allNodes.length) {
         return;
       }
       let index;
       this.allNodes.forEach((item) => {
         index = this.selectedNode.indexOf(item.id);
-        if (index == -1) {
+        if (index === -1) {
           this.selectedNode.push(item.id);
         }
       });
@@ -177,7 +166,7 @@ export default {
         index = this.selectedNode.indexOf(item.id);
         if (index > -1) {
           this.selectedNode.splice(index, 1);
-        } else if (index == -1) {
+        } else if (index === -1) {
           this.selectedNode.push(item.id);
         }
       });
@@ -190,7 +179,7 @@ export default {
     },
     onMoveHandler() {
       this.showModel = false;
-      let folder = {
+      const folder = {
         parentId: this.selectedItem.id,
       };
       this.selectedNode.forEach((item) => {
@@ -233,22 +222,17 @@ export default {
       this.showConfirm = true;
     },
     searchBookmarks() {
-      if (this.searchItem == "") {
+      if (this.searchItem === "") {
         return;
       }
-      this.isSearching = true;
       if (!this.isHistory) {
         chrome.bookmarks.search(this.searchItem, (data) => {
-          this.allNodes = data;
-          // this.isSearching = false;
-          this.$emit("isSearching", this.allNodes);
+          this.$emit("isSearching", data);
         });
       } else {
         chrome.history.search({ text: this.searchItem }, (data) => {
           data.sort(this.sortRule);
-          // this.isSearching = false;
-          this.allNodes = data;
-          this.$emit("isSearching", this.allNodes);
+          this.$emit("isSearching", data);
         });
       }
     },
@@ -263,7 +247,7 @@ export default {
       if (!item.url) {
         return;
       }
-      let newTab = {
+      const newTab = {
         url: item.url,
         active: true,
       };
@@ -277,9 +261,9 @@ export default {
     },
     onConfirmHandler(data) {
       this.showConfirm = false;
-      if (data == 1) {
+      if (data === 1) {
         this.cancelSelected();
-      } else if (data == 2) {
+      } else if (data === 2) {
         chrome.bookmarks.get(this.selectedNode, (nodes) => {
           nodes.forEach((item) => {
             item.url
@@ -298,8 +282,7 @@ export default {
   },
   watch: {
     searchItem: function (newVal) {
-      if (newVal.length == 0) {
-        console.log(newVal);
+      if (newVal.length === 0) {
         this.cleanSearch();
       } else {
         this.searchBookmarks();
@@ -308,147 +291,5 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-@import "assets/style/mixin.scss";
-.header {
-  position: fixed;
-  top: 0;
-  box-sizing: border-box;
-  width: 100%;
-  height: 54px;
-  line-height: 54px;
-  color: #fff;
-  background-color: #4285f4;
-  z-index: 200;
-  text-align: left;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 2px 4px 8px rgba(0, 0, 0, 0.28);
-  .header-action {
-    display: flex;
-    height: 54px;
-    width: 100%;
-    background-color: #4d90fe;
-    @include transition(all 0.5s ease);
-    font-size: 16px;
-    color: #fff;
-    &.show {
-      -webkit-transform: translateY(-54px);
-      z-index: 201;
-      opacity: 1;
-    }
-    &.hide {
-      -webkit-transform: translateY(-108px);
-      z-index: 0;
-      opacity: 0;
-    }
-    .row-left {
-      width: 200px;
-      text-align: center;
-      font-weight: bold;
-      .num {
-        padding: 0 3px;
-      }
-    }
-    .row-center {
-      flex: 1;
-      text-align: left;
-    }
-    .row-right {
-      width: 300px;
-      text-align: left;
-    }
-    .action-btn {
-      cursor: pointer;
-      display: inline-block;
-      padding: 0 15px;
-      background: #4250dc;
-      margin: 10px 0;
-      height: 34px;
-      line-height: 34px;
-      border-radius: 5px;
-      font-weight: 500;
-    }
-  }
-  .header-default {
-    display: flex;
-    height: 54px;
-    width: 100%;
-    background-color: #70c3ff;
-    z-index: 200;
-    font-size: 16px;
-    color: #fff;
-    .row-left {
-      width: 200px;
-      text-align: center;
-      font-weight: bold;
-      background: #fff;
-      border-bottom: 1px solid #f7f2f2;
-      .logo {
-        display: block;
-        width: 200px;
-        height: 54px;
-        background-image: url("../../../assets/images/logo.png");
-        background-repeat: no-repeat;
-      }
-    }
-    .row-center {
-      padding-left: 15px;
-      flex: 1;
-      text-align: left;
-      .search-input {
-        position: relative;
-        .search {
-          height: 24px;
-          line-height: 24px;
-          width: 350px;
-          border: none;
-          outline: none;
-          padding: 3px 20px;
-        }
-        .serach-icon {
-          position: absolute;
-          left: 0;
-          color: #333;
-          padding-left: 3px;
-        }
-        .clear-icon {
-          position: absolute;
-          right: 0;
-          color: #333;
-          padding-right: 3px;
-          cursor: pointer;
-        }
-      }
-    }
-    .row-right {
-      width: 300px;
-      text-align: left;
-      .action-icon {
-        cursor: pointer;
-        display: inline-block;
-        padding: 0 15px;
-        margin: 10px 0;
-        height: 34px;
-        line-height: 34px;
-        font-weight: 500;
-        .colorful {
-          color: #d05f5f;
-        }
-        .dark {
-          color: #333;
-        }
-      }
-    }
-    .action-btn {
-      cursor: pointer;
-      display: inline-block;
-      padding: 0 15px;
-      background: #4250dc;
-      margin: 10px 0;
-      height: 34px;
-      line-height: 34px;
-      border-radius: 5px;
-      font-weight: 500;
-    }
-  }
-}
-</style>
+
+<style lang="scss" src="./header.scss"></style> 

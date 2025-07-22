@@ -1,0 +1,60 @@
+// TreeItem component styles
+ul {
+  margin: 0;
+  height: 0;
+  transition: all 2s;
+  &.expend {
+    height: 100%;
+  }
+  li {
+    display: block;
+    text-align: left;
+    line-height: 28px;
+    padding-left: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    margin: 1px 0;
+    overflow: hidden;
+    transition: all 2s;
+
+    .folder-body {
+      height: 28px;
+      line-height: 28px;
+      &:hover {
+        background: #e5f0fb;
+      }
+      &.checked {
+        background: #bbd4ef;
+      }
+    }
+    .expend-icon {
+      width: 14px;
+      height: 14px;
+      font-size: 14px;
+      margin-right: 5px;
+      cursor: pointer;
+      color: #535558;
+      display: inline-block;
+    }
+    .folder-icon {
+      color: rgb(255, 185, 39);
+      font-size: 14px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+    .cancel-icon {
+      color: red;
+      font-size: 18px;
+      margin-right: 5px;
+      cursor: pointer;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+    .confirm-icon {
+      color: green;
+      font-size: 16px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+  }
+} 
