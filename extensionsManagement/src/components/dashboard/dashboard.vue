@@ -33,14 +33,25 @@
       </div>
     </div>
     <div class="main-content">
+      <div class="filter-bar" v-show="currentActive === Tab.Main">
+        <input
+          v-model.trim="searchKeyword"
+          class="filter-input"
+          type="text"
+          placeholder="搜索扩展名称 / ID"
+        />
+      </div>
       <ul class="tree-list" v-show="currentActive === Tab.Main">
         <TreeItem
-          v-for="item in allNodes"
+          v-for="item in filteredMainNodes"
           class="folder-item"
           :extendItem="item"
           :key="item.id"
           @setEnabled="setEnabledHandler"
         />
+        <li v-if="filteredMainNodes.length === 0" class="empty-tip">
+          没有匹配的扩展
+        </li>
       </ul>
       <ul class="shortcut-list" v-show="currentActive === Tab.Link">
         <li class="list-item">
@@ -101,7 +112,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import TreeItem from '../treeitem/treeitem.vue'
 import ActionButtonGroup from '../actionButtonGroup/index.vue'
 import ExtensionIcons from '../extensionIcons/index.vue'
@@ -113,6 +124,7 @@ const selfId = ref(null)
 const currentActive = ref(1)
 const actionButtonGroup = ref(null)
 const headerExpanded = ref(false)
+const searchKeyword = ref('')
 
 // Tab 常量
 const Tab = {
@@ -128,6 +140,19 @@ const i18n = reactive({
   settings: '',
   clearBrowserData: '',
   webstore: '',
+})
+
+const filteredMainNodes = computed(() => {
+  const keyword = searchKeyword.value.toLowerCase()
+  if (!keyword) {
+    return allNodes.value
+  }
+
+  return allNodes.value.filter((item) => {
+    const name = (item.name || '').toLowerCase()
+    const id = (item.id || '').toLowerCase()
+    return name.includes(keyword) || id.includes(keyword)
+  })
 })
 
 // 初始化i18n
